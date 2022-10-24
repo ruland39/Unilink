@@ -9,4 +9,10 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="purple_main">#9A5FE6</color>
+    <color name="almost_black">#424242</color>
+    <color name="grey_inactive">#6E6F72</color>
+    <color name="abit_grey">#787878</color>
+    <color name="light_grey">#D0D0D0</color>
+    <color name="blue">#2474D1</color>
+    <color name="green">#79F494</color>
 </resources>
