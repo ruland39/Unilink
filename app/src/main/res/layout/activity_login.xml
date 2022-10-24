@@ -15,10 +15,9 @@
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="64dp"
         android:enabled="false"
-        android:text="Sign In"
+        android:text="@string/action_sign_in"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.181"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password"
         app:layout_constraintVertical_bias="0.218" />
@@ -29,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="160dp"
-        android:text="Login"
+        android:text="@string/action_sign_in"
         android:textSize="32sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -43,7 +42,7 @@
         android:layout_marginEnd="32dp"
         android:autofillHints="Password"
         android:background="@drawable/custom_input"
-        android:hint="password"
+        android:hint="@string/prompt_password"
         android:imeActionLabel="Login"
         android:imeOptions="actionDone"
         android:inputType="textPassword"
@@ -51,7 +50,6 @@
         android:paddingEnd="12dp"
         android:selectAllOnFocus="true"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.156"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/username" />
 
@@ -61,7 +59,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="4dp"
-        android:text="Enter your email and password"
+        android:text="@string/login_desc"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -72,17 +70,16 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="260dp"
         android:layout_marginEnd="32dp"
-        android:hint="Email"
-        android:inputType="textEmailAddress"
-        android:selectAllOnFocus="true"
+        android:autofillHints="Email"
         android:background="@drawable/custom_input"
+        android:hint="@string/prompt_email"
+        android:inputType="textEmailAddress"
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
+        android:selectAllOnFocus="true"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.156"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:autofillHints="Email" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ProgressBar
         android:id="@+id/loading"
