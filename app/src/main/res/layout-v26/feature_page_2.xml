@@ -32,7 +32,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/conversation_rafiki" />
+        app:srcCompat="@drawable/conversation_rafiki"
+        android:contentDescription="@string/chat" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
