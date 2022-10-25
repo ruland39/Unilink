@@ -12,6 +12,8 @@
     <string name="login_failed">"Login failed"</string>
     <string name="login">Login</string>
     <string name="login_desc">Enter your email and password</string>
+    <string name="register">Register</string>
+    <string name="register_desc">Fill up the necessary details</string>
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
     <string name="phone_number">Phone Number</string>
