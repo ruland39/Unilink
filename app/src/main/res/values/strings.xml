@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Unilink</string>
 
-    <!-- Strings related to login -->
+    <!-- Strings related to login and register-->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Login</string>
