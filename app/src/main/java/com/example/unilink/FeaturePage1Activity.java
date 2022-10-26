@@ -5,8 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
+import android.widget.Button;
 
 public class FeaturePage1Activity extends AppCompatActivity {
+
+    private Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,15 +19,18 @@ public class FeaturePage1Activity extends AppCompatActivity {
 
         setContentView(R.layout.feature_page1);
 
-        new Handler().postDelayed(new Runnable() {
+        button = (Button) findViewById(R.id.buttontofeaturepage2);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void run() {
-                Intent i = new Intent(FeaturePage1Activity.this, FeaturePage2Activity.class);
-
-                startActivity(i);
-
-                finish();
+            public void onClick(View v) {
+                openFeaturePage2();
             }
-        }, 1000);
+        });
+
+        }
+
+        public void openFeaturePage2(){
+        Intent intent = new Intent(this, FeaturePage2Activity.class);
+        startActivity(intent);
+        }
     }
-}
