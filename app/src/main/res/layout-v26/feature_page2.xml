@@ -28,18 +28,18 @@
         android:id="@+id/imageView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="96dp"
+        android:contentDescription="@string/chat"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/conversation_rafiki"
-        android:contentDescription="@string/chat" />
+        app:srcCompat="@drawable/conversation_rafiki" />
 
     <Button
         android:id="@+id/buttontofeaturepage3"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="84dp"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginBottom="128dp"
         android:backgroundTint="@color/purple_main"
         android:insetLeft="0dp"
         android:insetTop="0dp"
@@ -50,7 +50,7 @@
         app:icon="@drawable/angle_right_b"
         app:iconGravity="textStart"
         app:iconPadding="0dp"
-        app:iconSize="24dp"
+        app:iconSize="36dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
