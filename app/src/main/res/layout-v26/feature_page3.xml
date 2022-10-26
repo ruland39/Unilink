@@ -47,7 +47,7 @@
         android:fontFamily="@font/nunitobold"
         android:text="@string/getstarted"
         android:textAllCaps="false"
-        android:textSize="16sp"
+        android:textSize="20sp"
         app:cornerRadius="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
