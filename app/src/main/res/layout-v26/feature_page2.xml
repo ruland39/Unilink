@@ -48,7 +48,7 @@
         android:textAllCaps="false"
         app:cornerRadius="50dp"
         app:icon="@drawable/angle_right_b"
-        app:iconGravity="textTop"
+        app:iconGravity="textStart"
         app:iconPadding="0dp"
         app:iconSize="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
