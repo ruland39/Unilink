@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/UnilinkTitleText0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="111dp"
+        android:layout_marginTop="72dp"
+        android:layout_marginEnd="111dp"
+        android:font="@font/nunitoblack"
+        android:fontFamily="@font/nunitoblack"
+        android:text="@string/app_name"
+        android:textAlignment="center"
+        android:textColor="@color/purple_main"
+        android:textSize="56sp"
+        android:typeface="normal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/registerbutton0"
+        android:layout_width="314dp"
+        android:layout_height="68dp"
+        android:layout_gravity="start"
+        android:layout_marginStart="49dp"
+        android:layout_marginTop="300dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginBottom="8dp"
+        android:backgroundTint="@color/purple_main"
+        android:enabled="false"
+        android:fontFamily="@font/nunitosemibold"
+        android:text="@string/register"
+        android:textAllCaps="false"
+        android:textColor="#F5F5F5"
+        android:textSize="16sp"
+        app:cornerRadius="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/loginbutton0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/UnilinkTitleText0" />
+
+    <Button
+        android:id="@+id/loginbutton0"
+        android:layout_width="314dp"
+        android:layout_height="68dp"
+        android:layout_gravity="start"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="48dp"
+        android:enabled="false"
+        android:fontFamily="@font/nunitosemibold"
+        android:text="@string/action_sign_in"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        android:backgroundTint="@color/white"
+        android:textColor="@color/purple_main"
+        app:strokeColor="@color/purple_main"
+        app:strokeWidth="2dp"
+        app:cornerRadius="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/registerbutton0" />
+
+    <ImageView
+        android:id="@+id/loginorregisterimage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:contentDescription="@string/loginorregisterimage"
+        android:scaleX=".75"
+        android:scaleY=".75"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/online_world_cuate" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
