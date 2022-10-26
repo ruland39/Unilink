@@ -24,9 +24,9 @@
     <Button
         android:id="@+id/registerbutton"
         android:layout_width="314dp"
-        android:layout_height="68dp"
+        android:layout_height="76dp"
         android:layout_gravity="start"
-        android:layout_marginBottom="196dp"
+        android:layout_marginBottom="180dp"
         android:backgroundTint="@color/purple_main"
         android:fontFamily="@font/nunitosemibold"
         android:text="@string/register"
@@ -41,7 +41,7 @@
     <Button
         android:id="@+id/loginbutton"
         android:layout_width="314dp"
-        android:layout_height="68dp"
+        android:layout_height="76dp"
         android:layout_gravity="start"
         android:layout_marginBottom="264dp"
         android:backgroundTint="@color/white"

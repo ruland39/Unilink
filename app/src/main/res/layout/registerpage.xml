@@ -12,7 +12,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="96dp"
         android:text="@string/register"
-        android:textSize="36sp"
+        android:textSize="32sp"
         android:fontFamily="@font/nunitosemibold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -24,6 +24,7 @@
         android:layout_marginStart="32dp"
         android:fontFamily="@font/nunitosemibold"
         android:text="@string/register_desc"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
@@ -33,7 +34,7 @@
         android:layout_width="347dp"
         android:layout_height="60dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="24dp"
         android:autofillHints="Email"
@@ -46,6 +47,7 @@
         android:selectAllOnFocus="true"
         app:layout_constraintBottom_toTopOf="@+id/lastname"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
@@ -133,7 +135,7 @@
         android:layout_height="76dp"
         android:layout_gravity="start"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
         android:enabled="false"
         android:fontFamily="@font/nunitosemibold"
@@ -143,7 +145,6 @@
         app:cornerRadius="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/password" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

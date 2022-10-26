@@ -11,7 +11,7 @@
         android:layout_height="76dp"
         android:layout_gravity="start"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="64dp"
         android:layout_marginEnd="32dp"
         android:enabled="false"
         android:fontFamily="@font/nunitosemibold"
@@ -21,8 +21,7 @@
         app:cornerRadius="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/password" />
 
     <TextView
         android:id="@+id/textView"
@@ -55,7 +54,7 @@
         android:fontFamily="@font/nunitosemibold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username" />
+        app:layout_constraintTop_toBottomOf="@+id/email" />
 
     <TextView
         android:id="@+id/textView2"
@@ -65,11 +64,12 @@
         android:layout_marginTop="4dp"
         android:text="@string/login_desc"
         android:fontFamily="@font/nunitosemibold"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <EditText
-        android:id="@+id/username"
+        android:id="@+id/email"
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:layout_marginStart="32dp"
