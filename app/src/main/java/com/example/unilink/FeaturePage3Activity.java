@@ -14,7 +14,7 @@ public class FeaturePage3Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.feature_page3);
 
-        button = findViewById(R.id.getstartedbutton);
+        button = (Button) findViewById(R.id.getstartedbutton);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -23,7 +23,7 @@ public class FeaturePage3Activity extends AppCompatActivity {
         });
     }
     public void openLoginorRegisterPage(){
-        Intent intent = new Intent(this, LoginorregisterActivity.class);
+        Intent intent = new Intent(this,LoginorregisterActivity.class);
         startActivity(intent);
     }
 }

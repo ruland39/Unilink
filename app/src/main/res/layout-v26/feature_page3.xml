@@ -28,34 +28,31 @@
         android:id="@+id/imageView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="96dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="16dp"
         android:contentDescription="@string/connect"
+        app:layout_constraintBottom_toTopOf="@+id/getstartedbutton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
         app:srcCompat="@drawable/connected_cuate" />
 
     <Button
         android:id="@+id/getstartedbutton"
         android:layout_width="314dp"
         android:layout_height="76dp"
-        android:layout_gravity="start"
-        android:layout_marginStart="49dp"
-        android:layout_marginEnd="48dp"
-        android:layout_marginBottom="96dp"
+        android:layout_marginBottom="128dp"
         android:backgroundTint="@color/purple_main"
-        android:enabled="false"
         android:fontFamily="@font/nunitobold"
         android:text="@string/getstarted"
         android:textAllCaps="false"
-        android:textColor="#F5F5F5"
-        android:textSize="18sp"
+        android:textSize="16sp"
         app:cornerRadius="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.919" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
