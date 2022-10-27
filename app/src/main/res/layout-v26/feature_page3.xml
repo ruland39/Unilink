@@ -44,7 +44,7 @@
         android:layout_height="76dp"
         android:layout_marginBottom="128dp"
         android:backgroundTint="@color/purple_main"
-        android:fontFamily="@font/nunitobold"
+        android:fontFamily="@font/nunitosemibold"
         android:text="@string/getstarted"
         android:textAllCaps="false"
         android:textSize="20sp"
