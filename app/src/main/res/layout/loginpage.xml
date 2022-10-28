@@ -54,9 +54,14 @@
         android:paddingEnd="12dp"
         android:selectAllOnFocus="true"
         android:fontFamily="@font/nunitosemibold"
+        android:drawableEnd="@drawable/ic_visibility_on"
+        app:passwordToggleEnabled="true"
+        app:passwordToggleDrawable="@drawable/show_password_selector"
+        app:passwordToggleTint="@color/purple_main"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email" />
+        app:layout_constraintTop_toBottomOf="@+id/email"
+        />
 
     <TextView
         android:id="@+id/textView2"
@@ -115,5 +120,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:contentDescription="@string/backbutton" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
