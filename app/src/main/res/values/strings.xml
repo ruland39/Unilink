@@ -23,4 +23,5 @@
     <string name="connect">Connect</string>
     <string name="getstarted">Let\'s Get Started</string>
     <string name="next">Next</string>
+    <string name="backbutton">Back</string>
 </resources>
