@@ -24,4 +24,10 @@
     <string name="getstarted">Let\'s Get Started</string>
     <string name="next">Next</string>
     <string name="backbutton">Back</string>
+    <string name="bottomnavbar">Bottom Navigation Bar</string>
+    <string name="collapsemenubutton">Collapse Menu Button</string>
+    <string name="homebuttoninactive">Home Button Inactive</string>
+    <string name="chatbuttoninactive">Chat Button Inactive</string>
+    <string name="notificationbuttoninactive">Notification Button Inactive</string>
+    <string name="profilebuttoninactive">Profile Button Inactive</string>
 </resources>
