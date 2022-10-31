@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "120018997715",
+    "project_id": "unilink-d6206",
+    "storage_bucket": "unilink-d6206.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:120018997715:android:25f16780d74707afb75f26",
+        "android_client_info": {
+          "package_name": "com.example.unilink"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "120018997715-k447fctism8esuliel6b4ts93qbc1eo3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAko14QRRYFvNuVF1PbaOo5LwX-5bEMOZI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "120018997715-k447fctism8esuliel6b4ts93qbc1eo3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
