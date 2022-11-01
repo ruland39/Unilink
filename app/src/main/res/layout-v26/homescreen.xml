@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="116dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="171dp"
         android:font="@font/nunitoblack"
         android:fontFamily="@font/nunitoblack"
@@ -29,7 +29,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="16dp"
         android:background="@null"
         android:contentDescription="@string/collapsemenubutton"
         app:layout_constraintStart_toStartOf="parent"
@@ -53,12 +53,14 @@
         android:id="@+id/homebuttoninactive"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="64dp"
         android:layout_marginBottom="46dp"
         android:background="@null"
         android:contentDescription="@string/homebuttoninactive"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/chatbuttoninactive"
+        app:layout_constraintTop_toTopOf="@+id/botnavcontainer"
         app:srcCompat="@drawable/homebutton_inactive" />
 
 
@@ -66,24 +68,28 @@
         android:id="@+id/chatbuttoninactive"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="64dp"
         android:layout_marginBottom="46dp"
         android:background="@null"
         android:contentDescription="@string/chatbuttoninactive"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/notificationbuttoninactive"
+        app:layout_constraintTop_toTopOf="@+id/botnavcontainer"
         app:srcCompat="@drawable/chatbutton_inactive" />
 
     <ImageButton
         android:id="@+id/notificationbuttoninactive"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="147dp"
         android:layout_marginBottom="46dp"
         android:background="@null"
         android:contentDescription="@string/notificationbuttoninactive"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/botnavcontainer"
         app:srcCompat="@drawable/notificationbutton_inactive" />
 
     <ImageButton
@@ -91,11 +97,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="64dp"
+        android:layout_marginTop="32dp"
         android:layout_marginBottom="46dp"
         android:background="@null"
         android:contentDescription="@string/profilebuttoninactive"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/notificationbuttoninactive"
+        app:layout_constraintTop_toTopOf="@+id/botnavcontainer"
         app:srcCompat="@drawable/profilebutton_inactive" />
 
     <ImageView
