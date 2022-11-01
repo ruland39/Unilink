@@ -19,6 +19,7 @@ public class FeaturePage3Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 openLoginorRegisterPage();
+                finish();
             }
         });
     }
