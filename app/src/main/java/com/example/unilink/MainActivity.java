@@ -13,6 +13,7 @@ import android.view.WindowManager;
 
 public class MainActivity extends AppCompatActivity {
 
+    // onCreate refers to a method that fires when the app is *created*
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,11 +28,20 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 Intent i = new Intent(MainActivity.this, FeaturePage1Activity.class);
-
                 startActivity(i);
-
                 finish();
             }
         }, 2000);
+    }
+
+    // onStart method is called when the activity enters the Started state
+    protected void onStart(Bundle savedInstanceState) {
+
+    }
+
+    // onResume method is called just before the activity starts an interaction with the user (button not pressable but rendered)
+    // most of an app's functionality should be here
+    protected void onResume(Bundle savedInstanceState) {
+
     }
 }

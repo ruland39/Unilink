@@ -19,6 +19,7 @@ public class FeaturePage2Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 openFeaturePage3();
+                finish();
             }
         });
     }
