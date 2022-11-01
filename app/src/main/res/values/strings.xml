@@ -30,4 +30,5 @@
     <string name="chatbuttoninactive">Chat Button Inactive</string>
     <string name="notificationbuttoninactive">Notification Button Inactive</string>
     <string name="profilebuttoninactive">Profile Button Inactive</string>
+    <string name="bluetoothbuttondefault">Bluetooth Button Default</string>
 </resources>

@@ -39,13 +39,14 @@
     <ImageView
         android:id="@+id/botnavcontainer"
         android:layout_width="413dp"
-        android:layout_height="101dp"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:contentDescription="@string/bottomnavbar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.9"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageButton2"
         app:srcCompat="@drawable/botnavbarcontainer" />
 
     <ImageButton
@@ -55,10 +56,10 @@
         android:layout_marginEnd="64dp"
         android:layout_marginBottom="46dp"
         android:background="@null"
+        android:contentDescription="@string/homebuttoninactive"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/chatbuttoninactive"
-        app:srcCompat="@drawable/homebutton_inactive"
-        android:contentDescription="@string/homebuttoninactive" />
+        app:srcCompat="@drawable/homebutton_inactive" />
 
 
     <ImageButton
@@ -68,10 +69,10 @@
         android:layout_marginEnd="64dp"
         android:layout_marginBottom="46dp"
         android:background="@null"
+        android:contentDescription="@string/chatbuttoninactive"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/notificationbuttoninactive"
-        app:srcCompat="@drawable/chatbutton_inactive"
-        android:contentDescription="@string/chatbuttoninactive" />
+        app:srcCompat="@drawable/chatbutton_inactive" />
 
     <ImageButton
         android:id="@+id/notificationbuttoninactive"
@@ -80,10 +81,10 @@
         android:layout_marginEnd="147dp"
         android:layout_marginBottom="46dp"
         android:background="@null"
+        android:contentDescription="@string/notificationbuttoninactive"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/notificationbutton_inactive"
-        android:contentDescription="@string/notificationbuttoninactive" />
+        app:srcCompat="@drawable/notificationbutton_inactive" />
 
     <ImageButton
         android:id="@+id/profilebuttoninactive"
@@ -92,9 +93,24 @@
         android:layout_marginStart="64dp"
         android:layout_marginBottom="46dp"
         android:background="@null"
+        android:contentDescription="@string/profilebuttoninactive"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/notificationbuttoninactive"
-        app:srcCompat="@drawable/profilebutton_inactive"
-        android:contentDescription="@string/profilebuttoninactive" />
+        app:srcCompat="@drawable/profilebutton_inactive" />
+
+    <ImageButton
+        android:id="@+id/bluetoothbuttondefault"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="208dp"
+        android:layout_marginBottom="502dp"
+        android:background="@null"
+        android:contentDescription="@string/bluetoothbuttondefault"
+        app:layout_constraintBottom_toTopOf="@+id/botnavcontainer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/bluetoothbuttondefault" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
