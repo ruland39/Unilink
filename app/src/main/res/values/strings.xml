@@ -31,4 +31,9 @@
     <string name="notificationbuttoninactive">Notification Button Inactive</string>
     <string name="profilebuttoninactive">Profile Button Inactive</string>
     <string name="bluetoothbuttondefault">Bluetooth Button Default</string>
+    <string name="maincontainer">Main Container</string>
+    <string name="mainbanner">Main Banner</string>
+    <string name="wavesmallbutton">Wave Small Button</string>
+    <string name="chatsmallbutton">Chat Small Button</string>
+
 </resources>

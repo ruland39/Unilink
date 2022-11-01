@@ -46,7 +46,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.9"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageButton2"
+        app:layout_constraintTop_toBottomOf="@+id/imageButton3"
         app:srcCompat="@drawable/botnavbarcontainer" />
 
     <ImageButton
@@ -98,6 +98,18 @@
         app:layout_constraintStart_toEndOf="@+id/notificationbuttoninactive"
         app:srcCompat="@drawable/profilebutton_inactive" />
 
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/mainbanner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/UnilinkTitleText0"
+        app:srcCompat="@drawable/bannercontainer" />
+
     <ImageButton
         android:id="@+id/bluetoothbuttondefault"
         android:layout_width="wrap_content"
@@ -112,5 +124,93 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/bluetoothbuttondefault" />
+
+    <ImageView
+        android:id="@+id/maincontainer1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/maincontainer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bluetoothbuttondefault"
+        app:srcCompat="@drawable/maincontainer" />
+
+    <ImageView
+        android:id="@+id/maincontainer2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/maincontainer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.506"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/maincontainer1"
+        app:srcCompat="@drawable/maincontainer" />
+
+    <ImageView
+        android:id="@+id/maincontainer3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/maincontainer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.506"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/maincontainer2"
+        app:srcCompat="@drawable/maincontainer" />
+
+    <ImageView
+        android:id="@+id/maincontainer4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/maincontainer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.506"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/maincontainer3"
+        app:srcCompat="@drawable/maincontainer" />
+
+    <ImageView
+        android:id="@+id/maincontainer5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/maincontainer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.506"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/maincontainer4"
+        app:srcCompat="@drawable/maincontainer" />
+
+    <ImageButton
+        android:id="@+id/wavebutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="338dp"
+        android:layout_marginEnd="17dp"
+        android:layout_marginBottom="421dp"
+        android:background="@null"
+        android:contentDescription="@string/wavesmallbutton"
+        app:layout_constraintBottom_toTopOf="@+id/botnavcontainer"
+        app:layout_constraintEnd_toEndOf="@+id/maincontainer1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/wavesmallbutton" />
+
+    <ImageButton
+        android:id="@+id/imageButton3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="433dp"
+        android:layout_marginEnd="17dp"
+        android:layout_marginBottom="326dp"
+        android:background="@null"
+        app:layout_constraintBottom_toTopOf="@+id/botnavcontainer"
+        app:layout_constraintEnd_toEndOf="@+id/maincontainer2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/chatsmallbutton"
+        android:contentDescription="@string/chatsmallbutton" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
