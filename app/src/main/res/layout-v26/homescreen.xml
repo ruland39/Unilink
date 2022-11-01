@@ -118,6 +118,7 @@
     <!--    Button Container 1 Start -->
 
     <ImageButton
+        android:visibility="visible"
         android:id="@+id/bluetoothbuttonconnected"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -130,28 +131,33 @@
         app:srcCompat="@drawable/bluetoothbuttondeconnected" />
 
     <ImageButton
+        android:visibility="invisible"
         android:id="@+id/bluetoothbuttondiscover"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginStart="23dp"
+        android:layout_marginBottom="16dp"
         android:background="@null"
         android:contentDescription="@string/bluetoothbuttondefault"
-        android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="@+id/bluetoothbuttonconnected"
-        app:layout_constraintTop_toTopOf="@+id/bluetoothbuttonconnected"
+        app:layout_constraintBottom_toTopOf="@+id/maincontainer1"
+        app:layout_constraintStart_toStartOf="@+id/maincontainer1"
         app:srcCompat="@drawable/bluetoothbuttondiscover" />
 
-
     <ImageButton
+        android:visibility="invisible"
         android:id="@+id/bluetoothbuttonoff"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="23dp"
+        android:layout_marginBottom="16dp"
         android:background="@null"
         android:contentDescription="@string/bluetoothbuttondefault"
-        android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="@+id/bluetoothbuttonconnected"
-        app:layout_constraintTop_toTopOf="@+id/bluetoothbuttondiscover"
+        app:layout_constraintBottom_toTopOf="@+id/maincontainer1"
+        app:layout_constraintStart_toStartOf="@+id/maincontainer1"
         app:srcCompat="@drawable/bluetoothbuttonoff" />
+
+
+
 
     <ImageView
         android:id="@+id/maincontainer1"
@@ -213,12 +219,12 @@
         app:srcCompat="@drawable/wavesmallbutton" />
 
     <ImageButton
+        android:visibility="invisible"
         android:id="@+id/chatsmallbutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@null"
         android:contentDescription="@string/chatsmallbutton"
-        android:visibility="invisible"
         app:layout_constraintStart_toStartOf="@+id/wavebutton"
         app:layout_constraintTop_toTopOf="@+id/wavebutton"
         app:srcCompat="@drawable/chatsmallbutton" />
