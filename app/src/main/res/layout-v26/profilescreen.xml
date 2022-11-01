@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HomescreenActivity">
+
+    <TextView
+        android:id="@+id/ChatScreenTitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:font="@font/nunitobold"
+        android:fontFamily="@font/nunitobold"
+        android:text="@string/profile"
+        android:textAlignment="center"
+        android:textColor="@color/purple_main"
+        android:textSize="20sp"
+        android:typeface="normal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/collapseMenuButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="21dp"
+        android:background="@null"
+        android:contentDescription="@string/collapsemenubutton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/collapsemenubutton" />
+
+
+    <!--    Bottom Navigation Bar Start -->
+
+    <ImageView
+        android:id="@+id/botnavcontainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:contentDescription="@string/bottomnavbar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/botnavbarcontainer" />
+
+    <ImageButton
+        android:id="@+id/homebuttoninactive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="66dp"
+        android:layout_marginBottom="39dp"
+        android:background="@null"
+        android:contentDescription="@string/homebuttoninactive"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/homebutton_inactive" />
+
+
+    <ImageButton
+        android:id="@+id/chatbuttoninactive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="65dp"
+        android:layout_marginEnd="64dp"
+        android:layout_marginBottom="37dp"
+        android:background="@null"
+        android:contentDescription="@string/chatbuttoninactive"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/notificationbuttoninactive"
+        app:layout_constraintStart_toEndOf="@+id/homebuttoninactive"
+        app:srcCompat="@drawable/chatbutton_inactive" />
+
+    <ImageButton
+        android:id="@+id/notificationbuttoninactive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="147dp"
+        android:layout_marginBottom="37dp"
+        android:background="@null"
+        android:contentDescription="@string/notificationbuttoninactive"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/notificationbutton_inactive" />
+
+    <ImageButton
+        android:id="@+id/profilebuttonactive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="54dp"
+        android:layout_marginBottom="38dp"
+        android:background="@null"
+        android:contentDescription="@string/profilebuttonactive"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/profilebutton_active" />
+
+    <!--    Bottom Navigation Bar End -->
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

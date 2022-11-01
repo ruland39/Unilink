@@ -43,5 +43,7 @@
     <string name="notificationbuttonactive">Notification Button Active</string>
     <string name="profilebuttonactive">Profile Button Active</string>
     <string name="defaultprofilepicturesmall">Default Profile Picture Small</string>
+    <string name="notification">Notification</string>
+    <string name="profile">Profile</string>
 
 </resources>
