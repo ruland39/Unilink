@@ -10,9 +10,7 @@
         android:id="@+id/UnilinkTitleText0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="116dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="171dp"
         android:font="@font/nunitoblack"
         android:fontFamily="@font/nunitoblack"
         android:text="@string/app_name"
@@ -21,17 +19,19 @@
         android:textSize="20sp"
         android:typeface="normal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/collaseMenuButton"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/collaseMenuButton"
+        android:id="@+id/collapseMenuButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:layout_marginBottom="764dp"
         android:background="@null"
         android:contentDescription="@string/collapsemenubutton"
+        app:layout_constraintBottom_toTopOf="@+id/botnavcontainer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/collapsemenubutton" />
@@ -40,28 +40,27 @@
         android:id="@+id/botnavcontainer"
         android:layout_width="413dp"
         android:layout_height="0dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginBottom="3dp"
         android:contentDescription="@string/bottomnavbar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.9"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageButton3"
+        app:layout_constraintTop_toBottomOf="@+id/collapseMenuButton"
         app:srcCompat="@drawable/botnavbarcontainer" />
 
     <ImageButton
-        android:id="@+id/homebuttoninactive"
+        android:id="@+id/homebuttonactive"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="64dp"
         android:layout_marginBottom="46dp"
         android:background="@null"
-        android:contentDescription="@string/homebuttoninactive"
+        android:contentDescription="@string/homebuttonactive"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/chatbuttoninactive"
         app:layout_constraintTop_toTopOf="@+id/botnavcontainer"
-        app:srcCompat="@drawable/homebutton_inactive" />
+        app:srcCompat="@drawable/homebutton_active" />
 
 
     <ImageButton
@@ -107,7 +106,7 @@
         app:srcCompat="@drawable/profilebutton_inactive" />
 
     <ImageView
-        android:id="@+id/imageView5"
+        android:id="@+id/bannercontainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -118,19 +117,20 @@
         app:layout_constraintTop_toBottomOf="@+id/UnilinkTitleText0"
         app:srcCompat="@drawable/bannercontainer" />
 
+    <!--    Button Container 1 Start -->
+
     <ImageButton
         android:id="@+id/bluetoothbuttondefault"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="56dp"
-        android:layout_marginTop="208dp"
-        android:layout_marginBottom="502dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="136dp"
+        android:layout_marginBottom="528dp"
         android:background="@null"
         android:contentDescription="@string/bluetoothbuttondefault"
         app:layout_constraintBottom_toTopOf="@+id/botnavcontainer"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/bannercontainer"
+        app:layout_constraintTop_toTopOf="@+id/bannercontainer"
         app:srcCompat="@drawable/bluetoothbuttondefault" />
 
     <ImageView
@@ -143,6 +143,74 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bluetoothbuttondefault"
         app:srcCompat="@drawable/maincontainer" />
+
+    <TextView
+        android:id="@+id/personusernametextviewmaincontainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="476dp"
+        android:fontFamily="@font/nunitobold"
+        android:text="@string/personusernametextviewmaincontainer"
+        android:textColor="@color/almost_black"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/botnavcontainer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/maincontainer1"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/aboutsectiontextview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/nunitoregular"
+        android:text="@string/personabouttextviewmaincontainer"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/personusernametextviewmaincontainer"
+        app:layout_constraintTop_toBottomOf="@+id/personusernametextviewmaincontainer" />
+
+    <ImageButton
+        android:id="@+id/defaultprofilepicturesmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="19dp"
+        android:layout_marginTop="20dp"
+        android:background="@null"
+        android:contentDescription="@string/defaultprofilepicturesmall"
+        app:layout_constraintStart_toStartOf="@+id/maincontainer1"
+        app:layout_constraintTop_toTopOf="@+id/maincontainer1"
+        app:srcCompat="@drawable/defaultprofilepicturesmall" />
+
+
+    <!--    Button Container 1 End -->
+
+    <ImageButton
+        android:id="@+id/wavebutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="17dp"
+        android:layout_marginBottom="16dp"
+        android:background="@null"
+
+        android:contentDescription="@string/wavesmallbutton"
+        app:layout_constraintBottom_toBottomOf="@+id/maincontainer1"
+        app:layout_constraintEnd_toEndOf="@+id/maincontainer1"
+        app:srcCompat="@drawable/wavesmallbutton" />
+
+    <ImageButton
+        android:id="@+id/chatsmallbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="17dp"
+        android:layout_marginBottom="16dp"
+        android:background="@null"
+
+        android:contentDescription="@string/chatsmallbutton"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/maincontainer1"
+        app:layout_constraintEnd_toEndOf="@+id/maincontainer1"
+        app:srcCompat="@drawable/chatsmallbutton" />
 
     <ImageView
         android:id="@+id/maincontainer2"
@@ -191,34 +259,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/maincontainer4"
         app:srcCompat="@drawable/maincontainer" />
-
-    <ImageButton
-        android:id="@+id/wavebutton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="338dp"
-        android:layout_marginEnd="17dp"
-        android:layout_marginBottom="421dp"
-        android:background="@null"
-        android:contentDescription="@string/wavesmallbutton"
-        app:layout_constraintBottom_toTopOf="@+id/botnavcontainer"
-        app:layout_constraintEnd_toEndOf="@+id/maincontainer1"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/wavesmallbutton" />
-
-    <ImageButton
-        android:id="@+id/imageButton3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="433dp"
-        android:layout_marginEnd="17dp"
-        android:layout_marginBottom="326dp"
-        android:background="@null"
-        app:layout_constraintBottom_toTopOf="@+id/botnavcontainer"
-        app:layout_constraintEnd_toEndOf="@+id/maincontainer2"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/chatsmallbutton"
-        android:contentDescription="@string/chatsmallbutton" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

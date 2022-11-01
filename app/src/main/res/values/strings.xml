@@ -2,6 +2,9 @@
     <string name="app_name">Unilink</string>
 
     <!-- Strings related to login and register-->
+    <string name="personusernametextviewmaincontainer">Person One User Name</string>
+    <string name="personabouttextviewmaincontainer">Year 2 Computer Science</string>
+
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Login</string>
@@ -35,5 +38,10 @@
     <string name="mainbanner">Main Banner</string>
     <string name="wavesmallbutton">Wave Small Button</string>
     <string name="chatsmallbutton">Chat Small Button</string>
+    <string name="homebuttonactive">Home Button Active</string>
+    <string name="chatbuttonactive">Chat Button Active</string>
+    <string name="notificationbuttonactive">Notification Button Active</string>
+    <string name="profilebuttonactive">Profile Button Active</string>
+    <string name="defaultprofilepicturesmall">Default Profile Picture Small</string>
 
 </resources>
