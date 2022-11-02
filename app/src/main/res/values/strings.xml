@@ -4,6 +4,7 @@
     <!-- Strings related to login and register-->
     <string name="personusernametextviewmaincontainer">Person One User Name</string>
     <string name="personabouttextviewmaincontainer">Year 2 Computer Science</string>
+    <string name="notificationmessage">Person One has waved to Person Two</string>
 
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
@@ -45,5 +46,9 @@
     <string name="defaultprofilepicturesmall">Default Profile Picture Small</string>
     <string name="notification">Notification</string>
     <string name="profile">Profile</string>
+    <string name="friendbutton">Friend Button</string>
+    <string name="wavesmallbuttonnotif">Wave Small Button Notification </string>
+    <string name="connectionsmallbuttonnotif">Connection Small Button Notification</string>
+
 
 </resources>
