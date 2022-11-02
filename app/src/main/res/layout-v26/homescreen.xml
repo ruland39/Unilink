@@ -166,27 +166,28 @@
         app:srcCompat="@drawable/maincontainer" />
 
     <TextView
-        android:id="@+id/personusernametextviewmaincontainer"
+        android:id="@+id/defaultusername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="15dp"
         android:fontFamily="@font/nunitobold"
         android:text="@string/personusernametextviewmaincontainer"
         android:textColor="@color/almost_black"
         android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/defaultprofilepicturesmall"
-        app:layout_constraintTop_toTopOf="@+id/wavebutton" />
+        app:layout_constraintTop_toTopOf="@+id/maincontainer1" />
 
     <TextView
-        android:id="@+id/aboutsectiontextview"
+        android:id="@+id/defaultabout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/nunitoregular"
         android:text="@string/personabouttextviewmaincontainer"
         android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@+id/personusernametextviewmaincontainer"
-        app:layout_constraintTop_toBottomOf="@+id/personusernametextviewmaincontainer" />
+        app:layout_constraintStart_toStartOf="@+id/defaultusername"
+        app:layout_constraintTop_toBottomOf="@+id/defaultusername" />
 
     <ImageButton
         android:id="@+id/defaultprofilepicturesmall"
@@ -196,28 +197,28 @@
         android:layout_marginBottom="4dp"
         android:background="@null"
         android:contentDescription="@string/defaultprofilepicturesmall"
-        app:layout_constraintBottom_toBottomOf="@+id/aboutsectiontextview"
+        app:layout_constraintBottom_toBottomOf="@+id/defaultabout"
         app:layout_constraintStart_toStartOf="@+id/maincontainer1"
         app:srcCompat="@drawable/defaultprofilepicturesmall" />
 
     <ImageButton
         android:id="@+id/wavebutton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:background="@null"
         android:contentDescription="@string/wavesmallbutton"
-        app:layout_constraintStart_toEndOf="@+id/personusernametextviewmaincontainer"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@+id/maincontainer1"
         app:layout_constraintTop_toTopOf="@+id/maincontainer1"
         app:srcCompat="@drawable/wavesmallbutton" />
 
     <ImageButton
         android:visibility="invisible"
         android:id="@+id/chatsmallbutton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:background="@null"
         android:contentDescription="@string/chatsmallbutton"
         app:layout_constraintStart_toStartOf="@+id/wavebutton"

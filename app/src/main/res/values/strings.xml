@@ -49,6 +49,7 @@
     <string name="friendbutton">Friend Button</string>
     <string name="wavesmallbuttonnotif">Wave Small Button Notification </string>
     <string name="connectionsmallbuttonnotif">Connection Small Button Notification</string>
+    <string name="loremipsum">Lorem Ipsum</string>
 
 
 </resources>
