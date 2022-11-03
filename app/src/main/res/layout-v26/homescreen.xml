@@ -175,7 +175,7 @@
         android:text="@string/personusernametextviewmaincontainer"
         android:textColor="@color/almost_black"
         android:textSize="16sp"
-        app:layout_constraintStart_toEndOf="@+id/defaultprofilepicturesmall"
+        app:layout_constraintStart_toEndOf="@+id/defaultprofilepicture"
         app:layout_constraintTop_toTopOf="@+id/maincontainer1" />
 
     <TextView
@@ -190,7 +190,7 @@
         app:layout_constraintTop_toBottomOf="@+id/defaultusername" />
 
     <ImageButton
-        android:id="@+id/defaultprofilepicturesmall"
+        android:id="@+id/defaultprofilepicture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="19dp"

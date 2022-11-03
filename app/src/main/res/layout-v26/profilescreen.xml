@@ -7,7 +7,7 @@
     tools:context=".HomescreenActivity">
 
     <TextView
-        android:id="@+id/ChatScreenTitleText"
+        android:id="@+id/ProfileScreenTitleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -18,8 +18,8 @@
         android:textColor="@color/purple_main"
         android:textSize="20sp"
         android:typeface="normal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/threedotsbutton"
+        app:layout_constraintStart_toEndOf="@+id/collapseMenuButton"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
@@ -28,15 +28,41 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="21dp"
+        android:layout_marginEnd="1dp"
         android:background="@null"
         android:contentDescription="@string/collapsemenubutton"
+        app:layout_constraintEnd_toStartOf="@+id/ProfileScreenTitleText"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/collapsemenubutton" />
 
 
-    <!--    Bottom Navigation Bar Start -->
+    <ImageButton
+        android:id="@+id/threedotsbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@null"
+        android:contentDescription="@string/threedotsbutton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ProfileScreenTitleText"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/threedotsbutton" />
 
+    <ImageView
+        android:id="@+id/profilebannercontainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="31dp"
+        android:layout_marginEnd="41dp"
+        android:contentDescription="@string/profilebannercontainer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/collapseMenuButton"
+        app:srcCompat="@drawable/profilebannercontainer" />
+
+    <!--    Bottom Navigation Bar Start -->
     <ImageView
         android:id="@+id/botnavcontainer"
         android:layout_width="wrap_content"
@@ -51,12 +77,14 @@
         android:id="@+id/homebuttoninactive"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="66dp"
-        android:layout_marginBottom="39dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="21dp"
+        android:layout_marginEnd="10dp"
         android:background="@null"
         android:contentDescription="@string/homebuttoninactive"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/chatbuttoninactive"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/botnavcontainer"
         app:srcCompat="@drawable/homebutton_inactive" />
 
 
@@ -64,8 +92,7 @@
         android:id="@+id/chatbuttoninactive"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="65dp"
-        android:layout_marginEnd="64dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="37dp"
         android:background="@null"
         android:contentDescription="@string/chatbuttoninactive"
@@ -78,27 +105,106 @@
         android:id="@+id/notificationbuttoninactive"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="147dp"
+        android:layout_marginEnd="17dp"
         android:layout_marginBottom="37dp"
         android:background="@null"
         android:contentDescription="@string/notificationbuttoninactive"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/profilebuttonactive"
+        app:layout_constraintStart_toEndOf="@+id/chatbuttoninactive"
         app:srcCompat="@drawable/notificationbutton_inactive" />
 
     <ImageButton
         android:id="@+id/profilebuttonactive"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="54dp"
         android:layout_marginBottom="38dp"
         android:background="@null"
         android:contentDescription="@string/profilebuttonactive"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/notificationbuttoninactive"
         app:srcCompat="@drawable/profilebutton_active" />
 
     <!--    Bottom Navigation Bar End -->
+
+    <ImageButton
+        android:id="@+id/defaultprofilepicture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:background="@null"
+        android:contentDescription="@string/profilepicture"
+        android:scaleX="2"
+        android:scaleY="2"
+        app:layout_constraintBottom_toTopOf="@+id/defaultusername"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/defaultprofilepicturesmall" />
+
+    <TextView
+        android:id="@+id/defaultusername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="42dp"
+        android:fontFamily="@font/nunitobold"
+        android:text="@string/loremipsum"
+        android:textColor="@color/almost_black"
+        android:textSize="32sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profilebannercontainer" />
+
+    <TextView
+        android:id="@+id/defaultabout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/nunitosemibold"
+        android:text="@string/personabouttextviewmaincontainer"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/defaultusername"
+        app:layout_constraintTop_toBottomOf="@+id/defaultusername" />
+
+    <TextView
+        android:id="@+id/connectionnumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="29dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/nunitosemibold"
+        android:text="@string/connection"
+        android:textColor="@color/purple_main"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/defaultabout"
+        app:layout_constraintTop_toBottomOf="@+id/defaultabout" />
+
+    <TextView
+        android:id="@+id/profileaboutheading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:fontFamily="@font/nunitosemibold"
+        android:text="@string/about"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/connectionnumber"
+        app:layout_constraintTop_toBottomOf="@+id/connectionnumber" />
+
+    <TextView
+        android:id="@+id/profilecommentheading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="223dp"
+        android:fontFamily="@font/nunitosemibold"
+        android:text="@string/about"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

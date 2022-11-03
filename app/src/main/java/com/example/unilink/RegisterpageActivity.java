@@ -39,7 +39,6 @@ public class RegisterpageActivity extends AppCompatActivity {
         password = findViewById(R.id.password);
 
 
-
     }
     public void openBacktoLoginorRegisterPage(){
         Intent intent = new Intent(this, LoginorregisterActivity.class);
