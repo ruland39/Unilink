@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="169dp"
-        android:layout_marginTop="96dp"
+        android:layout_marginTop="128dp"
         android:layout_marginEnd="168dp"
         android:font="@font/nunitoblack"
         android:fontFamily="@font/nunitobold"
@@ -38,8 +38,10 @@
     <Button
         android:id="@+id/buttontofeaturepage3"
         android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:layout_marginBottom="128dp"
+        android:layout_height="74dp"
+        android:layout_marginStart="168dp"
+        android:layout_marginEnd="168dp"
+        android:layout_marginBottom="96dp"
         android:backgroundTint="@color/purple_main"
         android:insetLeft="0dp"
         android:insetTop="0dp"
@@ -53,7 +55,6 @@
         app:iconSize="36dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
 
 
