@@ -41,21 +41,23 @@
         android:id="@+id/botnavcontainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="15dp"
         android:contentDescription="@string/bottomnavbar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/botnavbarcontainer" />
 
     <ImageButton
         android:id="@+id/homebuttonactive"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="66dp"
-        android:layout_marginBottom="39dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="11dp"
+        android:layout_marginBottom="32dp"
         android:background="@null"
         android:contentDescription="@string/homebuttonactive"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/chatbuttoninactive"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/homebutton_active" />
 
@@ -64,9 +66,8 @@
         android:id="@+id/chatbuttoninactive"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="65dp"
-        android:layout_marginEnd="64dp"
-        android:layout_marginBottom="37dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="32dp"
         android:background="@null"
         android:contentDescription="@string/chatbuttoninactive"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -78,24 +79,25 @@
         android:id="@+id/notificationbuttoninactive"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="147dp"
-        android:layout_marginBottom="37dp"
+        android:layout_marginEnd="17dp"
+        android:layout_marginBottom="32dp"
         android:background="@null"
         android:contentDescription="@string/notificationbuttoninactive"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/profilebuttoninactive"
+        app:layout_constraintStart_toEndOf="@+id/chatbuttoninactive"
         app:srcCompat="@drawable/notificationbutton_inactive" />
 
     <ImageButton
         android:id="@+id/profilebuttoninactive"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="54dp"
-        android:layout_marginBottom="38dp"
+        android:layout_marginBottom="32dp"
         android:background="@null"
         android:contentDescription="@string/profilebuttoninactive"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/notificationbuttoninactive"
         app:srcCompat="@drawable/profilebutton_inactive" />
 
     <!--    Bottom Navigation Bar End -->
@@ -104,64 +106,63 @@
         android:id="@+id/bannercontainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="16dp"
         android:contentDescription="@string/mainbanner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/collapseMenuButton"
+        app:layout_constraintTop_toBottomOf="@+id/UnilinkTitleText"
         app:srcCompat="@drawable/bannercontainer" />
 
+
+    <!--    Button Container 1 Start -->
+
     <ImageButton
-        android:visibility="visible"
         android:id="@+id/bluetoothbuttonconnected"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="23dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="136dp"
         android:background="@null"
         android:contentDescription="@string/bluetoothbuttondefault"
-        app:layout_constraintBottom_toTopOf="@+id/maincontainer1"
-        app:layout_constraintStart_toStartOf="@+id/maincontainer1"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="@+id/bannercontainer"
+        app:layout_constraintTop_toTopOf="@+id/bannercontainer"
         app:srcCompat="@drawable/bluetoothbuttondeconnected" />
 
     <ImageButton
-        android:visibility="invisible"
         android:id="@+id/bluetoothbuttondiscover"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="23dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="136dp"
         android:background="@null"
         android:contentDescription="@string/bluetoothbuttondefault"
-        app:layout_constraintBottom_toTopOf="@+id/maincontainer1"
-        app:layout_constraintStart_toStartOf="@+id/maincontainer1"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="@+id/bannercontainer"
+        app:layout_constraintTop_toTopOf="@+id/bannercontainer"
         app:srcCompat="@drawable/bluetoothbuttondiscover" />
 
     <ImageButton
-        android:visibility="invisible"
         android:id="@+id/bluetoothbuttonoff"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="23dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="136dp"
         android:background="@null"
         android:contentDescription="@string/bluetoothbuttondefault"
-        app:layout_constraintBottom_toTopOf="@+id/maincontainer1"
-        app:layout_constraintStart_toStartOf="@+id/maincontainer1"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="@+id/bannercontainer"
+        app:layout_constraintTop_toTopOf="@+id/bannercontainer"
         app:srcCompat="@drawable/bluetoothbuttonoff" />
-
-
-
-    <!--    Button Container 1 Start -->
 
     <ImageView
         android:id="@+id/maincontainer1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="47dp"
-        android:layout_marginEnd="41dp"
+        android:layout_marginTop="24dp"
         android:contentDescription="@string/maincontainer"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bannercontainer"
         app:srcCompat="@drawable/maincontainer" />
 
@@ -183,9 +184,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
         android:fontFamily="@font/nunitoregular"
         android:text="@string/personabouttextviewmaincontainer"
         android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/maincontainer1"
         app:layout_constraintStart_toStartOf="@+id/defaultusername"
         app:layout_constraintTop_toBottomOf="@+id/defaultusername" />
 
@@ -203,26 +206,30 @@
 
     <ImageButton
         android:id="@+id/wavebutton"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:background="@null"
         android:contentDescription="@string/wavesmallbutton"
         android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="@+id/maincontainer1"
-        app:layout_constraintTop_toTopOf="@+id/maincontainer1"
+        app:layout_constraintBottom_toBottomOf="@+id/chatsmallbutton"
+        app:layout_constraintEnd_toEndOf="@+id/chatsmallbutton"
+        app:layout_constraintStart_toStartOf="@+id/chatsmallbutton"
+        app:layout_constraintTop_toTopOf="@+id/chatsmallbutton"
         app:srcCompat="@drawable/wavesmallbutton" />
 
     <ImageButton
-        android:visibility="invisible"
         android:id="@+id/chatsmallbutton"
         android:layout_width="48dp"
         android:layout_height="48dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="16dp"
         android:background="@null"
         android:contentDescription="@string/chatsmallbutton"
-        app:layout_constraintStart_toStartOf="@+id/wavebutton"
-        app:layout_constraintTop_toTopOf="@+id/wavebutton"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/maincontainer1"
+        app:layout_constraintEnd_toEndOf="@+id/maincontainer1"
+        app:layout_constraintStart_toEndOf="@+id/defaultusername"
+        app:layout_constraintTop_toTopOf="@+id/maincontainer1"
         app:srcCompat="@drawable/chatsmallbutton" />
     <!--    Button Container 1 End -->
 
@@ -232,7 +239,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:contentDescription="@string/maincontainer"
-        app:layout_constraintStart_toStartOf="@+id/maincontainer1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/maincontainer1"
         app:srcCompat="@drawable/maincontainer" />
 
@@ -242,7 +250,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:contentDescription="@string/maincontainer"
-        app:layout_constraintStart_toStartOf="@+id/maincontainer2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/maincontainer2"
         app:srcCompat="@drawable/maincontainer" />
 
@@ -252,7 +261,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:contentDescription="@string/maincontainer"
-        app:layout_constraintStart_toStartOf="@+id/maincontainer3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/maincontainer3"
         app:srcCompat="@drawable/maincontainer" />
 
@@ -262,7 +272,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:contentDescription="@string/maincontainer"
-        app:layout_constraintStart_toStartOf="@+id/maincontainer4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/maincontainer4"
         app:srcCompat="@drawable/maincontainer" />
 

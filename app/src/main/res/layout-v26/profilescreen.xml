@@ -10,7 +10,9 @@
         android:id="@+id/ProfileScreenTitleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="136dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="135dp"
         android:font="@font/nunitobold"
         android:fontFamily="@font/nunitobold"
         android:text="@string/profile"
@@ -27,12 +29,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="21dp"
-        android:layout_marginEnd="1dp"
+        android:layout_marginTop="24dp"
         android:background="@null"
         android:contentDescription="@string/collapsemenubutton"
-        app:layout_constraintEnd_toStartOf="@+id/ProfileScreenTitleText"
-        app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/collapsemenubutton" />
@@ -42,34 +41,35 @@
         android:id="@+id/threedotsbutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
         android:background="@null"
         android:contentDescription="@string/threedotsbutton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/ProfileScreenTitleText"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/threedotsbutton" />
 
+    <!--    Bottom Navigation Bar Start -->
     <ImageView
         android:id="@+id/profilebannercontainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="31dp"
+        android:layout_marginTop="24dp"
         android:contentDescription="@string/profilebannercontainer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/collapseMenuButton"
+        app:layout_constraintTop_toBottomOf="@+id/ProfileScreenTitleText"
         app:srcCompat="@drawable/profilebannercontainer" />
 
-    <!--    Bottom Navigation Bar Start -->
     <ImageView
         android:id="@+id/botnavcontainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
         android:contentDescription="@string/bottomnavbar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.516"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/botnavbarcontainer" />
 
@@ -78,13 +78,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="21dp"
         android:layout_marginEnd="10dp"
+        android:layout_marginBottom="32dp"
         android:background="@null"
         android:contentDescription="@string/homebuttoninactive"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/chatbuttoninactive"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/botnavcontainer"
         app:srcCompat="@drawable/homebutton_inactive" />
 
 
@@ -93,7 +94,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="37dp"
+        android:layout_marginBottom="32dp"
         android:background="@null"
         android:contentDescription="@string/chatbuttoninactive"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -106,7 +107,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="17dp"
-        android:layout_marginBottom="37dp"
+        android:layout_marginBottom="32dp"
         android:background="@null"
         android:contentDescription="@string/notificationbuttoninactive"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -118,7 +119,7 @@
         android:id="@+id/profilebuttonactive"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="38dp"
+        android:layout_marginBottom="32dp"
         android:background="@null"
         android:contentDescription="@string/profilebuttonactive"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -132,54 +133,54 @@
         android:id="@+id/defaultprofilepicture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
+        android:layout_marginStart="143dp"
+        android:layout_marginTop="128dp"
+        android:layout_marginEnd="146dp"
         android:background="@null"
         android:contentDescription="@string/profilepicture"
         android:scaleX="2"
         android:scaleY="2"
-        app:layout_constraintBottom_toTopOf="@+id/defaultusername"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/profilebannercontainer"
+        app:layout_constraintStart_toStartOf="@+id/profilebannercontainer"
+        app:layout_constraintTop_toTopOf="@+id/profilebannercontainer"
         app:srcCompat="@drawable/defaultprofilepicturesmall" />
 
     <TextView
         android:id="@+id/defaultusername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="42dp"
+        android:layout_marginTop="24dp"
         android:fontFamily="@font/nunitobold"
-        android:text="@string/loremipsum"
+        android:text="@string/personusernametextviewmaincontainer"
         android:textColor="@color/almost_black"
-        android:textSize="32sp"
+        android:textSize="26sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profilebannercontainer" />
+        app:layout_constraintTop_toBottomOf="@+id/defaultprofilepicture" />
 
     <TextView
         android:id="@+id/defaultabout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="6dp"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/nunitosemibold"
         android:text="@string/personabouttextviewmaincontainer"
         android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@+id/defaultusername"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/defaultusername" />
 
     <TextView
         android:id="@+id/connectionnumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="29dp"
         android:layout_marginTop="8dp"
-        android:fontFamily="@font/nunitosemibold"
+        android:fontFamily="@font/nunitobold"
         android:text="@string/connection"
         android:textColor="@color/purple_main"
         android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@+id/defaultabout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/defaultabout" />
 
     <TextView
@@ -187,24 +188,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="32dp"
         android:fontFamily="@font/nunitosemibold"
         android:text="@string/about"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="@+id/connectionnumber"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/connectionnumber" />
 
     <TextView
         android:id="@+id/profilecommentheading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="223dp"
+        android:layout_marginTop="223dp"
         android:fontFamily="@font/nunitosemibold"
-        android:text="@string/about"
+        android:text="@string/comments"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profileaboutheading" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
