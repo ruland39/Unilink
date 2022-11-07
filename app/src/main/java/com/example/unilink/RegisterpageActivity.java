@@ -36,7 +36,8 @@ public class RegisterpageActivity extends AppCompatActivity {
         backbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openBacktoLoginorRegisterPage();
+                finish(); // finishing the activity basically closing the page
+                //openBacktoLoginorRegisterPage();
             }
         });
     }
@@ -58,10 +59,6 @@ public class RegisterpageActivity extends AppCompatActivity {
         firstName.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
                 String currentText = firstName.getText().toString();
-                // if (!currentText.isEmpty())
-                //     validatedInput[0] = true;
-                // else
-                //     validatedInput[0] = false;
                 validatedInput[0] = (!currentText.isEmpty());
                 buttonValidates();
             }
@@ -76,10 +73,6 @@ public class RegisterpageActivity extends AppCompatActivity {
         lastName.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
                 String currentText = lastName.getText().toString();
-                // if (!currentText.isEmpty())
-                //     validatedInput[1] = true;
-                // else
-                //     validatedInput[1] = false;
                 validatedInput[1] = (!currentText.isEmpty());
                 buttonValidates();
             }
@@ -97,10 +90,6 @@ public class RegisterpageActivity extends AppCompatActivity {
                 Pattern ptrn = Pattern.compile("^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$",
                         Pattern.CASE_INSENSITIVE);
                 Matcher match = ptrn.matcher(currentText);
-                // if (!currentText.isEmpty() && match.find())
-                //     validatedInput[2] = true;
-                // else
-                //     validatedInput[2] = false;
                 validatedInput[2] = (!currentText.isEmpty() && match.find());
                 buttonValidates();
             }
@@ -117,10 +106,6 @@ public class RegisterpageActivity extends AppCompatActivity {
                 String currentText = email.getText().toString();
                 Pattern ptrn = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
                 Matcher match = ptrn.matcher(currentText);
-                // if (!currentText.isEmpty() && match.find())
-                //     validatedInput[3] = true;
-                // else
-                //     validatedInput[3]= false;
                 validatedInput[3]=(!currentText.isEmpty() && match.find());
                 buttonValidates();
             }
@@ -135,10 +120,6 @@ public class RegisterpageActivity extends AppCompatActivity {
         password.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
                 String currentText = password.getText().toString();
-                // if (!currentText.isEmpty())
-                //     validatedInput[4] = true;
-                // else
-                //     validatedInput[4] = false;
                 validatedInput[4] = (!currentText.isEmpty());
                 buttonValidates();
             }
