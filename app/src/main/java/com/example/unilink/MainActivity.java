@@ -26,15 +26,21 @@ public class MainActivity extends AppCompatActivity {
 
         //set first page
         setContentView(R.layout.activity_main);
-
+        // basically, hold the layout main page for 1.5 seconds
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 Intent i = new Intent(MainActivity.this, FeaturePage1Activity.class);
-                startActivity(i);
-                finish();
+                startActivity(i);    
+                finish();        
             }
-        }, 2000);
+        }, 1500);
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 
     // onStart method is called when the activity enters the Started state

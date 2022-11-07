@@ -27,6 +27,7 @@ public class FeaturePage3Activity extends AppCompatActivity {
 
     public void openLoginorRegisterPage() {
         Intent intent = new Intent(this, LoginorregisterActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // clean all previous activities
         startActivity(intent);
     }
     

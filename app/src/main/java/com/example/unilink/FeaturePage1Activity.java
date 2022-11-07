@@ -22,8 +22,8 @@ public class FeaturePage1Activity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openFeaturePage2();
-                finish();
+                openFeaturePage2();    
+                finish();            
             }
         });
 
