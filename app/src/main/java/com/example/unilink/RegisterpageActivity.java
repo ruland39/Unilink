@@ -52,8 +52,8 @@ public class RegisterpageActivity extends AppCompatActivity {
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
         registerBtn = findViewById(R.id.registerbuttonsubmit);
+        // for now all the inputs are manadtory
         validatedInput = new boolean[] { false, false, false, false, false }; // the validated input must all be true to
-        // enable button
 
         // need to create a listener for each textview
         firstName.addTextChangedListener(new TextWatcher() {
@@ -61,6 +61,8 @@ public class RegisterpageActivity extends AppCompatActivity {
                 String currentText = firstName.getText().toString();
                 validatedInput[0] = (!currentText.isEmpty());
                 buttonValidates();
+                if (!validatedInput[0])
+                    firstName.setError("Fill in your first name");
             }
 
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -75,6 +77,8 @@ public class RegisterpageActivity extends AppCompatActivity {
                 String currentText = lastName.getText().toString();
                 validatedInput[1] = (!currentText.isEmpty());
                 buttonValidates();
+                if (!validatedInput[1])
+                    lastName.setError("Fill in your last name");
             }
 
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -92,6 +96,8 @@ public class RegisterpageActivity extends AppCompatActivity {
                 Matcher match = ptrn.matcher(currentText);
                 validatedInput[2] = (!currentText.isEmpty() && match.find());
                 buttonValidates();
+                if (!validatedInput[2])
+                    phoneNumber.setError("Invalid Phone Number");
             }
 
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -108,6 +114,8 @@ public class RegisterpageActivity extends AppCompatActivity {
                 Matcher match = ptrn.matcher(currentText);
                 validatedInput[3]=(!currentText.isEmpty() && match.find());
                 buttonValidates();
+                if (!validatedInput[3])
+                    email.setError("Invalid Email Input");
             }
 
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -147,6 +155,7 @@ public class RegisterpageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 openHomeScreen();
+                finish();
             }
         });
     }
