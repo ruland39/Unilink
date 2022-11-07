@@ -9,6 +9,7 @@ import android.widget.Button;
 
 public class FeaturePage2Activity extends AppCompatActivity {
     private Button button;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,8 +25,14 @@ public class FeaturePage2Activity extends AppCompatActivity {
         });
     }
 
-public void openFeaturePage3(){
-        Intent intent = new Intent(this,FeaturePage3Activity.class);
+    public void openFeaturePage3() {
+        Intent intent = new Intent(this, FeaturePage3Activity.class);
         startActivity(intent);
-}
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    }
 }

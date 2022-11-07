@@ -16,7 +16,6 @@ public class FeaturePage1Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         setContentView(R.layout.feature_page1);
 
         button = (Button) findViewById(R.id.buttontofeaturepage2);
@@ -28,10 +27,16 @@ public class FeaturePage1Activity extends AppCompatActivity {
             }
         });
 
-        }
-
-        public void openFeaturePage2(){
-        Intent intent = new Intent(this, FeaturePage2Activity.class);
-        startActivity(intent);
-        }
     }
+
+    public void openFeaturePage2() {
+        Intent intent = new Intent(this, FeaturePage2Activity.class);
+        startActivity(intent);        
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    }
+}
