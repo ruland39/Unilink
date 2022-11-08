@@ -9,6 +9,7 @@ import android.widget.Button;
 
 public class FeaturePage3Activity extends AppCompatActivity {
     private Button button;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,8 +24,16 @@ public class FeaturePage3Activity extends AppCompatActivity {
             }
         });
     }
-    public void openLoginorRegisterPage(){
-        Intent intent = new Intent(this,LoginorregisterActivity.class);
+
+    public void openLoginorRegisterPage() {
+        Intent intent = new Intent(this, LoginorregisterActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // clean all previous activities
         startActivity(intent);
+    }
+    
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 }
