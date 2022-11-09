@@ -49,7 +49,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/threedotsbutton" />
 
-    <!--    Bottom Navigation Bar Start -->
     <ImageView
         android:id="@+id/profilebannercontainer"
         android:layout_width="wrap_content"
@@ -61,49 +60,48 @@
         app:layout_constraintTop_toBottomOf="@+id/ProfileScreenTitleText"
         app:srcCompat="@drawable/profilebannercontainer" />
 
+    <!--    Bottom Navigation Bar Start -->
+
     <ImageView
         android:id="@+id/botnavcontainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="2dp"
         android:contentDescription="@string/bottomnavbar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.516"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/botnavbarcontainer" />
 
     <ImageButton
-        android:id="@+id/homebuttoninactive"
+        android:id="@+id/homeBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginEnd="11dp"
         android:layout_marginBottom="32dp"
         android:background="@null"
-        android:contentDescription="@string/homebuttoninactive"
+        android:contentDescription="@string/homebuttonactive"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/chatbuttoninactive"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintEnd_toStartOf="@+id/chatBtn"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/homebutton_inactive" />
 
 
     <ImageButton
-        android:id="@+id/chatbuttoninactive"
+        android:id="@+id/chatBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginBottom="32dp"
         android:background="@null"
         android:contentDescription="@string/chatbuttoninactive"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/notificationbuttoninactive"
-        app:layout_constraintStart_toEndOf="@+id/homebuttoninactive"
+        app:layout_constraintEnd_toStartOf="@+id/notifBtn"
+        app:layout_constraintStart_toEndOf="@+id/homeBtn"
         app:srcCompat="@drawable/chatbutton_inactive" />
 
     <ImageButton
-        android:id="@+id/notificationbuttoninactive"
+        android:id="@+id/notifBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="17dp"
@@ -111,20 +109,20 @@
         android:background="@null"
         android:contentDescription="@string/notificationbuttoninactive"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/profilebuttonactive"
-        app:layout_constraintStart_toEndOf="@+id/chatbuttoninactive"
+        app:layout_constraintEnd_toStartOf="@+id/profileBtn"
+        app:layout_constraintStart_toEndOf="@+id/chatBtn"
         app:srcCompat="@drawable/notificationbutton_inactive" />
 
     <ImageButton
-        android:id="@+id/profilebuttonactive"
+        android:id="@+id/profileBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
         android:background="@null"
-        android:contentDescription="@string/profilebuttonactive"
+        android:contentDescription="@string/profilebuttoninactive"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/notificationbuttoninactive"
+        app:layout_constraintStart_toEndOf="@+id/notifBtn"
         app:srcCompat="@drawable/profilebutton_active" />
 
     <!--    Bottom Navigation Bar End -->

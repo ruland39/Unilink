@@ -138,7 +138,6 @@ public class LoginpageActivity extends AppCompatActivity {
         else
             return false;
     }
-
     // public void openBacktoLoginorRegisterPage() {
     // Intent intent = new Intent(this, LoginorregisterActivity.class);
     // startActivity(intent);
@@ -148,5 +147,6 @@ public class LoginpageActivity extends AppCompatActivity {
         Intent i = new Intent(this, HomescreenActivity.class);
         startActivity(i);
     }
+
 
 }

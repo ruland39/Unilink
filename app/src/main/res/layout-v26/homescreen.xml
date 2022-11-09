@@ -16,7 +16,7 @@
         android:text="@string/app_name"
         android:textAlignment="center"
         android:textColor="@color/purple_main"
-        android:textSize="20sp"
+        android:textSize="26sp"
         android:typeface="normal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,22 +48,22 @@
         app:srcCompat="@drawable/botnavbarcontainer" />
 
     <ImageButton
-        android:id="@+id/homebuttonactive"
+        android:id="@+id/homeBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="11dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="34dp"
         android:background="@null"
         android:contentDescription="@string/homebuttonactive"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/chatbuttoninactive"
+        app:layout_constraintEnd_toStartOf="@+id/chatBtn"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/homebutton_active" />
 
 
     <ImageButton
-        android:id="@+id/chatbuttoninactive"
+        android:id="@+id/chatBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
@@ -71,12 +71,12 @@
         android:background="@null"
         android:contentDescription="@string/chatbuttoninactive"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/notificationbuttoninactive"
-        app:layout_constraintStart_toEndOf="@+id/homebuttonactive"
+        app:layout_constraintEnd_toStartOf="@+id/notifBtn"
+        app:layout_constraintStart_toEndOf="@+id/homeBtn"
         app:srcCompat="@drawable/chatbutton_inactive" />
 
     <ImageButton
-        android:id="@+id/notificationbuttoninactive"
+        android:id="@+id/notifBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="17dp"
@@ -84,12 +84,12 @@
         android:background="@null"
         android:contentDescription="@string/notificationbuttoninactive"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/profilebuttoninactive"
-        app:layout_constraintStart_toEndOf="@+id/chatbuttoninactive"
+        app:layout_constraintEnd_toStartOf="@+id/profileBtn"
+        app:layout_constraintStart_toEndOf="@+id/chatBtn"
         app:srcCompat="@drawable/notificationbutton_inactive" />
 
     <ImageButton
-        android:id="@+id/profilebuttoninactive"
+        android:id="@+id/profileBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
@@ -97,7 +97,7 @@
         android:contentDescription="@string/profilebuttoninactive"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/notificationbuttoninactive"
+        app:layout_constraintStart_toEndOf="@+id/notifBtn"
         app:srcCompat="@drawable/profilebutton_inactive" />
 
     <!--    Bottom Navigation Bar End -->

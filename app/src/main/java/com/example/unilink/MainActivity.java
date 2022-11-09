@@ -14,6 +14,7 @@ import android.view.WindowManager;
 
 public class MainActivity extends AppCompatActivity {
 
+
     // onCreate refers to a method that fires when the app is *created*
     @Override
     protected void onCreate(Bundle savedInstanceState) {

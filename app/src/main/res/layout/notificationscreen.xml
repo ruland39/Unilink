@@ -61,7 +61,7 @@
 
 
     <ImageButton
-        android:id="@+id/chatbuttoninactive"
+        android:id="@+id/chatBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="65dp"
@@ -70,12 +70,12 @@
         android:background="@null"
         android:contentDescription="@string/chatbuttonactive"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/notificationbuttoninactive"
+        app:layout_constraintEnd_toStartOf="@+id/notifBtn"
         app:layout_constraintStart_toEndOf="@+id/homebuttoninactive"
         app:srcCompat="@drawable/chatbutton_active" />
 
     <ImageButton
-        android:id="@+id/notificationbuttoninactive"
+        android:id="@+id/notifBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="147dp"
@@ -87,7 +87,7 @@
         app:srcCompat="@drawable/notificationbutton_inactive" />
 
     <ImageButton
-        android:id="@+id/profilebuttoninactive"
+        android:id="@+id/profileBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="54dp"
