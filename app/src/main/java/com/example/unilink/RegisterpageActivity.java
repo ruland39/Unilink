@@ -4,8 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.EditText;
 
@@ -25,6 +29,7 @@ public class RegisterpageActivity extends AppCompatActivity {
     private EditText phoneNumber;
     private EditText email;
     private EditText password;
+    private CheckBox showHidePW;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +56,7 @@ public class RegisterpageActivity extends AppCompatActivity {
         phoneNumber = findViewById(R.id.phonenumber);
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
+        showHidePW = findViewById(R.id.showHidePW);
         registerBtn = findViewById(R.id.registerbuttonsubmit);
         // for now all the inputs are manadtory
         validatedInput = new boolean[] { false, false, false, false, false }; // the validated input must all be true to
@@ -156,6 +162,22 @@ public class RegisterpageActivity extends AppCompatActivity {
             public void onClick(View v) {
                 openHomeScreen();
                 finish();
+            }
+        });
+
+        showHidePW.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean value) {
+                if (value)
+                {
+                    // Show Password
+                    password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                }
+                else
+                {
+                    // Hide Password
+                    password.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                }
             }
         });
     }
