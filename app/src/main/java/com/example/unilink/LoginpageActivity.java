@@ -6,13 +6,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
+import android.text.method.SingleLineTransformationMethod;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
-
 import android.text.*;
 
 import java.util.regex.Matcher;
@@ -25,6 +29,7 @@ public class LoginpageActivity extends AppCompatActivity {
     private EditText email;
     private EditText password;
     private Button loginBtn;
+    private CheckBox showHidePW;
     private boolean[] validatedInput;
 
     @Override
@@ -44,6 +49,7 @@ public class LoginpageActivity extends AppCompatActivity {
         // Get all the view objects during creation
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
+        showHidePW=findViewById(R.id.showHidePW);
         loginBtn = findViewById(R.id.loginbuttonsubmit);
         validatedInput = new boolean[] { false, false };
     }
@@ -93,8 +99,9 @@ public class LoginpageActivity extends AppCompatActivity {
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {
             }
-        });
 
+
+        });
     }
 
     private void buttonValidates() {
@@ -123,6 +130,22 @@ public class LoginpageActivity extends AppCompatActivity {
                     }
                 }
             });
+
+        showHidePW.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean value) {
+                if (value)
+                {
+                    // Show Password
+                    password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                }
+                else
+                {
+                    // Hide Password
+                    password.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                }
+            }
+        });
     }
 
     // Authentication method to check credentials
