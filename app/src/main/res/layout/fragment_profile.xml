@@ -1,18 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ProfileFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/ChatScreenTitleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/nunitobold"
         android:text="@string/profile"
-        android:layout_gravity="center"
-        android:textSize="26sp"
+        android:textAlignment="center"
+        android:textColor="@color/purple_main"
+        android:textSize="20sp"
         />
 
-</FrameLayout>
+    <ImageButton
+        android:id="@+id/collapseMenuButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:background="@null"
+        android:contentDescription="@string/collapsemenubutton"
+        android:scaleX="1.2"
+        android:scaleY="1.2"
+        app:srcCompat="@drawable/collapsemenubutton" />
+
+    <ImageButton
+        android:id="@+id/threedotsbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:background="@null"
+        android:src="@drawable/threedotsbutton" />
+
+    <ImageView
+        android:id="@+id/profilebannercontainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ChatScreenTitleText"
+        android:layout_alignParentStart="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/profilebannercontainer" />
+
+    <ImageView
+        android:id="@+id/defaultprofilepicture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/profilebannercontainer"
+        android:layout_alignTop="@+id/profilebannercontainer"
+        android:layout_alignEnd="@+id/profilebannercontainer"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="144dp"
+        android:layout_marginTop="136dp"
+        android:layout_marginEnd="144dp"
+        android:scaleX="2"
+        android:scaleY="2"
+        android:src="@drawable/defaultprofilepicturesmall" />
+
+    <TextView
+        android:id="@+id/defaultusername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/profilebannercontainer"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="48dp"
+        android:fontFamily="@font/nunitobold"
+        android:textSize="24sp"
+        android:text="@string/personusernametextviewmaincontainer" />
+
+    <TextView
+        android:id="@+id/defaultabout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/defaultusername"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/nunitosemibold"
+        android:textSize="16sp"
+        android:text="@string/personabouttextviewmaincontainer" />
+
+    <TextView
+        android:id="@+id/connectionnumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/defaultabout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/nunitobold"
+        android:textColor="@color/purple_main"
+        android:text="@string/connection" />
+
+    <TextView
+        android:id="@+id/profileaboutheading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/connectionnumber"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/nunitosemibold"
+        android:textSize="20sp"
+        android:text="@string/about" />
+
+    <TextView
+        android:id="@+id/profilecommentheading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/profileaboutheading"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="124dp"
+        android:fontFamily="@font/nunitosemibold"
+        android:textSize="20sp"
+        android:text="@string/comments" />
+
+
+</RelativeLayout>
