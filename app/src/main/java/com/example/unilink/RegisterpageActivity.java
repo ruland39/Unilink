@@ -1,8 +1,16 @@
 package com.example.unilink;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.AuthResult;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -12,13 +20,18 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import android.text.*;
+import android.util.Log;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RegisterpageActivity extends AppCompatActivity {
+    private FirebaseAuth mAuth;
+    private SharedPreferences sharedPref;
+
     private ImageButton backbutton;
     private Button registerBtn;
 
@@ -45,6 +58,8 @@ public class RegisterpageActivity extends AppCompatActivity {
                 //openBacktoLoginorRegisterPage();
             }
         });
+
+        mAuth = FirebaseAuth.getInstance();
     }
 
     @Override
@@ -160,7 +175,7 @@ public class RegisterpageActivity extends AppCompatActivity {
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openHomeScreen();
+                createAccount(email.getText().toString(), password.getText().toString());
                 finish();
             }
         });
@@ -190,5 +205,31 @@ public class RegisterpageActivity extends AppCompatActivity {
     public void openHomeScreen(){
         Intent i = new Intent(this, HomescreenActivity.class);
         startActivity(i);
+    }
+
+    private void createAccount(String email, String password) {
+        Log.d("RegisterPage", "createAccount:" + email);
+        
+        mAuth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()) {
+                        Log.d("RegisterPage", "createAccountWithEmail: success");
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        String userId = user.getUid();
+                        sharedPref = getPreferences(MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPref.edit();
+                        editor.putString("firebasekey", userId);
+                        editor.commit();
+                        Log.d("RegisterPage", "UserIdOnSharedPref: success");
+                        openHomeScreen();
+                    } else {
+                        Log.w("RegisterPage", "createAccountWithEmail: failed");
+                        Toast.makeText(getApplicationContext(), "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
     }
 }

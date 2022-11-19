@@ -4,7 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
@@ -18,29 +22,39 @@ public class HomescreenActivity extends AppCompatActivity {
 
     DrawerLayout drawerLayout;
     NavigationView navigationView;
+    private FirebaseAuth mAuth;
+    private SharedPreferences sharedPref;
 
+    @Override
+    public void onStart() {
+        super.onStart();
 
-
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser == null) {
+            Intent i = new Intent(this, LoginorregisterActivity.class);
+            startActivity(i);
+            finish();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homescreen);
 
-//        drawerLayout = findViewById(R.id.drawer_layout);
-//        navigationView = findViewById(R.id.collapseMenu);
+        mAuth = FirebaseAuth.getInstance();
 
+        // drawerLayout = findViewById(R.id.drawer_layout);
+        // navigationView = findViewById(R.id.collapseMenu);
 
         ImageButton collapsemenubtn = findViewById(R.id.collapseMenuButton);
         collapsemenubtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //drawerLayout.openDrawer(GravityCompat.START);
+                // drawerLayout.openDrawer(GravityCompat.START);
                 openCollapseMenu();
             }
         });
-
-
 
         ImageButton homebtn = findViewById(R.id.homeBtn);
         homebtn.setOnClickListener(new View.OnClickListener() {
@@ -80,27 +94,36 @@ public class HomescreenActivity extends AppCompatActivity {
 
     }
 
-    public void openHomeScreen(){
+    public void openHomeScreen() {
         Intent i = new Intent(this, HomescreenActivity.class);
         startActivity(i);
     }
 
-    public void openChatScreen(){
+    public void openChatScreen() {
         Intent i = new Intent(this, ChatscreenActivity.class);
         startActivity(i);
     }
 
-    public void openNotifScreen(){
+    public void openNotifScreen() {
         Intent i = new Intent(this, NotificationscreenActivity.class);
         startActivity(i);
     }
 
-    public void openProfileScreen(){
+    public void openProfileScreen() {
         Intent i = new Intent(this, ProfilescreenActivity.class);
         startActivity(i);
     }
 
-    public void openCollapseMenu(){
-        drawerLayout.setVisibility(View.VISIBLE);
+    public void openCollapseMenu() {
+        // drawerLayout.setVisibility(View.VISIBLE);
+        // remove sharedpreferences
+        // open loginorregister
+        mAuth.signOut();
+        sharedPref = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.remove("firebasekey").commit();
+        Intent i = new Intent(this, LoginorregisterActivity.class);
+        startActivity(i);
+        finish();
     }
 }
