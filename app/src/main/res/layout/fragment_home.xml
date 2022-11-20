@@ -44,7 +44,8 @@
         android:layout_below="@+id/UnilinkTitleText"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
-        android:src="@drawable/bannercontainer" />
+        android:src="@drawable/bannercontainer"
+        android:contentDescription="@string/home" />
 
     <ImageButton
         android:id="@+id/bluetoothbtn"
@@ -55,7 +56,8 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="136dp"
         android:background="@null"
-        android:src="@drawable/bluetoothbuttondeconnected" />
+        android:src="@drawable/bluetoothbuttondeconnected"
+        android:contentDescription="@string/chat" />
 
     <ImageButton
         android:id="@+id/maincontainer"
@@ -66,7 +68,8 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="24dp"
         android:background="@null"
-        android:src="@drawable/maincontainer" />
+        android:src="@drawable/maincontainer"
+        android:contentDescription="@string/notification" />
 
     <ImageButton
         android:id="@+id/profilepic"
@@ -77,7 +80,8 @@
         android:layout_marginStart="19dp"
         android:layout_marginTop="20dp"
         android:background="@null"
-        android:src="@drawable/defaultprofilepicturesmall" />
+        android:src="@drawable/defaultprofilepicturesmall"
+        android:contentDescription="@string/profile" />
 
     <TextView
         android:id="@+id/defaultusername"
@@ -116,7 +120,8 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="17dp"
         android:background="@null"
-        android:src="@drawable/wavesmallbutton" />
+        android:src="@drawable/wavesmallbutton"
+        android:contentDescription="@string/connect" />
 
 
 </RelativeLayout>

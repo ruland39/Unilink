@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/home"
+        android:title="Home"
+        android:icon="@drawable/homebutton_inactive"
+        />
+
+    <item android:id="@+id/chat"
+        android:title="Chat"
+        android:icon="@drawable/chatbutton_inactive"
+        />
+
+    <item android:id="@+id/notification"
+        android:title="Notification"
+        android:icon="@drawable/notificationbutton_inactive"
+        />
+
+    <item android:id="@+id/profile"
+        android:title="Profile"
+        android:icon="@drawable/profilebutton_inactive"
+        />
+
+</menu>
