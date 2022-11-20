@@ -6,19 +6,27 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
+import com.google.android.material.navigation.NavigationView;
+
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.example.unilink.databinding.ActivityMainBinding;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
-
 import org.checkerframework.checker.units.qual.C;
 
 public class HomescreenActivity extends AppCompatActivity {
 
-    //    DrawerLayout drawerLayout;
-//    NavigationView navigationView;
+    private FirebaseAuth mAuth;
+    private SharedPreferences sharedPref;
+    //DrawerLayout drawerLayout;
+    //NavigationView navigationView;
     ActivityMainBinding binding;
     BottomNavigationView bottomNavigationView;
     HomeFragment homeFragment = new HomeFragment();
@@ -27,16 +35,28 @@ public class HomescreenActivity extends AppCompatActivity {
     ProfileFragment profileFragment = new ProfileFragment();
 
     @Override
+    public void onStart() {
+        super.onStart();
+
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser == null) {
+            Intent i = new Intent(this, LoginorregisterActivity.class);
+            startActivity(i);
+            finish();
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homescreen);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, homeFragment).commit();
+        
+        mAuth = FirebaseAuth.getInstance();
 
-
-
-//        drawerLayout = findViewById(R.id.drawer_layout);
-//        navigationView = findViewById(R.id.collapseMenu);
+//     drawerLayout = findViewById(R.id.drawer_layout);
+//     navigationView = findViewById(R.id.collapseMenu);
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
@@ -54,13 +74,32 @@ public class HomescreenActivity extends AppCompatActivity {
                 return false;
             }
         });
+        
+        // for now collapsemenu signs you out for authentication purposes
+        ImageButton collapsemenubtn = findViewById(R.id.collapseMenuButton);
+        collapsemenubtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openCollapseMenu();
+            }
+        });
+        
+         }
+         
+        public void openCollapseMenu() {
+        // drawerLayout.setVisibility(View.VISIBLE);
+        // remove sharedpreferences
+        // open loginorregister
+        mAuth.signOut();
+        sharedPref = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.remove("firebasekey").commit();
+        Intent i = new Intent(this, LoginorregisterActivity.class);
+        startActivity(i);
+        finish();
     }
 
 }
-
-
-
-
 
 //        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomnavigationview);
 //        bottomNavigationView.setBackground(null);
@@ -168,3 +207,4 @@ public class HomescreenActivity extends AppCompatActivity {
 //        drawerLayout.setVisibility(View.VISIBLE);
 //    }
 //}
+
