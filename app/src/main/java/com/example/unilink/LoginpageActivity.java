@@ -1,9 +1,17 @@
 package com.example.unilink;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.AuthResult;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
@@ -18,6 +26,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 import android.text.*;
+import android.util.Log;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -25,6 +34,9 @@ import java.util.regex.Pattern;
 // The login page validates dynamically for the input
 // but will only check the correct or authenticated value when user clicks the button
 public class LoginpageActivity extends AppCompatActivity {
+    private FirebaseAuth mAuth;
+    private SharedPreferences sharedPref;
+
     private ImageButton backbutton;
     private EditText email;
     private EditText password;
@@ -46,10 +58,12 @@ public class LoginpageActivity extends AppCompatActivity {
             }
         });
 
+        mAuth = FirebaseAuth.getInstance();
+
         // Get all the view objects during creation
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
-        showHidePW=findViewById(R.id.showHidePW);
+        showHidePW = findViewById(R.id.showHidePW);
         loginBtn = findViewById(R.id.loginbuttonsubmit);
         validatedInput = new boolean[] { false, false };
     }
@@ -100,7 +114,6 @@ public class LoginpageActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
             }
 
-
         });
     }
 
@@ -117,30 +130,18 @@ public class LoginpageActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     // Authenticates on press, then opens the page and ends this activity.
-                    if (authenticate()){
-                        openHomeScreen();
-                        finish();
-                    } else {
-                        // Send in a toast notification on invalid input
-                        Context context = getApplicationContext();
-                        CharSequence text = "Invalid Email or Password";
-                        int duration = Toast.LENGTH_SHORT;
-                        Toast t = Toast.makeText(context, text, duration);
-                        t.show();
-                    }
+                    authenticate(email.getText().toString(), password.getText().toString());
+                    finish();
                 }
             });
 
         showHidePW.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean value) {
-                if (value)
-                {
+                if (value) {
                     // Show Password
                     password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                }
-                else
-                {
+                } else {
                     // Hide Password
                     password.setTransformationMethod(PasswordTransformationMethod.getInstance());
                 }
@@ -149,17 +150,41 @@ public class LoginpageActivity extends AppCompatActivity {
     }
 
     // Authentication method to check credentials
-    private boolean authenticate() {
+    private void authenticate(String email, String password) {
         // for now just hard coding the thing
         // email: test@gmail.com pass:test1234
-        String emailInput = email.getText().toString();
-        String passwordInput = password.getText().toString();
 
-        if (emailInput.equalsIgnoreCase("test@gmail.com") &&
-                passwordInput.equalsIgnoreCase("test1234")) 
-            return true;
-        else
-            return false;
+        // if (emailInput.equalsIgnoreCase("test@gmail.com") &&
+        // passwordInput.equalsIgnoreCase("test1234"))
+        // return true;
+        // else
+        // return false;
+
+        Log.d("LoginPage", "loginAccount:" + email);
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d("LoginPage", "signInWithEmail:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            String userId = user.getUid();
+                            sharedPref = getPreferences(MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPref.edit();
+                            editor.putString("firebasekey", userId);
+                            editor.commit();
+                            Log.d("RegisterPage", "UserIdOnSharedPref: success");
+                            openHomeScreen();
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w("LoginPage", "signInWithEmail:failure", task.getException());
+                            Toast.makeText(getApplicationContext(), "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
     }
     // public void openBacktoLoginorRegisterPage() {
     // Intent intent = new Intent(this, LoginorregisterActivity.class);
@@ -170,6 +195,5 @@ public class LoginpageActivity extends AppCompatActivity {
         Intent i = new Intent(this, HomescreenActivity.class);
         startActivity(i);
     }
-
 
 }

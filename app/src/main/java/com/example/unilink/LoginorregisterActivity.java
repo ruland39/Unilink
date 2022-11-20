@@ -2,14 +2,22 @@ package com.example.unilink;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class LoginorregisterActivity extends AppCompatActivity {
-    private Button button1; //login button
-    private Button button2; //register button
+    private SharedPreferences sharedPref;
+    private FirebaseAuth mAuth;
+    private Button button1; // login button
+    private Button button2; // register button
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,16 +38,38 @@ public class LoginorregisterActivity extends AppCompatActivity {
                 openRegisterPage();
             }
         });
+        mAuth = FirebaseAuth.getInstance();
     }
 
-    public void openLoginPage(){
+    public void openLoginPage() {
         Intent intent1 = new Intent(this, LoginpageActivity.class);
         startActivity(intent1);
     }
 
-    public void openRegisterPage(){
+    public void openRegisterPage() {
         Intent intent2 = new Intent(this, RegisterpageActivity.class);
         startActivity(intent2);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        // If user is currently logged in (inSession)
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
+            sharedPref = getPreferences(MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putString("firebasekey", userId).commit();
+            openHomeScreen();
+            finish();
+        }
+    }
+
+    public void openHomeScreen(){
+        Intent i = new Intent(this, HomescreenActivity.class);
+        startActivity(i);
     }
 
 }
