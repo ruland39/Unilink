@@ -73,37 +73,40 @@ public class HomescreenActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.home:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, homeFragment).commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, homeFragment)
+                                .commit();
                         return true;
                     case R.id.chat:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, chatFragment).commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, chatFragment)
+                                .commit();
                         return true;
                     case R.id.notification:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, notificationFragment).commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, notificationFragment)
+                                .commit();
                         return true;
                     case R.id.profile:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, profileFragment).commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, profileFragment)
+                                .commit();
                         return true;
                 }
                 return false;
             }
         });
 
-
         drawerLayout = findViewById(R.id.drawerLayout);
         navigationView = findViewById(R.id.navigationView);
         toolbar = findViewById(R.id.toolbar);
 
-
         setSupportActionBar(toolbar);
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.opendrawer, R.string.closedrawer);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.opendrawer,
+                R.string.closedrawer);
 
         drawerLayout.addDrawerListener(toggle);
 
         toggle.syncState();
 
-        //to open the options in the drawe
+        // to open the options in the drawe
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -121,8 +124,18 @@ public class HomescreenActivity extends AppCompatActivity {
 
     }
 
-        //logout method
-        public void logout() {
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+    }
+
+    // logout method
+    public void logout() {
         // drawerLayout.setVisibility(View.VISIBLE);
         // remove sharedpreferences
         // open loginorregister
@@ -135,25 +148,22 @@ public class HomescreenActivity extends AppCompatActivity {
         finish();
     }
 
-        //load fragment method
-        public void loadfragment(){
-            FragmentManager fm = getSupportFragmentManager();
-            FragmentTransaction ft = fm.beginTransaction();
-            ft.add(R.id.frame_layout, homeFragment);
-            ft.commit();
+    // load fragment method
+    public void loadfragment() {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.add(R.id.frame_layout, homeFragment);
+        ft.commit();
+    }
+
+    // back method
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
         }
 
-        //back method
-        public void onBackPressed (){
-            if (drawerLayout.isDrawerOpen(GravityCompat.START)){
-                drawerLayout.closeDrawer(GravityCompat.START);
-            }
-            else{
-                super.onBackPressed();
-            }
-
-        }
-
+    }
 
 }
-
