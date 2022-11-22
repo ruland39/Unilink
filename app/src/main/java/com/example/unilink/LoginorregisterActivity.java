@@ -69,6 +69,7 @@ public class LoginorregisterActivity extends AppCompatActivity {
 
     public void openHomeScreen(){
         Intent i = new Intent(this, HomescreenActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(i);
     }
 
