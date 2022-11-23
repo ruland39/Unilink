@@ -13,27 +13,6 @@
         android:theme="@style/Theme.Unilink"
         tools:targetApi="31">
         <activity
-            android:name=".ProfilescreenActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".NotificationscreenActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".ChatscreenActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
             android:name=".HomescreenActivity"
             android:exported="false">
             <meta-data

@@ -56,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
                     SharedPreferences.Editor editor = sharedPref.edit();
                     editor.putString("firebasekey", userId).commit();
                     openHomeScreen();
-                    finish();
                 } else
                     openFp();
             }

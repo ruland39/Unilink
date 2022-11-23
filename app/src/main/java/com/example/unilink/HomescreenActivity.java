@@ -40,6 +40,7 @@ public class HomescreenActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
+    ImageButton navdrawerBtn;
 
     HomeFragment homeFragment = new HomeFragment();
     ChatFragment chatFragment = new ChatFragment();
@@ -62,6 +63,20 @@ public class HomescreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homescreen);
+
+        navdrawerBtn = findViewById(R.id.navDrawerBtn);
+        navdrawerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openNavdrawer();
+            }
+        });
+
+
+
+
+
+
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, homeFragment).commit();
 
@@ -93,9 +108,9 @@ public class HomescreenActivity extends AppCompatActivity {
             }
         });
 
-        drawerLayout = findViewById(R.id.drawerLayout);
-        navigationView = findViewById(R.id.navigationView);
-        toolbar = findViewById(R.id.toolbar);
+//        drawerLayout = findViewById(R.id.drawerLayout);
+//        navigationView = findViewById(R.id.navigationView);
+//        toolbar = findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
 
@@ -164,6 +179,10 @@ public class HomescreenActivity extends AppCompatActivity {
             super.onBackPressed();
         }
 
+    }
+
+    public void openNavdrawer(){
+        drawerLayout.setVisibility(View.VISIBLE);
     }
 
 }

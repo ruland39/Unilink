@@ -69,8 +69,6 @@
         android:layout_marginTop="116dp"
         android:layout_marginStart="144dp"
         android:layout_marginEnd="144dp"
-        android:scaleX="10"
-        android:scaleY="10"
         android:src="@drawable/defaultprofilepicturesmall"
         android:contentDescription="@string/profilepicture" />
 
