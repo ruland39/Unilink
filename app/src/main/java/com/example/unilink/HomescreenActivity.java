@@ -68,14 +68,9 @@ public class HomescreenActivity extends AppCompatActivity {
         navdrawerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openNavdrawer();
+                logout();
             }
         });
-
-
-
-
-
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, homeFragment).commit();
