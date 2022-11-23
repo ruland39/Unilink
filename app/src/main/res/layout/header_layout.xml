@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="160dp"
+    android:layout_gravity="top"
+    android:gravity="bottom"
+    android:padding="16dp"
+    android:orientation="vertical"
+    android:background="#996EEA">
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_launcher"
+        android:contentDescription="@string/app_name"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:textSize="32sp"
+        android:fontFamily="@font/nunitoblack"
+        android:textColor="@color/white"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome, Unilink User"
+        android:textSize="20sp"
+        android:fontFamily="@font/nunitosemibold"
+        android:textColor="@color/white"
+        />
+
+
+
+
+</LinearLayout>

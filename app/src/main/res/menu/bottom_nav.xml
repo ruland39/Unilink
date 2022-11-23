@@ -2,22 +2,22 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:id="@+id/home"
-        android:title="Home"
+        android:title="@string/home"
         android:icon="@drawable/homebutton_inactive"
         />
 
     <item android:id="@+id/chat"
-        android:title="Chat"
+        android:title="@string/chat"
         android:icon="@drawable/chatbutton_inactive"
         />
 
     <item android:id="@+id/notification"
-        android:title="Notification"
+        android:title="@string/notification"
         android:icon="@drawable/notificationbutton_inactive"
         />
 
     <item android:id="@+id/profile"
-        android:title="Profile"
+        android:title="@string/profile"
         android:icon="@drawable/profilebutton_inactive"
         />
 
