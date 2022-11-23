@@ -111,31 +111,31 @@ public class HomescreenActivity extends AppCompatActivity {
 //        drawerLayout = findViewById(R.id.drawerLayout);
 //        navigationView = findViewById(R.id.navigationView);
 //        toolbar = findViewById(R.id.toolbar);
+//
+//        setSupportActionBar(toolbar);
+//
+//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.opendrawer,
+//                R.string.closedrawer);
 
-        setSupportActionBar(toolbar);
+//        drawerLayout.addDrawerListener(toggle);
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.opendrawer,
-                R.string.closedrawer);
-
-        drawerLayout.addDrawerListener(toggle);
-
-        toggle.syncState();
+//        toggle.syncState();
 
         // to open the options in the drawe
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                int id = item.getItemId();
-                // Settings
-                // Logout
-                // Support
-                // Terms and Policies
-                // About
-
-                drawerLayout.closeDrawer(GravityCompat.START);
-                return true;
-            }
-        });
+//        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+//            @Override
+//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//                int id = item.getItemId();
+//                // Settings
+//                // Logout
+//                // Support
+//                // Terms and Policies
+//                // About
+//
+//                drawerLayout.closeDrawer(GravityCompat.START);
+//                return true;
+//            }
+//        });
 
     }
 
