@@ -1,16 +1,18 @@
 package com.example.unilink;
 
+import com.google.firebase.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 
 public class UnilinkUser {
     private String auth_uid;
-    private Map<String, String> user_fullName = new HashMap<>(); // first name and last name
+    private HashMap<String, String> user_fullName; // first name and last name
     private String user_phoneNum;
     private String user_email;
+    private Timestamp user_lastUpdated;
 
-    private String user_bio; // not applied just yet
-    private String user_profilepic; // not applied just yet
+    // private String user_bio; // not applied just yet
+    // private String user_profilepic; // not applied just yet
 
     public UnilinkUser() {
     }
@@ -19,12 +21,14 @@ public class UnilinkUser {
         // add user Id from Firebase
         this.auth_uid = auth_id;
         // creating first name and full name
+        this.user_fullName = new HashMap<String, String>();
         user_fullName.put("firstName", firstName);
         user_fullName.put("lastName", lastName);
 
         // adding in phonenumber and email
         this.user_phoneNum = user_phoneNum;
         this.user_email = user_email;
+        this.user_lastUpdated = Timestamp.now();
 
     }
 

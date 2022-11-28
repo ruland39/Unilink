@@ -3,11 +3,16 @@ package com.example.unilink;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.annotation.NonNull;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.AuthResult;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.gson.Gson;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -27,10 +32,11 @@ import android.util.Log;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import com.example.unilink.UnilinkUser;
 
 public class RegisterpageActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
-    private SharedPreferences sharedPref;
+    private FirebaseFirestore db;
 
     private ImageButton backbutton;
     private Button registerBtn;
@@ -55,16 +61,23 @@ public class RegisterpageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish(); // finishing the activity basically closing the page
-                //openBacktoLoginorRegisterPage();
+                // openBacktoLoginorRegisterPage();
             }
         });
 
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        // Check connection value
+        if (mAuth == null || db == null) {
+            Toast.makeText(getApplicationContext(), "Unable to connect to Firebase", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+
         // Getting input objects
         firstName = findViewById(R.id.firstname);
         lastName = findViewById(R.id.lastname);
@@ -133,7 +146,7 @@ public class RegisterpageActivity extends AppCompatActivity {
                 String currentText = email.getText().toString();
                 Pattern ptrn = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
                 Matcher match = ptrn.matcher(currentText);
-                validatedInput[3]=(!currentText.isEmpty() && match.find());
+                validatedInput[3] = (!currentText.isEmpty() && match.find());
                 buttonValidates();
                 if (!validatedInput[3])
                     email.setError("Invalid Email Input");
@@ -162,8 +175,9 @@ public class RegisterpageActivity extends AppCompatActivity {
 
     }
 
-    // you have to dynamically change the button when it's all filled hence this has to be called on every text change
-    private void buttonValidates(){
+    // you have to dynamically change the button when it's all filled hence this has
+    // to be called on every text change
+    private void buttonValidates() {
         // enable button after all validated
         boolean validated = false;
         for (boolean b : validatedInput)
@@ -175,8 +189,14 @@ public class RegisterpageActivity extends AppCompatActivity {
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createAccount(email.getText().toString(), password.getText().toString());
-                finish();
+                boolean success1 = createAccount(email.getText().toString(), password.getText().toString(),
+                        firstName.getText().toString(),
+                        lastName.getText().toString(),
+                        phoneNumber.getText().toString());
+                if (success1) {
+                    finish();
+                } else
+                    Toast.makeText(getApplicationContext(), "Authentication Error", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -184,15 +204,9 @@ public class RegisterpageActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean value) {
                 if (value)
-                {
-                    // Show Password
                     password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                }
                 else
-                {
-                    // Hide Password
                     password.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                }
             }
         });
     }
@@ -202,34 +216,63 @@ public class RegisterpageActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void openHomeScreen(){
+    public void openHomeScreen() {
         Intent i = new Intent(this, HomescreenActivity.class);
         startActivity(i);
     }
 
-    private void createAccount(String email, String password) {
-        Log.d("RegisterPage", "createAccount:" + email);
-        
+    // Create FirebaseAuthentication
+    private boolean createAccount(String email, String password, String firstName, String lastName, String pNumber) {
+        Log.d("com.example.unilink", "createAccount:" + email);
+
         mAuth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()) {
-                        Log.d("RegisterPage", "createAccountWithEmail: success");
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        String userId = user.getUid();
-                        sharedPref = getPreferences(MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPref.edit();
-                        editor.putString("firebasekey", userId);
-                        editor.commit();
-                        Log.d("RegisterPage", "UserIdOnSharedPref: success");
-                        openHomeScreen();
-                    } else {
-                        Log.w("RegisterPage", "createAccountWithEmail: failed");
-                        Toast.makeText(getApplicationContext(), "Authentication failed.",
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            String userId = user.getUid();
+                            getPreferences(MODE_PRIVATE).edit().putString("firebasekey", userId).commit();
+                            Log.d("com.example.unilink", "UserIdOnSharedPref: success");
+                            // Add the user information into the database
+                            addUserInfo(user);
+                            openHomeScreen();
+                        } else {
+                            Log.w("com.example.unilink", "createAccountWithEmail: failed");
+                            Toast.makeText(getApplicationContext(), "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
+                        }
                     }
-                }
-            });
+                });
+
+        return true;
+    }
+
+    // Adding user information into the database
+    private void addUserInfo(FirebaseUser user) {
+        Log.d("com.example.unilink", "createUser:" + user.getEmail());
+
+        UnilinkUser uUser = new UnilinkUser(user.getUid(), firstName.getText().toString(),
+                lastName.getText().toString(), phoneNumber.getText().toString(), email.getText().toString());
+        db.collection("user_information")
+                .add(uUser)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference docRef) {
+                        Log.d("com.example.unilink",
+                                "FirestoreDocument succesfully written with ID: " + docRef.getId());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w("com.example.unilink", "Error adding User Information Document on Firestore", e);
+                    }
+                });
+
+        Gson gson = new Gson();
+        String objString = gson.toJson(uUser);
+        getPreferences(MODE_PRIVATE).edit().putString("userJson", objString).commit();
+        Log.d("com.example.unilink", "Succesfully added User JSON to SharedPref: " + objString);
     }
 }

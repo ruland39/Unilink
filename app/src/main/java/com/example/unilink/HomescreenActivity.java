@@ -23,6 +23,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.util.Log;
 
 import com.example.unilink.databinding.ActivityMainBinding;
 
@@ -150,9 +151,8 @@ public class HomescreenActivity extends AppCompatActivity {
         // remove sharedpreferences
         // open loginorregister
         mAuth.signOut();
-        sharedPref = getPreferences(MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.remove("firebasekey").commit();
+        Log.d("com.example.unilink", "User Logout Successful");
+        getPreferences(MODE_PRIVATE).edit().remove("firebasekey").commit();
         Intent i = new Intent(this, LoginorregisterActivity.class);
         startActivity(i);
         finish();

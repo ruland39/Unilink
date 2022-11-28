@@ -35,7 +35,6 @@ import java.util.regex.Pattern;
 // but will only check the correct or authenticated value when user clicks the button
 public class LoginpageActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
-    private SharedPreferences sharedPref;
 
     private ImageButton backbutton;
     private EditText email;
@@ -151,34 +150,22 @@ public class LoginpageActivity extends AppCompatActivity {
 
     // Authentication method to check credentials
     private void authenticate(String email, String password) {
-        // for now just hard coding the thing
-        // email: test@gmail.com pass:test1234
-
-        // if (emailInput.equalsIgnoreCase("test@gmail.com") &&
-        // passwordInput.equalsIgnoreCase("test1234"))
-        // return true;
-        // else
-        // return false;
-
-        Log.d("LoginPage", "loginAccount:" + email);
+        Log.d("com.example.unilink", "loginAccount:" + email);
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d("LoginPage", "signInWithEmail:success");
+                            Log.d("com.example.unilink", "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             String userId = user.getUid();
-                            sharedPref = getPreferences(MODE_PRIVATE);
-                            SharedPreferences.Editor editor = sharedPref.edit();
-                            editor.putString("firebasekey", userId);
-                            editor.commit();
-                            Log.d("RegisterPage", "UserIdOnSharedPref: success");
+                            getPreferences(MODE_PRIVATE).edit().putString("firebasekey", userId).commit();
+                            Log.d("com.example.unilink", "UserIdOnSharedPref: success");
                             openHomeScreen();
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.w("LoginPage", "signInWithEmail:failure", task.getException());
+                            Log.w("com.example.unilink", "signInWithEmail:failure", task.getException());
                             Toast.makeText(getApplicationContext(), "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
