@@ -77,5 +77,9 @@ public class UnilinkUser {
     public String getEmail() {
         return this.user_email;
     }
+
+    public String getAuthId() {
+        return this.auth_uid;
+    }
     /* #endregion */
 }
