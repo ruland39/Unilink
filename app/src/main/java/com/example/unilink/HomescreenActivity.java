@@ -27,6 +27,8 @@ import android.util.Log;
 
 import com.example.unilink.databinding.ActivityMainBinding;
 
+import javax.crypto.spec.GCMParameterSpec;
+
 import org.checkerframework.checker.units.qual.A;
 import org.checkerframework.checker.units.qual.C;
 
@@ -151,8 +153,9 @@ public class HomescreenActivity extends AppCompatActivity {
         // remove sharedpreferences
         // open loginorregister
         mAuth.signOut();
-        Log.d("com.example.unilink", "User Logout Successful");
         getPreferences(MODE_PRIVATE).edit().remove("firebasekey").commit();
+        getPreferences(MODE_PRIVATE).edit().remove("userJson").commit();
+        Log.d("com.example.unilink", "User Logout Successful");
         Intent i = new Intent(this, LoginorregisterActivity.class);
         startActivity(i);
         finish();

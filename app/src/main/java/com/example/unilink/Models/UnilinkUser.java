@@ -15,6 +15,7 @@ public class UnilinkUser {
     // private String user_profilepic; // not applied just yet
 
     public UnilinkUser() {
+        this.user_fullName = new HashMap<String, String>();
     }
 
     public UnilinkUser(String auth_id, String firstName, String lastName, String user_phoneNum, String user_email) {
