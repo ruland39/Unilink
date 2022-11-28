@@ -82,4 +82,25 @@ public class UnilinkUser {
         return this.auth_uid;
     }
     /* #endregion */
+
+    /* #region setters*/
+    public void setFirstName(String fN) {
+        this.user_fullName.put("firstName", fN);
+    }
+    public void setLastName(String lN) {
+        this.user_fullName.put("lastName", lN);
+    }
+    public void setEmail(String email) {
+        this.user_email = email;
+    }
+    public void setPhoneNum(String pN) {
+        this.user_phoneNum = pN;
+    }
+    public void setAuthId(String uid) {
+        this.auth_uid = uid;
+    }
+    public void setFullName(String ffN) {
+        return;
+    }
+    /* #endregion */
 }
