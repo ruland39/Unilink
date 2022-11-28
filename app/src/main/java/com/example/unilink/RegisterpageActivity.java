@@ -232,7 +232,7 @@ public class RegisterpageActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
                             String userId = user.getUid();
-                            getPreferences(MODE_PRIVATE).edit().putString("firebasekey", userId).commit();
+                            getSharedPreferences("UserPrefs",MODE_PRIVATE).edit().putString("firebasekey", userId).commit();
                             Log.d("com.example.unilink", "UserIdOnSharedPref: success");
                             // Add the user information into the database
                             addUserInfo(user);
@@ -272,7 +272,7 @@ public class RegisterpageActivity extends AppCompatActivity {
 
         Gson gson = new Gson();
         String objString = gson.toJson(uUser);
-        getPreferences(MODE_PRIVATE).edit().putString("userJson", objString).commit();
+        getSharedPreferences("UserPrefs",MODE_PRIVATE).edit().putString("userJson", objString).commit();
         Log.d("com.example.unilink", "Succesfully added User JSON to SharedPref: " + objString);
     }
 }

@@ -27,7 +27,7 @@ import android.util.Log;
 import com.example.unilink.UnilinkUser;
 import com.google.gson.Gson;
 
-public class MainActivity extends AppCompatActivity {    
+public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
 
@@ -65,45 +65,49 @@ public class MainActivity extends AppCompatActivity {
                 // in session
                 if (currentUsr != null) {
                     String userId = currentUsr.getUid();
-                    getPreferences(MODE_PRIVATE).edit().putString("firebasekey", userId).commit();
-                    getUserInfo(currentUsr);
-                    openHomeScreen();
+                    getSharedPreferences("UserPrefs", MODE_PRIVATE).edit().putString("firebasekey", userId).commit();
+                    getUserInfo(new GetUserCallback() {
+                        @Override
+                        public void onCallback(UnilinkUser user) {
+                            Gson gson = new Gson();
+                            String objString = gson.toJson(user);
+                            getSharedPreferences("UserPrefs",MODE_PRIVATE).edit().putString("userJson", objString).commit();
+                            Log.d("com.example.unilink", "Succesfully added User JSON to SharedPref: " + objString);
+                            if (user != null)
+                                openHomeScreen();
+                            else
+                                finish();
+                        }
+                    });                    
                 } else
                     openFp();
             }
         }, 1500);
     }
 
-        // Get the user information from firestore 
-        private void getUserInfo(FirebaseUser user) {
-            Log.d("com.example.unilink", "Getting User Information from Firestore for: " + user.getEmail());
-            db.collection("user_information")
-                    .whereEqualTo("authId", user.getUid())
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>(){
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                for (QueryDocumentSnapshot doc : task.getResult()) {
-                                     UnilinkUser uUser = doc.toObject(UnilinkUser.class);
-                                     saveUserInfo(uUser);
-                                }
-                            } else {
-                                Log.w("com.example.unilink", "Error getting document: ", task.getException());
-                                Toast.makeText(getApplicationContext(), "Unable to get User Information", Toast.LENGTH_SHORT);                            
-                                finish();
+    // Get the user information from firestore
+    private void getUserInfo(GetUserCallback myCallback) {
+        // Log.d("com.example.unilink", "Getting User Information from Firestore for: " + user.getEmail());
+        db.collection("user_information")
+                .whereEqualTo("authId", getSharedPreferences("UserPrefs",MODE_PRIVATE).getString("firebasekey", ""))
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot doc : task.getResult()) {
+                                UnilinkUser uUser = doc.toObject(UnilinkUser.class);
+                                myCallback.onCallback(uUser);
                             }
+                        } else {
+                            Log.w("com.example.unilink", "Error getting document: ", task.getException());
+                            Toast.makeText(getApplicationContext(), "Unable to get User Information",
+                                    Toast.LENGTH_SHORT);
+                            finish();
                         }
-                    });
-        }
-    
-        // Save the user info into sharedpreference json
-        private void saveUserInfo(UnilinkUser user) {
-            Gson gson = new Gson();
-            String objString = gson.toJson(user);
-            getPreferences(MODE_PRIVATE).edit().putString("userJson", objString).commit();
-            Log.d("com.example.unilink", "Succesfully added User JSON to SharedPref: " + objString);
-        }
+                    }
+                });
+    }
 
     private void openFp() {
         Intent i = new Intent(MainActivity.this, FeaturePage1Activity.class);
@@ -117,4 +121,7 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
+    private interface GetUserCallback {
+        void onCallback(UnilinkUser user);
+    }
 }

@@ -171,7 +171,7 @@ public class LoginpageActivity extends AppCompatActivity {
                             Log.d("com.example.unilink", "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             String userId = user.getUid();
-                            getPreferences(MODE_PRIVATE).edit().putString("firebasekey", userId).commit();
+                            getSharedPreferences("UserPrefs",MODE_PRIVATE).edit().putString("firebasekey", userId).commit();
                             Log.d("com.example.unilink", "UserIdOnSharedPref: success");
                             getUserInfo(user);
                             openHomeScreen();
@@ -213,7 +213,7 @@ public class LoginpageActivity extends AppCompatActivity {
     private void saveUserInfo(UnilinkUser user) {
         Gson gson = new Gson();
         String objString = gson.toJson(user);
-        getPreferences(MODE_PRIVATE).edit().putString("userJson", objString).commit();
+        getSharedPreferences("UserPrefs",MODE_PRIVATE).edit().putString("userJson", objString).commit();
         Log.d("com.example.unilink", "Succesfully added User JSON to SharedPref: " + objString);
     }
 

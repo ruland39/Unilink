@@ -49,7 +49,7 @@ public class LoginorregisterActivity extends AppCompatActivity {
         if (currentUser != null) {
             String userId = currentUser.getUid();
             // add FirebaseKey into the SharedPreference
-            getPreferences(MODE_PRIVATE).edit().putString("firebasekey", userId).commit();
+            getSharedPreferences("UserPrefs",MODE_PRIVATE).edit().putString("firebasekey", userId).commit();
             openHomeScreen();
             finish();
         }
