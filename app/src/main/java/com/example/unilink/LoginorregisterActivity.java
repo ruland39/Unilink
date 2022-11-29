@@ -13,7 +13,6 @@ import android.widget.Button;
 import android.widget.Toast;
 
 public class LoginorregisterActivity extends AppCompatActivity {
-    private SharedPreferences sharedPref;
     private FirebaseAuth mAuth;
     private Button button1; // login button
     private Button button2; // register button
@@ -41,6 +40,21 @@ public class LoginorregisterActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        // If user is currently logged in (inSession)
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
+            // add FirebaseKey into the SharedPreference
+            getSharedPreferences("UserPrefs",MODE_PRIVATE).edit().putString("firebasekey", userId).commit();
+            openHomeScreen();
+            finish();
+        }
+    }
+
     public void openLoginPage() {
         Intent intent1 = new Intent(this, LoginpageActivity.class);
         startActivity(intent1);
@@ -51,26 +65,11 @@ public class LoginorregisterActivity extends AppCompatActivity {
         startActivity(intent2);
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        // If user is currently logged in (inSession)
-        if (currentUser != null) {
-            String userId = currentUser.getUid();
-            sharedPref = getPreferences(MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPref.edit();
-            editor.putString("firebasekey", userId).commit();
-            openHomeScreen();
-            finish();
-        }
-    }
-
     public void openHomeScreen(){
         Intent i = new Intent(this, HomescreenActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(i);
+        finish();
     }
 
 }

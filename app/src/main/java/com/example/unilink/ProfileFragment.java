@@ -4,10 +4,15 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
+import android.util.Log;
 
+import com.example.unilink.UnilinkUser;
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link ProfileFragment#newInstance} factory method to
@@ -24,6 +29,9 @@ public class ProfileFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private UnilinkUser user;
+    private static final String user_key = "user";
+
     public ProfileFragment() {
         // Required empty public constructor
     }
@@ -37,11 +45,12 @@ public class ProfileFragment extends Fragment {
      * @return A new instance of fragment ProfileFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ProfileFragment newInstance(String param1, String param2) {
+    public static ProfileFragment newInstance(UnilinkUser user/*String param1, String param2*/) {
         ProfileFragment fragment = new ProfileFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putSerializable(user_key, user);
+        // args.putString(ARG_PARAM1, param1);
+        // args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -53,12 +62,29 @@ public class ProfileFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        // Bundle bundle = getArguments();        
+        // if(bundle != null) {
+        //     user =  bundle.getParcelable("user");
+        //     Log.d()
+        // } else 
+        //     Toast.makeText(getActivity(), "Unable to parce User", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+
+        user = (UnilinkUser) getArguments().getSerializable(user_key);
+        if (user == null) {
+            Toast.makeText(getActivity(), "Unable to parce User", Toast.LENGTH_SHORT).show();
+            return view;
+        }
+        final TextView fullname = (TextView) view.findViewById(R.id.defaultusername);
+        fullname.setText(user.getFullName());
+
+        return view;
     }
 }
