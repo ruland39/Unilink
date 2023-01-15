@@ -1,4 +1,4 @@
-package com.example.unilink;
+package com.example.unilink.Models;
 
 import android.content.Context;
 import android.os.Parcel;

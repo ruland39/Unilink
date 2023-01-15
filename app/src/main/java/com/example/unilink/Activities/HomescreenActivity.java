@@ -1,15 +1,19 @@
-package com.example.unilink;
+package com.example.unilink.Activities;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.unilink.Fragments.ChatFragment;
+import com.example.unilink.Fragments.HomeFragment;
+import com.example.unilink.Fragments.NotificationFragment;
+import com.example.unilink.Fragments.ProfileFragment;
+import com.example.unilink.R;
+import com.example.unilink.databinding.ActivityMainBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -19,21 +23,13 @@ import com.google.gson.Gson;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.Toast;
 import android.util.Log;
 
-import com.example.unilink.databinding.ActivityMainBinding;
-import com.example.unilink.UnilinkUser;
-
-import javax.crypto.spec.GCMParameterSpec;
-
-import org.checkerframework.checker.units.qual.A;
-import org.checkerframework.checker.units.qual.C;
+import com.example.unilink.Models.UnilinkUser;
 
 public class HomescreenActivity extends AppCompatActivity {
 
@@ -76,7 +72,7 @@ public class HomescreenActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, homeFragment).commit();
 
-        // Get Atuhentication instance
+        // Get Authentication instance
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUsr = mAuth.getCurrentUser();        
         this.currentUser = new UnilinkUser();

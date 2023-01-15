@@ -1,4 +1,4 @@
-package com.example.unilink;
+package com.example.unilink.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import com.example.unilink.R;
 
 public class FeaturePage3Activity extends AppCompatActivity {
     private Button button;

@@ -1,8 +1,9 @@
-package com.example.unilink;
+package com.example.unilink.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.annotation.NonNull;
 
+import com.example.unilink.R;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.auth.FirebaseAuth;
@@ -15,7 +16,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.gson.Gson;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -32,7 +32,7 @@ import android.util.Log;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import com.example.unilink.UnilinkUser;
+import com.example.unilink.Models.UnilinkUser;
 
 public class RegisterpageActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;

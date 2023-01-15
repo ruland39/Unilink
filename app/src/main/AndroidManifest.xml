@@ -13,56 +13,56 @@
         android:theme="@style/Theme.Unilink"
         tools:targetApi="31">
         <activity
-            android:name=".HomescreenActivity"
+            android:name=".Activities.HomescreenActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".RegisterpageActivity"
+            android:name=".Activities.RegisterpageActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".LoginpageActivity"
+            android:name=".Activities.LoginpageActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".LoginorregisterActivity"
+            android:name=".Activities.LoginorregisterActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".FeaturePage3Activity"
+            android:name=".Activities.FeaturePage3Activity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".FeaturePage2Activity"
+            android:name=".Activities.FeaturePage2Activity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".FeaturePage1Activity"
+            android:name=".Activities.FeaturePage1Activity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".Activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

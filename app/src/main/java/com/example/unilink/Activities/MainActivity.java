@@ -1,11 +1,10 @@
-package com.example.unilink;
+package com.example.unilink.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.annotation.NonNull;
 
-import org.xml.sax.HandlerBase;
-
+import com.example.unilink.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -15,16 +14,13 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import android.os.Bundle;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Handler;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 import android.util.Log;
 
-import com.example.unilink.UnilinkUser;
+import com.example.unilink.Models.UnilinkUser;
 import com.google.gson.Gson;
 
 public class MainActivity extends AppCompatActivity {
