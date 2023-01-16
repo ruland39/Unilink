@@ -1,38 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.MainActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
-        android:id="@+id/UnilinkTitleText"
+        android:id="@+id/FpTitleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="138dp"
         android:layout_marginTop="120dp"
-        android:layout_marginEnd="138dp"
-        android:font="@font/nunitoblack"
         android:fontFamily="@font/nunitobold"
-        android:text="@string/discover"
         android:textAlignment="center"
         android:textColor="@color/purple_main"
         android:textSize="34sp"
         android:typeface="normal"
+        android:layout_centerHorizontal="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/FpImage"
         android:layout_width="345dp"
         android:layout_height="456dp"
-        android:layout_marginTop="112dp"
+        android:layout_marginTop="120dp"
+        android:layout_centerHorizontal="true"
         android:contentDescription="@string/discover"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/connected_amico" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        app:layout_constraintTop_toTopOf="parent" />
+
+</RelativeLayout>

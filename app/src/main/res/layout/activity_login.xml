@@ -1,49 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <Button
-        android:id="@+id/loginbutton"
-        android:layout_width="314dp"
-        android:layout_height="68dp"
+        android:id="@+id/loginbuttonsubmit"
+        android:layout_width="329dp"
+        android:layout_height="76dp"
         android:layout_gravity="start"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="64dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginBottom="64dp"
         android:enabled="false"
-        android:text="@string/action_sign_in"
-        android:fontFamily="@font/nunitobold"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:fontFamily="@font/nunitosemibold"
+        android:text="@string/login"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        app:cornerRadius="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password"
-        app:layout_constraintVertical_bias="0.218" />
+        app:layout_constraintTop_toBottomOf="@+id/password" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/loginheading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="160dp"
-        android:text="@string/action_sign_in"
-        android:textSize="32sp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="64dp"
         android:fontFamily="@font/nunitosemibold"
+        android:text="@string/action_sign_in"
+        android:textColor="@color/almost_black"
+        android:textSize="32sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/backbutton" />
+
+    <!--<Button
+        android:id="@+id/showHideBtn"
+        android:layout_width="107dp"
+        android:layout_height="60dp"
+        android:background="@drawable/custom_input"
+        android:fontFamily="@font/nunitosemibold"
+        android:text="Show"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        android:textColorHint="@color/light_grey"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="32dp"
+        tools:ignore="MissingConstraints"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/email"/>-->
 
     <EditText
         android:id="@+id/password"
-        android:layout_width="0dp"
+        android:layout_width="329dp"
         android:layout_height="60dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="32dp"
         android:autofillHints="Password"
         android:background="@drawable/custom_input"
+        android:fontFamily="@font/nunitosemibold"
         android:hint="@string/prompt_password"
         android:imeActionLabel="Login"
         android:imeOptions="actionDone"
@@ -51,53 +70,79 @@
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
         android:selectAllOnFocus="true"
-        android:fontFamily="@font/nunitosemibold"
+        android:textColorHint="@color/light_grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username" />
+        app:layout_constraintTop_toBottomOf="@+id/email" />
+
+    <CheckBox
+        android:id="@+id/showHidePW"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="20dp"
+        android:button="@drawable/show_password_selector"
+        android:buttonTint="@color/grey_inactive"
+        android:fontFamily="@font/nunitosemibold"
+        android:textColorHint="@color/light_grey"
+        app:layout_constraintBottom_toBottomOf="@+id/password"
+        app:layout_constraintEnd_toEndOf="@+id/password"
+        app:layout_constraintTop_toTopOf="@+id/password" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/logindesc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="4dp"
-        android:text="@string/login_desc"
         android:fontFamily="@font/nunitosemibold"
+        android:text="@string/login_desc"
+        android:textColor="@color/abit_grey"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/loginheading" />
 
     <EditText
-        android:id="@+id/username"
-        android:layout_width="0dp"
+        android:id="@+id/email"
+        android:layout_width="329dp"
         android:layout_height="60dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="260dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
         android:autofillHints="Email"
         android:background="@drawable/custom_input"
+        android:fontFamily="@font/nunitosemibold"
         android:hint="@string/prompt_email"
         android:inputType="textEmailAddress"
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
         android:selectAllOnFocus="true"
-        android:fontFamily="@font/nunitosemibold"
+        android:textColorHint="@color/light_grey"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logindesc" />
+
+<!--    <ProgressBar-->
+<!--        android:id="@+id/loading"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:layout_marginStart="16dp"-->
+<!--        android:visibility="gone"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        tools:layout_editor_absoluteY="6dp" />-->
+
+     <ImageButton
+        android:id="@+id/backbutton"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="64dp"
+        android:background="@drawable/arrow_left"
+        android:contentDescription="@string/backbutton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ProgressBar
-        android:id="@+id/loading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="64dp"
-        android:layout_marginBottom="64dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/password"
-        app:layout_constraintStart_toStartOf="@+id/password"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.3" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

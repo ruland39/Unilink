@@ -35,14 +35,15 @@ import java.util.regex.Pattern;
 import com.example.unilink.Models.UnilinkUser;
 
 public class RegisterpageActivity extends AppCompatActivity {
+
+    //TODO: Fix up unused variables
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
 
-    private ImageButton backbutton;
     private Button registerBtn;
 
     // EditText objects for the inputs
-    private boolean validatedInput[];
+    private boolean[] validatedInput;
     private EditText firstName;
     private EditText lastName;
     private EditText phoneNumber;
@@ -53,16 +54,13 @@ public class RegisterpageActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.registerpage);
+        setContentView(R.layout.activity_register);
 
         // Set back button clicking
-        backbutton = findViewById(R.id.backbutton);
-        backbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish(); // finishing the activity basically closing the page
-                // openBacktoLoginorRegisterPage();
-            }
+        ImageButton backbutton = findViewById(R.id.backbutton);
+        backbutton.setOnClickListener(v -> {
+            finish(); // finishing the activity basically closing the page
+            // openBacktoLoginorRegisterPage();
         });
 
         mAuth = FirebaseAuth.getInstance();
@@ -181,23 +179,17 @@ public class RegisterpageActivity extends AppCompatActivity {
         // enable button after all validated
         boolean validated = false;
         for (boolean b : validatedInput)
-            if (!b)
-                validated = false;
-            else
-                validated = true;
+            validated = b;
         registerBtn.setEnabled(validated);
-        registerBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boolean success1 = createAccount(email.getText().toString(), password.getText().toString(),
-                        firstName.getText().toString(),
-                        lastName.getText().toString(),
-                        phoneNumber.getText().toString());
-                if (success1) {
-                    finish();
-                } else
-                    Toast.makeText(getApplicationContext(), "Authentication Error", Toast.LENGTH_SHORT).show();
-            }
+        registerBtn.setOnClickListener(v -> {
+            boolean success1 = createAccount(email.getText().toString(), password.getText().toString(),
+                    firstName.getText().toString(),
+                    lastName.getText().toString(),
+                    phoneNumber.getText().toString());
+            if (success1) {
+                finish();
+            } else
+                Toast.makeText(getApplicationContext(), "Authentication Error", Toast.LENGTH_SHORT).show();
         });
 
         showHidePW.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

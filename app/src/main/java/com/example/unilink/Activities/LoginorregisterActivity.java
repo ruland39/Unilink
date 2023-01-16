@@ -13,29 +13,19 @@ import android.widget.Button;
 
 public class LoginorregisterActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
-    private Button button1; // login button
-    private Button button2; // register button
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.loginorregister);
+        setContentView(R.layout.activity_loginorregister);
 
-        button1 = (Button) findViewById(R.id.loginbutton);
-        button1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openLoginPage();
-            }
-        });
+        // login button
+        Button button1 = findViewById(R.id.loginbutton);
+        button1.setOnClickListener(v -> openLoginPage());
 
-        button2 = findViewById(R.id.registerbutton);
-        button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openRegisterPage();
-            }
-        });
+        // register button
+        Button button2 = findViewById(R.id.registerbutton);
+        button2.setOnClickListener(v -> openRegisterPage());
         mAuth = FirebaseAuth.getInstance();
     }
 
@@ -52,6 +42,11 @@ public class LoginorregisterActivity extends AppCompatActivity {
             openHomeScreen();
             finish();
         }
+    }
+
+    @Override
+    public void onBackPressed(){
+        finish();
     }
 
     public void openLoginPage() {

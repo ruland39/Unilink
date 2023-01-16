@@ -33,6 +33,7 @@ import com.example.unilink.Models.UnilinkUser;
 
 public class HomescreenActivity extends AppCompatActivity {
 
+    // TODO: BIG TODO, FIX UP THE HOMESCREEN ACTIVITY and add all of its fragments
     private FirebaseAuth mAuth;
     private SharedPreferences sharedPref;
     private UnilinkUser currentUser;
@@ -59,7 +60,7 @@ public class HomescreenActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.homescreen);
+        setContentView(R.layout.activity_homescreen);
 
         navdrawerBtn = findViewById(R.id.navDrawerBtn);
         navdrawerBtn.setOnClickListener(new View.OnClickListener() {

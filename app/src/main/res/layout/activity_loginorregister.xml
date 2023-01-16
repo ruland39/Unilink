@@ -38,7 +38,7 @@
         android:textAllCaps="false"
         android:textColor="#F5F5F5"
         android:textSize="16sp"
-        app:cornerRadius="20dp"
+        app:cornerRadius="12dp"
         app:layout_constraintBottom_toTopOf="@+id/loginbutton0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -61,7 +61,7 @@
         android:textColor="@color/purple_main"
         app:strokeColor="@color/purple_main"
         app:strokeWidth="2dp"
-        app:cornerRadius="20dp"
+        app:cornerRadius="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/registerbutton0" />

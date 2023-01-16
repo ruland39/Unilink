@@ -43,6 +43,7 @@
         android:layout_marginEnd="48dp"
         android:layout_marginBottom="147dp"
         android:backgroundTint="@color/purple_main"
+        android:alpha="1"
         android:fontFamily="@font/nunitosemibold"
         android:text="@string/getstarted"
         android:textAllCaps="false"

@@ -1,26 +1,22 @@
 package com.example.unilink.Activities;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
+import android.view.WindowManager;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.annotation.NonNull;
 
+import com.example.unilink.Activities.FeaturePage.FeaturePageActivity;
+import com.example.unilink.Models.UnilinkUser;
 import com.example.unilink.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-
-import android.os.Bundle;
-import android.content.Intent;
-import android.os.Handler;
-import android.view.WindowManager;
-import android.widget.Toast;
-import android.util.Log;
-
-import com.example.unilink.Models.UnilinkUser;
 import com.google.gson.Gson;
 
 public class MainActivity extends AppCompatActivity {
@@ -54,30 +50,24 @@ public class MainActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         // basically, hold the layout main page for 1.5 seconds
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                FirebaseUser currentUsr = mAuth.getCurrentUser();
-                // in session
-                if (currentUsr != null) {
-                    String userId = currentUsr.getUid();
-                    getSharedPreferences("UserPrefs", MODE_PRIVATE).edit().putString("firebasekey", userId).commit();
-                    getUserInfo(new GetUserCallback() {
-                        @Override
-                        public void onCallback(UnilinkUser user) {
-                            Gson gson = new Gson();
-                            String objString = gson.toJson(user);
-                            getSharedPreferences("UserPrefs",MODE_PRIVATE).edit().putString("userJson", objString).commit();
-                            Log.d("com.example.unilink", "Succesfully added User JSON to SharedPref: " + objString);
-                            if (user != null)
-                                openHomeScreen();
-                            else
-                                finish();
-                        }
-                    });                    
-                } else
-                    openFp();
-            }
+        new Handler().postDelayed(() -> {
+            FirebaseUser currentUsr = mAuth.getCurrentUser();
+            // in session
+            if (currentUsr != null) {
+                String userId = currentUsr.getUid();
+                getSharedPreferences("UserPrefs", MODE_PRIVATE).edit().putString("firebasekey", userId).commit();
+                getUserInfo(user -> {
+                    Gson gson = new Gson();
+                    String objString = gson.toJson(user);
+                    getSharedPreferences("UserPrefs",MODE_PRIVATE).edit().putString("userJson", objString).commit();
+                    Log.d("com.example.unilink", "Succesfully added User JSON to SharedPref: " + objString);
+                    if (user != null)
+                        openHomeScreen();
+                    else
+                        finish();
+                });
+            } else
+                openFp();
         }, 1500);
     }
 
@@ -87,26 +77,23 @@ public class MainActivity extends AppCompatActivity {
         db.collection("user_information")
                 .whereEqualTo("authId", getSharedPreferences("UserPrefs",MODE_PRIVATE).getString("firebasekey", ""))
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot doc : task.getResult()) {
-                                UnilinkUser uUser = doc.toObject(UnilinkUser.class);
-                                myCallback.onCallback(uUser);
-                            }
-                        } else {
-                            Log.w("com.example.unilink", "Error getting document: ", task.getException());
-                            Toast.makeText(getApplicationContext(), "Unable to get User Information",
-                                    Toast.LENGTH_SHORT);
-                            finish();
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot doc : task.getResult()) {
+                            UnilinkUser uUser = doc.toObject(UnilinkUser.class);
+                            myCallback.onCallback(uUser);
                         }
+                    } else {
+                        Log.w("com.example.unilink", "Error getting document: ", task.getException());
+                        Toast.makeText(getApplicationContext(), "Unable to get User Information",
+                                Toast.LENGTH_SHORT).show();
+                        finish();
                     }
                 });
     }
 
     private void openFp() {
-        Intent i = new Intent(MainActivity.this, FeaturePage1Activity.class);
+        Intent i = new Intent(MainActivity.this, FeaturePageActivity.class);
         startActivity(i);
         finish();
     }

@@ -63,8 +63,7 @@
     <string name="support">Support</string>
     <string name="opendrawer">Open Drawer</string>
     <string name="closedrawer">Close Drawer</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="fpdots">Dotted indicator of the Features slide</string>
 
 
 </resources>
