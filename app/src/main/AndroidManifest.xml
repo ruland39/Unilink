@@ -1,8 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+    <!-- Permissions required for bluetooth and BLE usage -->
+    <uses-feature
+        android:name="android.hardware.bluetooth"
+        android:required="true" />
+    <uses-feature
+        android:name="android.hardware.bluetooth_le"
+        android:required="true" />
+
+    <uses-permission
+        android:name="android.permission.BLUETOOTH"
+        android:maxSdkVersion="30"
+        android:requiredFeature="true"
+        tools:targetApi="o" />
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_ADMIN"
+        android:maxSdkVersion="30" />
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_SCAN"
+        android:usesPermissionFlags="neverForLocation"
+        tools:targetApi="s" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" /> <!-- Permissions needed to use the beacon -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".UnilinkApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -12,7 +38,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Unilink"
         tools:targetApi="31">
-        <activity android:name=".Activities.FeaturePage.FeaturePageActivity"
+        <activity
+            android:name=".MonitoringActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.FeaturePage.FeaturePageActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
