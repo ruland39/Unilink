@@ -8,7 +8,7 @@
     <uses-feature
         android:name="android.hardware.bluetooth_le"
         android:required="true" />
-
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT"/>
     <uses-permission
         android:name="android.permission.BLUETOOTH"
         android:maxSdkVersion="30"
@@ -24,7 +24,7 @@
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" /> <!-- Permissions needed to use the beacon -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -39,7 +39,7 @@
         android:theme="@style/Theme.Unilink"
         tools:targetApi="31">
         <activity
-            android:name=".MonitoringActivity"
+            android:name=".Activities.BLE.MonitoringActivity"
             android:exported="false" />
         <activity
             android:name=".Activities.FeaturePage.FeaturePageActivity"
@@ -50,7 +50,7 @@
         </activity>
         <activity
             android:name=".Activities.HomescreenActivity"
-            android:exported="false">
+            android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -71,27 +71,6 @@
         </activity>
         <activity
             android:name=".Activities.LoginorregisterActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".Activities.FeaturePage3Activity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".Activities.FeaturePage2Activity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".Activities.FeaturePage1Activity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
