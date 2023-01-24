@@ -118,7 +118,6 @@ public class LoginpageActivity extends AppCompatActivity {
             loginBtn.setOnClickListener(v -> {
                 // Authenticates on press, then opens the page and ends this activity.
                 authenticate(email.getText().toString(), password.getText().toString());
-                finish();
             });
 
         showHidePW.setOnCheckedChangeListener((compoundButton, value) -> {
@@ -187,6 +186,7 @@ public class LoginpageActivity extends AppCompatActivity {
     public void openHomeScreen() {
         Intent i = new Intent(this, HomescreenActivity.class);
         startActivity(i);
+        finish();
     }
 
 }

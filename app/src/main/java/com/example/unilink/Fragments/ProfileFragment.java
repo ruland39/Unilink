@@ -78,7 +78,7 @@ public class ProfileFragment extends Fragment {
 
         user = (UnilinkUser) getArguments().getSerializable(user_key);
         if (user == null) {
-            Toast.makeText(getActivity(), "Unable to parce User", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Unable to parse User", Toast.LENGTH_SHORT).show();
             return view;
         }
         final TextView fullname = (TextView) view.findViewById(R.id.defaultusername);

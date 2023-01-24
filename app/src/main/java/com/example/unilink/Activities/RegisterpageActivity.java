@@ -203,14 +203,11 @@ public class RegisterpageActivity extends AppCompatActivity {
         });
     }
 
-    public void openBacktoLoginorRegisterPage() {
-        Intent intent = new Intent(this, LoginorregisterActivity.class);
-        startActivity(intent);
-    }
-
     public void openHomeScreen() {
         Intent i = new Intent(this, HomescreenActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(i);
+        finish();
     }
 
     // Create FirebaseAuthentication
