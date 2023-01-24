@@ -1,5 +1,6 @@
 package com.example.unilink.Activities;
 
+import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -30,8 +31,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         // forces light mode
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        // Check for bluetooth availability
+        BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
         // Checks for bluetooth support; if unavailable, end the application.
-        if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
+        if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE) || adapter == null) {
             Toast.makeText(this, "Bluetooth not supported. Application requires bluetooth to run", Toast.LENGTH_SHORT).show();
             finish();
         }
@@ -42,6 +45,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+        if(mAuth!= null){
+            mAuth.signOut();
+        }
     }
 
     @Override

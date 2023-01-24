@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="btBtn">
+        <attr name="state_discover" format="boolean"/>
+        <attr name="state_connected" format="boolean"/>
+        <attr name="state_off" format="boolean"/>
+    </declare-styleable>
+</resources>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:drawable="@drawable/bluetoothbuttondiscover"
+        app:state_discover="true"
+        app:state_connected="false"
+        app:state_off="false"/>
+    <item
+        android:drawable="@drawable/bluetoothbuttondeconnected"
+        app:state_discover="false"
+        app:state_connected="true"
+        app:state_off="false"/>
+    <item
+        android:drawable="@drawable/bluetoothbuttonoff"
+        app:state_discover="false"
+        app:state_connected="false"
+        app:state_off="true"/>
+</selector>
