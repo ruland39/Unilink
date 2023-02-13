@@ -8,6 +8,20 @@
 
     <!-- TODO: Update blank fragment layout -->
 
+    <ImageButton
+        android:id="@+id/collapseMenuButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:background="@null"
+        android:contentDescription="@string/collapsemenubutton"
+        android:scaleX="1.2"
+        android:scaleY="1.2"
+        app:srcCompat="@drawable/collapsemenubutton" />
+
     <TextView
         android:id="@+id/UnilinkTitleText"
         android:layout_width="wrap_content"
@@ -51,59 +65,66 @@
             android:src="@drawable/bluetoothbuttondeconnected"
             android:contentDescription="@string/chat" />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/home_recyclerview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/bluetoothbtn"
+            android:layout_marginTop="8dp"
+            android:layout_centerHorizontal="true"
+            />
+
     </RelativeLayout>
 
 
 
 
 
-<!--    <ImageButton-->
-<!--        android:id="@+id/collapseMenuButton"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_alignParentStart="true"-->
-<!--        android:layout_alignParentTop="true"-->
-<!--        android:layout_marginStart="24dp"-->
-<!--        android:layout_marginTop="24dp"-->
-<!--        android:background="@null"-->
-<!--        android:contentDescription="@string/collapsemenubutton"-->
-<!--        android:scaleX="1.2"-->
-<!--        android:scaleY="1.2"-->
-<!--        app:srcCompat="@drawable/collapsemenubutton" />-->
-
-        <ListView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/mainbannerlayout"
-
-
-            />
 
 
 
-    <androidx.drawerlayout.widget.DrawerLayout
-        android:visibility="invisible"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        tools:openDrawer="start"
-        android:id="@+id/drawerLayout"
-        >
-
-        <com.google.android.material.navigation.NavigationView
-            android:id="@+id/navigationView"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:fitsSystemWindows="true"
-            app:headerLayout="@layout/header_layout"
-            app:menu="@menu/navdrawer"
-            >
-
-        </com.google.android.material.navigation.NavigationView>
 
 
-    </androidx.drawerlayout.widget.DrawerLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--    <androidx.drawerlayout.widget.DrawerLayout-->
+<!--        android:visibility="invisible"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:fitsSystemWindows="true"-->
+<!--        tools:openDrawer="start"-->
+<!--        android:id="@+id/drawerLayout">-->
+
+<!--        <com.google.android.material.navigation.NavigationView-->
+<!--            android:id="@+id/navigationView"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_gravity="start"-->
+<!--            android:fitsSystemWindows="true"-->
+<!--            app:headerLayout="@layout/header_layout"-->
+<!--            app:menu="@menu/navdrawer">-->
+
+<!--        </com.google.android.material.navigation.NavigationView>-->
+
+<!--    </androidx.drawerlayout.widget.DrawerLayout>-->
 
 
 </RelativeLayout>

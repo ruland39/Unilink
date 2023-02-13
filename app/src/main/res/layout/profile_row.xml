@@ -1,29 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/profile_row_cardview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginHorizontal="32dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:backgroundTint="@color/lighter_grey"
-        app:cardCornerRadius="10dp">
+        app:cardElevation="1dp"
+        app:cardCornerRadius="10dp"
+        >
 
         <ImageButton
             android:id="@+id/profilepic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingVertical="8dp"
-            android:paddingHorizontal="8dp"
+            android:layout_marginStart="4dp"
             android:layout_marginTop="6dp"
             android:layout_marginBottom="4dp"
-            android:layout_marginStart="4dp"
             android:background="@null"
-            android:src="@drawable/defaultprofilepicturesmall"
-            android:contentDescription="@string/profile" />
+            android:contentDescription="@string/profile"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="8dp"
+            android:src="@drawable/defaultprofilepicturesmall" />
 
         <TextView
             android:id="@+id/defaultusername"
@@ -32,9 +36,9 @@
             android:layout_marginStart="72dp"
             android:layout_marginTop="12dp"
             android:fontFamily="@font/nunitobold"
+            android:text="@string/personusernametextviewmaincontainer"
             android:textColor="@color/abit_grey"
-            android:textSize="16sp"
-            android:text="@string/personusernametextviewmaincontainer" />
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/defaultabout"
@@ -53,14 +57,14 @@
             android:id="@+id/waveorconnectbtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingVertical="4dp"
-            android:paddingHorizontal="8dp"
-            android:layout_marginTop="6dp"
             android:layout_marginStart="256dp"
+            android:layout_marginTop="6dp"
             android:layout_marginEnd="4dp"
             android:background="@null"
-            android:src="@drawable/wavesmallbutton"
-            android:contentDescription="@string/connect" />
+            android:contentDescription="@string/connect"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="4dp"
+            android:src="@drawable/wavesmallbutton" />
     </androidx.cardview.widget.CardView>
 
 </RelativeLayout>
