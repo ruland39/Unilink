@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 
 import com.example.unilink.R;
 
+import pl.bclogic.pulsator4droid.library.PulsatorLayout;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link HomeFragment#newInstance} factory method to
@@ -21,6 +23,8 @@ public class HomeFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    private PulsatorLayout mPulsator;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -60,11 +64,17 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        //Initialise the pulsator
+        mPulsator = view.findViewById(R.id.pulsator);
+        mPulsator.start();
 
-
-
-
-
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        return view;
     }
+
+    public void onDestroyView() {
+        //Stop pulsator
+        super.onDestroyView();
+    }
+
 }

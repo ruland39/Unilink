@@ -46,6 +46,30 @@
         android:src="@drawable/bannercontainer"
         android:contentDescription="@string/home" />
 
+
+    <pl.bclogic.pulsator4droid.library.PulsatorLayout
+        android:id="@+id/pulsator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/mainbanner"
+        android:layout_alignTop="@+id/mainbanner"
+        android:layout_alignEnd="@+id/mainbanner"
+        android:layout_alignBottom="@+id/mainbanner"
+
+
+
+
+
+
+        app:pulse_color="@color/purple_main"
+        app:pulse_count="3"
+        app:pulse_duration="3500"
+        app:pulse_interpolator="AccelerateDecelerate"
+        app:pulse_repeat="0"
+        app:pulse_startFromScratch="false">
+
+    </pl.bclogic.pulsator4droid.library.PulsatorLayout>
+
     <ImageButton
         android:id="@+id/bluetoothbtn"
         android:layout_width="wrap_content"
@@ -122,29 +146,29 @@
         android:src="@drawable/wavesmallbutton"
         android:contentDescription="@string/connect" />
 
-    <androidx.drawerlayout.widget.DrawerLayout
-        android:visibility="invisible"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        tools:openDrawer="start"
-        android:id="@+id/drawerLayout"
-        >
+<!--    <androidx.drawerlayout.widget.DrawerLayout-->
+<!--        android:visibility="invisible"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:fitsSystemWindows="true"-->
+<!--        tools:openDrawer="start"-->
+<!--        android:id="@+id/drawerLayout"-->
+<!--        >-->
 
-        <com.google.android.material.navigation.NavigationView
-            android:id="@+id/navigationView"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:fitsSystemWindows="true"
-            app:headerLayout="@layout/header_layout"
-            app:menu="@menu/navdrawer"
-            >
+<!--        <com.google.android.material.navigation.NavigationView-->
+<!--            android:id="@+id/navigationView"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_gravity="start"-->
+<!--            android:fitsSystemWindows="true"-->
+<!--            app:headerLayout="@layout/header_layout"-->
+<!--            app:menu="@menu/navdrawer"-->
+<!--            >-->
 
-        </com.google.android.material.navigation.NavigationView>
+<!--        </com.google.android.material.navigation.NavigationView>-->
 
 
-    </androidx.drawerlayout.widget.DrawerLayout>
+<!--    </androidx.drawerlayout.widget.DrawerLayout>-->
 
 
 </RelativeLayout>

@@ -55,4 +55,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.firebase:firebase-firestore'
 
+    implementation 'pl.bclogic:pulsator4droid:1.0.3'
+
 }
