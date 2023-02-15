@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 
 import com.example.unilink.R;
 
+import pl.bclogic.pulsator4droid.library.PulsatorLayout;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link HomeFragment#newInstance} factory method to
@@ -29,6 +31,8 @@ public class HomeFragment extends Fragment {
     private ProfileRowAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private String[] mDataset;
+
+    private PulsatorLayout mPulsator;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -71,6 +75,10 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_home, container, false);
 
+        // Initiating a pulsator
+        mPulsator = v.findViewById(R.id.pulsator);
+        mPulsator.start();
+
         // Calling the RecyclerView
         mRecyclerView = (RecyclerView) v.findViewById(R.id.home_recyclerview);
         mLayoutManager = new LinearLayoutManager(getActivity());
@@ -81,6 +89,10 @@ public class HomeFragment extends Fragment {
         mRecyclerView.setAdapter(mAdapter);
 
         return v;
+    }
+
+    public void onDestroyView() {
+        super.onDestroyView();
     }
 
     private void initDataset() {

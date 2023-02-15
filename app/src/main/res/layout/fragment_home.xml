@@ -8,20 +8,6 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <ImageButton
-        android:id="@+id/collapseMenuButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:background="@null"
-        android:contentDescription="@string/collapsemenubutton"
-        android:scaleX="1.2"
-        android:scaleY="1.2"
-        app:srcCompat="@drawable/collapsemenubutton" />
-
     <TextView
         android:id="@+id/UnilinkTitleText"
         android:layout_width="wrap_content"
@@ -52,6 +38,22 @@
             android:layout_marginTop="16dp"
             android:src="@drawable/bannercontainer"
             android:contentDescription="@string/home" />
+
+        <pl.bclogic.pulsator4droid.library.PulsatorLayout
+            android:id="@+id/pulsator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/mainbanner"
+            android:layout_alignEnd="@+id/mainbanner"
+            android:layout_alignBottom="@+id/mainbanner"
+            android:layout_alignTop="@+id/mainbanner"
+            app:pulse_color="@color/purple_main"
+            app:pulse_count="4"
+            app:pulse_duration="7000"
+            app:pulse_interpolator="AccelerateDecelerate"
+            app:pulse_repeat="0"
+            app:pulse_startFromScratch="false"
+            />
 
         <ImageButton
             android:id="@+id/bluetoothbtn"
