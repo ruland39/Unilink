@@ -41,18 +41,20 @@
 
         <pl.bclogic.pulsator4droid.library.PulsatorLayout
             android:id="@+id/pulsator"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_alignStart="@+id/mainbanner"
             android:layout_alignEnd="@+id/mainbanner"
             android:layout_alignBottom="@+id/mainbanner"
             android:layout_alignTop="@+id/mainbanner"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            app:pulse_count="5"
             app:pulse_color="@color/purple_main"
-            app:pulse_count="4"
-            app:pulse_duration="7000"
+            app:pulse_duration="4000"
             app:pulse_interpolator="AccelerateDecelerate"
             app:pulse_repeat="0"
-            app:pulse_startFromScratch="false"
+            app:pulse_startFromScratch="true"
             />
 
         <ImageButton
