@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/profile_row_cardview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:backgroundTint="@color/lighter_grey"
+        app:cardElevation="1dp"
+        app:cardCornerRadius="10dp"
+        >
+
+        <ImageButton
+            android:id="@+id/profilepic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="4dp"
+            android:background="@null"
+            android:contentDescription="@string/profile"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="8dp"
+            android:src="@drawable/defaultprofilepicturesmall" />
+
+        <TextView
+            android:id="@+id/defaultusername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="72dp"
+            android:layout_marginTop="12dp"
+            android:fontFamily="@font/nunitobold"
+            android:text="@string/personusernametextviewmaincontainer"
+            android:textColor="@color/abit_grey"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/defaultabout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/defaultusername"
+            android:layout_marginStart="72dp"
+            android:layout_marginTop="36dp"
+            android:layout_marginBottom="12dp"
+            android:fontFamily="@font/nunitosemibold"
+            android:text="@string/personabouttextviewmaincontainer"
+            android:textColor="@color/abit_grey"
+            android:textSize="14sp" />
+
+        <ImageButton
+            android:id="@+id/waveorconnectbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="256dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="4dp"
+            android:background="@null"
+            android:contentDescription="@string/connect"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="4dp"
+            android:src="@drawable/wavesmallbutton" />
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

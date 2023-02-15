@@ -3,6 +3,8 @@ package com.example.unilink.Fragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +23,12 @@ public class HomeFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final int DATASET_COUNT = 10;
+
+    private RecyclerView mRecyclerView;
+    private ProfileRowAdapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+    private String[] mDataset;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -55,16 +63,27 @@ public class HomeFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        initDataset();
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        View v = inflater.inflate(R.layout.fragment_home, container, false);
 
+        // Calling the RecyclerView
+        mRecyclerView = (RecyclerView) v.findViewById(R.id.home_recyclerview);
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.scrollToPosition(0);
 
+        mAdapter = new ProfileRowAdapter(mDataset);
+        mRecyclerView.setAdapter(mAdapter);
 
+        return v;
+    }
 
-
-        return inflater.inflate(R.layout.fragment_home, container, false);
+    private void initDataset() {
+        mDataset = new String[DATASET_COUNT];
     }
 }

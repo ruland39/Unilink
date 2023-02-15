@@ -8,6 +8,20 @@
 
     <!-- TODO: Update blank fragment layout -->
 
+    <ImageButton
+        android:id="@+id/collapseMenuButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:background="@null"
+        android:contentDescription="@string/collapsemenubutton"
+        android:scaleX="1.2"
+        android:scaleY="1.2"
+        app:srcCompat="@drawable/collapsemenubutton" />
+
     <TextView
         android:id="@+id/UnilinkTitleText"
         android:layout_width="wrap_content"
@@ -22,129 +36,95 @@
         android:textSize="24sp"
         />
 
-<!--    <ImageButton-->
-<!--        android:id="@+id/collapseMenuButton"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_alignParentStart="true"-->
-<!--        android:layout_alignParentTop="true"-->
-<!--        android:layout_marginStart="24dp"-->
-<!--        android:layout_marginTop="24dp"-->
-<!--        android:background="@null"-->
-<!--        android:contentDescription="@string/collapsemenubutton"-->
-<!--        android:scaleX="1.2"-->
-<!--        android:scaleY="1.2"-->
-<!--        app:srcCompat="@drawable/collapsemenubutton" />-->
-
-    <ImageView
-        android:id="@+id/mainbanner"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/mainbannerlayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/UnilinkTitleText"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:src="@drawable/bannercontainer"
-        android:contentDescription="@string/home" />
-
-    <ImageButton
-        android:id="@+id/bluetoothbtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/mainbanner"
-        android:layout_alignTop="@+id/mainbanner"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="136dp"
-        android:background="@null"
-        android:src="@drawable/bluetoothbuttondeconnected"
-        android:contentDescription="@string/chat" />
-
-    <ImageButton
-        android:id="@+id/maincontainer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/mainbanner"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="24dp"
-        android:background="@null"
-        android:src="@drawable/maincontainer"
-        android:contentDescription="@string/notification" />
-
-    <ImageButton
-        android:id="@+id/profilepic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/maincontainer"
-        android:layout_alignTop="@+id/maincontainer"
-        android:layout_marginStart="19dp"
-        android:layout_marginTop="20dp"
-        android:background="@null"
-        android:src="@drawable/defaultprofilepicturesmall"
-        android:contentDescription="@string/profile" />
-
-    <TextView
-        android:id="@+id/defaultusername"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/maincontainer"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_toEndOf="@+id/profilepic"
-        android:fontFamily="@font/nunitobold"
-        android:textColor="@color/abit_grey"
-        android:textSize="16sp"
-        android:text="@string/personusernametextviewmaincontainer" />
-
-    <TextView
-        android:id="@+id/defaultabout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/defaultusername"
-        android:layout_alignBottom="@+id/maincontainer"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="16dp"
-        android:layout_toEndOf="@+id/profilepic"
-        android:fontFamily="@font/nunitosemibold"
-        android:textColor="@color/abit_grey"
-        android:textSize="14sp"
-        android:text="@string/personabouttextviewmaincontainer" />
-
-    <ImageButton
-        android:id="@+id/waveorconnectbtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/maincontainer"
-        android:layout_alignEnd="@+id/maincontainer"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="17dp"
-        android:background="@null"
-        android:src="@drawable/wavesmallbutton"
-        android:contentDescription="@string/connect" />
-
-    <androidx.drawerlayout.widget.DrawerLayout
-        android:visibility="invisible"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        tools:openDrawer="start"
-        android:id="@+id/drawerLayout"
+        android:gravity="center"
+        android:foregroundGravity="center"
         >
-
-        <com.google.android.material.navigation.NavigationView
-            android:id="@+id/navigationView"
+        <ImageView
+            android:id="@+id/mainbanner"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:fitsSystemWindows="true"
-            app:headerLayout="@layout/header_layout"
-            app:menu="@menu/navdrawer"
-            >
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/bannercontainer"
+            android:contentDescription="@string/home" />
 
-        </com.google.android.material.navigation.NavigationView>
+        <ImageButton
+            android:id="@+id/bluetoothbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/mainbanner"
+            android:layout_alignTop="@+id/mainbanner"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="136dp"
+            android:background="@null"
+            android:src="@drawable/bluetoothbuttondeconnected"
+            android:contentDescription="@string/chat" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/home_recyclerview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/bluetoothbtn"
+            android:layout_marginTop="2dp"
+            android:layout_centerHorizontal="true"
+            />
+
+    </RelativeLayout>
 
 
-    </androidx.drawerlayout.widget.DrawerLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--    <androidx.drawerlayout.widget.DrawerLayout-->
+<!--        android:visibility="invisible"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:fitsSystemWindows="true"-->
+<!--        tools:openDrawer="start"-->
+<!--        android:id="@+id/drawerLayout">-->
+
+<!--        <com.google.android.material.navigation.NavigationView-->
+<!--            android:id="@+id/navigationView"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_gravity="start"-->
+<!--            android:fitsSystemWindows="true"-->
+<!--            app:headerLayout="@layout/header_layout"-->
+<!--            app:menu="@menu/navdrawer">-->
+
+<!--        </com.google.android.material.navigation.NavigationView>-->
+
+<!--    </androidx.drawerlayout.widget.DrawerLayout>-->
 
 
 </RelativeLayout>
