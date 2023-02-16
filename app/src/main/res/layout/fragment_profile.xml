@@ -31,8 +31,6 @@
         android:layout_marginTop="24dp"
         android:background="@null"
         android:contentDescription="@string/collapsemenubutton"
-        android:scaleX="1.2"
-        android:scaleY="1.2"
         app:srcCompat="@drawable/collapsemenubutton" />
 
     <ImageButton
@@ -44,6 +42,8 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="24dp"
         android:background="@null"
+        android:scaleX="1.2"
+        android:scaleY="1.2"
         android:src="@drawable/threedotsbutton" />
 
     <ImageView
@@ -51,10 +51,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ChatScreenTitleText"
-        android:layout_alignParentStart="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
         android:layout_marginTop="12dp"
         android:src="@drawable/profilebannercontainer" />
 
@@ -65,12 +62,15 @@
         android:layout_alignStart="@+id/profilebannercontainer"
         android:layout_alignTop="@+id/profilebannercontainer"
         android:layout_alignEnd="@+id/profilebannercontainer"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="116dp"
+        android:layout_alignBottom="@+id/profilebannercontainer"
         android:layout_marginStart="144dp"
+        android:layout_marginTop="116dp"
         android:layout_marginEnd="144dp"
-        android:src="@drawable/defaultprofilepicturesmall"
-        android:contentDescription="@string/profilepicture" />
+        android:layout_marginBottom="0dp"
+        android:contentDescription="@string/profilepicture"
+        android:scaleX="1.75"
+        android:scaleY="1.75"
+        android:src="@drawable/defaultprofilepicturesmall" />
 
     <TextView
         android:id="@+id/defaultusername"
@@ -81,6 +81,7 @@
         android:layout_marginTop="24dp"
         android:fontFamily="@font/nunitobold"
         android:textSize="24sp"
+        android:textAlignment="center"
         android:text="@string/personusernametextviewmaincontainer" />
 
     <TextView
@@ -92,6 +93,7 @@
         android:layout_marginTop="4dp"
         android:fontFamily="@font/nunitosemibold"
         android:textSize="16sp"
+        android:textAlignment="center"
         android:text="@string/personabouttextviewmaincontainer" />
 
     <TextView
@@ -103,6 +105,7 @@
         android:layout_marginTop="4dp"
         android:fontFamily="@font/nunitobold"
         android:textColor="@color/purple_main"
+        android:textAlignment="center"
         android:text="@string/connection" />
 
     <TextView
@@ -114,6 +117,7 @@
         android:layout_marginTop="24dp"
         android:fontFamily="@font/nunitosemibold"
         android:textSize="20sp"
+        android:textAlignment="center"
         android:text="@string/about" />
 
     <TextView
@@ -125,6 +129,7 @@
         android:layout_marginTop="124dp"
         android:fontFamily="@font/nunitosemibold"
         android:textSize="20sp"
+        android:textAlignment="center"
         android:text="@string/comments" />
 
 
