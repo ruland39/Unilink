@@ -1,5 +1,10 @@
 package com.example.unilink.Fragments;
 
+import android.bluetooth.BluetoothAdapter;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,7 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.example.unilink.Models.BluetoothButton;
 import com.example.unilink.R;
 
 import pl.bclogic.pulsator4droid.library.PulsatorLayout;
@@ -30,13 +37,15 @@ public class HomeFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private ProfileRowAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+
+    // TODO: Replace mDataset below with the meaningful data taken using Bluetooth
     private String[] mDataset;
 
     private PulsatorLayout mPulsator;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private BluetoothButton mBtBtn;
+
+    private BluetoothAdapter btAdapter;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -46,16 +55,11 @@ public class HomeFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment HomeFragment.
      */
-    // TODO: Rename and change types and number of parameters
-    public static HomeFragment newInstance(String param1, String param2) {
+    public static HomeFragment newInstance() {
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -63,10 +67,6 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
         initDataset();
     }
     @Override
@@ -74,10 +74,34 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_home, container, false);
-
+        btAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (btAdapter == null){
+            Toast.makeText(getContext(), "Bluetooth is not supported on this devices", Toast.LENGTH_SHORT).show();
+            return v;
+        }
         // Initiating a pulsator
         mPulsator = v.findViewById(R.id.pulsator);
-        mPulsator.start();
+
+        // Setting up the Bluetooth Button
+        mBtBtn = (BluetoothButton) v.findViewById(R.id.bluetoothbtn);
+        // Checking if Bluetooth is enabled
+        if (btAdapter.isEnabled())
+            mBtBtn.setConnected();
+        else
+            mBtBtn.setOff();
+        mBtBtn.setOnClickListener(view -> {
+            // If off, simply Enable Bluetooth and Receiver does the rest
+            if (mBtBtn.isOff())
+                EnableBt();
+            else if (mBtBtn.isConnected()){
+                mBtBtn.setDiscovering();
+                mPulsator.start();
+            }
+            else if (mBtBtn.isDiscovering()) {
+                mBtBtn.setConnected();
+                mPulsator.stop();
+            }
+        });
 
         // Calling the RecyclerView
         mRecyclerView = (RecyclerView) v.findViewById(R.id.home_recyclerview);
@@ -88,14 +112,46 @@ public class HomeFragment extends Fragment {
         mAdapter = new ProfileRowAdapter(mDataset);
         mRecyclerView.setAdapter(mAdapter);
 
+        IntentFilter filter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
+        getActivity().registerReceiver(mBtUpdateReceiver, filter);
+
         return v;
     }
+
+    public BroadcastReceiver mBtUpdateReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action.equals(BluetoothAdapter.ACTION_STATE_CHANGED)) {
+                if (mBtBtn == null)
+                    return;
+                int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, BluetoothAdapter.ERROR);
+                if (state == BluetoothAdapter.STATE_ON) {
+                    mBtBtn.setConnected();
+                } else if (state == BluetoothAdapter.STATE_OFF) {
+                    mBtBtn.setOff();
+                }
+            }
+        }
+    };
 
     public void onDestroyView() {
         super.onDestroyView();
     }
 
+    public void onDestroy() {
+        super.onDestroy();
+//        getActivity().unregisterReceiver(mBtUpdateReceiver);
+    }
+
     private void initDataset() {
         mDataset = new String[DATASET_COUNT];
+    }
+
+    private void EnableBt() {
+        if (!btAdapter.isEnabled()){
+            Intent btIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivity(btIntent);
+        }
     }
 }
