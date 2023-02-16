@@ -1,7 +1,9 @@
 package com.example.unilink.Activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.widget.Toolbar;
@@ -21,13 +23,18 @@ import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 
+import android.bluetooth.BluetoothAdapter;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.util.Log;
+import android.Manifest;
 
 import com.example.unilink.Models.UnilinkUser;
 
@@ -57,18 +64,19 @@ public class HomescreenActivity extends AppCompatActivity {
         super.onStart();        
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.S)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Request permissions
+        ActivityCompat.requestPermissions(this, new String[]{
+            Manifest.permission.BLUETOOTH,Manifest.permission.BLUETOOTH_CONNECT,Manifest.permission.BLUETOOTH_ADMIN
+        },1);
+
         setContentView(R.layout.activity_homescreen);
 
         navdrawerBtn = findViewById(R.id.navDrawerBtn);
-        navdrawerBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                logout();
-            }
-        });
+        navdrawerBtn.setOnClickListener(v -> logout());
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, homeFragment).commit();
@@ -95,35 +103,32 @@ public class HomescreenActivity extends AppCompatActivity {
         bundle = new Bundle();
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                UnilinkUser user = getCurrentUser();
-                switch (item.getItemId()) {
-                    case R.id.home:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, homeFragment)
-                                .commit();
-                        return true;
-                    case R.id.chat:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, chatFragment)
-                                .commit();
-                        return true;
-                    case R.id.notification:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, notificationFragment)
-                                .commit();
-                        return true;
-                    case R.id.profile:
-                        // Add Profile Fragment argument to hold UnilinkUser
-                        // bundle.putParcelable("user", user);
-                        // user = bundle.getParcelable("user");
-                        // profileFragment.setArguments(bundle);
-                        profileFragment = profileFragment.newInstance(user);
-                        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, profileFragment)
-                                .commit();
-                        return true;
-                }
-                return false;
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            UnilinkUser user = getCurrentUser();
+            switch (item.getItemId()) {
+                case R.id.home:
+                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, homeFragment)
+                            .commit();
+                    return true;
+                case R.id.chat:
+                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, chatFragment)
+                            .commit();
+                    return true;
+                case R.id.notification:
+                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, notificationFragment)
+                            .commit();
+                    return true;
+                case R.id.profile:
+                    // Add Profile Fragment argument to hold UnilinkUser
+                    // bundle.putParcelable("user", user);
+                    // user = bundle.getParcelable("user");
+                    // profileFragment.setArguments(bundle);
+                    profileFragment = profileFragment.newInstance(user);
+                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, profileFragment)
+                            .commit();
+                    return true;
             }
+            return false;
         });
 
         // drawerLayout = findViewById(R.id.drawerLayout);
@@ -183,6 +188,7 @@ public class HomescreenActivity extends AppCompatActivity {
         getSharedPreferences("UserPrefs",MODE_PRIVATE).edit().remove("userJson").commit();
         Log.d("com.example.unilink", "User Logout Successful");
         Intent i = new Intent(this, LoginorregisterActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(i);
         finish();
     }
