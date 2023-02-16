@@ -73,16 +73,10 @@ public class HomescreenActivity extends AppCompatActivity {
             Manifest.permission.BLUETOOTH,Manifest.permission.BLUETOOTH_CONNECT,Manifest.permission.BLUETOOTH_ADMIN
         },1);
 
-
         setContentView(R.layout.activity_homescreen);
 
         navdrawerBtn = findViewById(R.id.navDrawerBtn);
-        navdrawerBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                logout();
-            }
-        });
+        navdrawerBtn.setOnClickListener(v -> logout());
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, homeFragment).commit();
@@ -109,35 +103,32 @@ public class HomescreenActivity extends AppCompatActivity {
         bundle = new Bundle();
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                UnilinkUser user = getCurrentUser();
-                switch (item.getItemId()) {
-                    case R.id.home:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, homeFragment)
-                                .commit();
-                        return true;
-                    case R.id.chat:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, chatFragment)
-                                .commit();
-                        return true;
-                    case R.id.notification:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, notificationFragment)
-                                .commit();
-                        return true;
-                    case R.id.profile:
-                        // Add Profile Fragment argument to hold UnilinkUser
-                        // bundle.putParcelable("user", user);
-                        // user = bundle.getParcelable("user");
-                        // profileFragment.setArguments(bundle);
-                        profileFragment = profileFragment.newInstance(user);
-                        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, profileFragment)
-                                .commit();
-                        return true;
-                }
-                return false;
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            UnilinkUser user = getCurrentUser();
+            switch (item.getItemId()) {
+                case R.id.home:
+                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, homeFragment)
+                            .commit();
+                    return true;
+                case R.id.chat:
+                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, chatFragment)
+                            .commit();
+                    return true;
+                case R.id.notification:
+                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, notificationFragment)
+                            .commit();
+                    return true;
+                case R.id.profile:
+                    // Add Profile Fragment argument to hold UnilinkUser
+                    // bundle.putParcelable("user", user);
+                    // user = bundle.getParcelable("user");
+                    // profileFragment.setArguments(bundle);
+                    profileFragment = profileFragment.newInstance(user);
+                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, profileFragment)
+                            .commit();
+                    return true;
             }
+            return false;
         });
 
         // drawerLayout = findViewById(R.id.drawerLayout);

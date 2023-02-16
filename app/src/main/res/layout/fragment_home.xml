@@ -57,7 +57,7 @@
             app:pulse_startFromScratch="true"
             />
 
-        <ImageButton
+        <com.example.unilink.Models.BluetoothButton
             android:id="@+id/bluetoothbtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -66,7 +66,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="136dp"
             android:background="@null"
-            android:src="@drawable/bluetoothbuttondeconnected"
+            android:src="@drawable/btbtn_selector"
             android:contentDescription="@string/chat" />
 
         <androidx.recyclerview.widget.RecyclerView

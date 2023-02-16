@@ -45,9 +45,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-        if(mAuth!= null){
-            mAuth.signOut();
-        }
     }
 
     @Override
