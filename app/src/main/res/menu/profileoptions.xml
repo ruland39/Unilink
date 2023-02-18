@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/editprofilepicture"
+        android:title="@string/editprofilepicture"
+        />
+
+    <item android:id="@+id/editprofilebanner"
+        android:title="@string/editprofilebanner"
+        />
+
+    <item android:id="@+id/editprofiledetails"
+        android:title="@string/editprofiledetails"
+        />
+
+</menu>
