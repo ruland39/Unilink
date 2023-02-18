@@ -9,6 +9,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.fragment.app.DialogFragment;
 
 import com.example.unilink.Fragments.ChatFragment;
 import com.example.unilink.Fragments.HomeFragment;
@@ -35,10 +36,15 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.util.Log;
 import android.Manifest;
+import android.content.pm.PackageManager;
+import android.app.Dialog;
 
+import com.example.unilink.UnilinkApplication;
 import com.example.unilink.Models.UnilinkUser;
+import com.example.unilink.Dialogs.BluetoothHomeScreenDialog;
 
-public class HomescreenActivity extends AppCompatActivity {
+public class HomescreenActivity extends AppCompatActivity
+        implements BluetoothHomeScreenDialog.BtHomeScreenDialogListener {
 
     // TODO: BIG TODO, FIX UP THE HOMESCREEN ACTIVITY and add all of its fragments
     private FirebaseAuth mAuth;
@@ -61,17 +67,20 @@ public class HomescreenActivity extends AppCompatActivity {
 
     @Override
     public void onStart() {
-        super.onStart();        
+        super.onStart();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.S)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Request permissions
-        ActivityCompat.requestPermissions(this, new String[]{
-            Manifest.permission.BLUETOOTH,Manifest.permission.BLUETOOTH_CONNECT,Manifest.permission.BLUETOOTH_ADMIN
-        },1);
+
+        // Validate permission
+        String[] BtPerms = {
+                Manifest.permission.BLUETOOTH, Manifest.permission.BLUETOOTH_CONNECT,
+                Manifest.permission.BLUETOOTH_ADMIN
+        };
+        validatePermissions(BtPerms);
 
         setContentView(R.layout.activity_homescreen);
 
@@ -83,14 +92,14 @@ public class HomescreenActivity extends AppCompatActivity {
 
         // Get Authentication instance
         mAuth = FirebaseAuth.getInstance();
-        FirebaseUser currentUsr = mAuth.getCurrentUser();        
+        FirebaseUser currentUsr = mAuth.getCurrentUser();
         this.currentUser = new UnilinkUser();
         if (currentUsr == null) {
             Intent i = new Intent(this, LoginorregisterActivity.class);
             startActivity(i);
             finish();
         } else {
-            String userJson = getSharedPreferences("UserPrefs",MODE_PRIVATE).getString("userJson", null);
+            String userJson = getSharedPreferences("UserPrefs", MODE_PRIVATE).getString("userJson", null);
             Log.d("com.example.unilink", "User JSON: " + userJson);
             Gson gson = new Gson();
             this.currentUser = gson.fromJson(userJson, UnilinkUser.class);
@@ -184,8 +193,8 @@ public class HomescreenActivity extends AppCompatActivity {
         // remove sharedpreferences
         // open loginorregister
         mAuth.signOut();
-        getSharedPreferences("UserPrefs",MODE_PRIVATE).edit().remove("firebasekey").commit();
-        getSharedPreferences("UserPrefs",MODE_PRIVATE).edit().remove("userJson").commit();
+        getSharedPreferences("UserPrefs", MODE_PRIVATE).edit().remove("firebasekey").commit();
+        getSharedPreferences("UserPrefs", MODE_PRIVATE).edit().remove("userJson").commit();
         Log.d("com.example.unilink", "User Logout Successful");
         Intent i = new Intent(this, LoginorregisterActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -213,6 +222,60 @@ public class HomescreenActivity extends AppCompatActivity {
 
     public void openNavdrawer() {
         drawerLayout.setVisibility(View.VISIBLE);
+    }
+
+    private void validatePermissions(@NonNull String[] perms) {
+        // Initial check of the permissions, comes out to be true or not if it has
+        Boolean granted = true;
+        for (String perm : perms) {
+            if (ActivityCompat.checkSelfPermission(this, perm) != PackageManager.PERMISSION_GRANTED) {
+                granted = false;
+            }
+        }
+
+        if (!granted)
+            // Request permissions
+            ActivityCompat.requestPermissions(this, perms, 1);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        // Add in the code, that logs out and disables the app if Bluetooth isn't
+        // allowed by the user.
+        if (requestCode == 1) {
+            System.out.println("Request Permission CALLED");
+            for (int i = 0, len = permissions.length; i < len; i++) {
+                String perm = permissions[i];
+                if (grantResults[i] == PackageManager.PERMISSION_DENIED && perm.equals(Manifest.permission.BLUETOOTH_ADMIN)) {
+                    BluetoothHomeScreenDialog btDialog = new BluetoothHomeScreenDialog();
+                    btDialog.show(getSupportFragmentManager(), "BluetoothHomeDialogFragment");
+                    finish();
+                }
+            }
+        }
+
+        // if (grantResults.length > 0 && grantResults[0] ==
+        // PackageManager.PERMISSION_DENIED) {
+        // BluetoothHomeScreenDialog btDialog = new BluetoothHomeScreenDialog();
+        // btDialog.show(getSupportFragmentManager(), "BluetoothHomeDialogFragment");
+        // finish();
+        // }
+    }
+
+    // Dialog function
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog) {
+        String[] BtPerms = {
+                Manifest.permission.BLUETOOTH, Manifest.permission.BLUETOOTH_CONNECT,
+                Manifest.permission.BLUETOOTH_ADMIN
+        };
+        validatePermissions(BtPerms);
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog) {
+        System.out.println("LOL");
+        UnilinkApplication.ExitApplication();
     }
 
 }

@@ -89,7 +89,7 @@ public class HomeFragment extends Fragment {
             mBtBtn.setConnected();
         else
             mBtBtn.setOff();
-        mBtBtn.setOnClickListener(view -> {
+        mBtBtn.setOnClickListener(view -> {    
             // If off, simply Enable Bluetooth and Receiver does the rest
             if (mBtBtn.isOff())
                 EnableBt();

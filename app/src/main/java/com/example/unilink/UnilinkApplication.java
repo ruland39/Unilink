@@ -45,4 +45,11 @@ public class UnilinkApplication extends Application implements MonitorNotifier {
 	public void didDetermineStateForRegion(int state, Region region) {
 
 	}
+
+	public static void ExitApplication() {
+		// Erase SharedPreferences
+		// Save necessary information
+		// Quit the application using System.exit()
+		System.exit(0);
+	}
 }
