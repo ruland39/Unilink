@@ -16,6 +16,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
+import androidx.fragment.app.DialogFragment;
 
 import com.example.unilink.Fragments.ChatFragment;
 import com.example.unilink.Fragments.HomeFragment;
@@ -44,10 +45,15 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.util.Log;
 import android.Manifest;
+import android.content.pm.PackageManager;
+import android.app.Dialog;
 
+import com.example.unilink.UnilinkApplication;
 import com.example.unilink.Models.UnilinkUser;
+import com.example.unilink.Dialogs.BluetoothHomeScreenDialog;
 
-public class HomescreenActivity extends AppCompatActivity {
+public class HomescreenActivity extends AppCompatActivity
+        implements BluetoothHomeScreenDialog.BtHomeScreenDialogListener {
 
     // TODO: BIG TODO, FIX UP THE HOMESCREEN ACTIVITY and add all of its fragments
     private FirebaseAuth mAuth;
@@ -78,13 +84,19 @@ public class HomescreenActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Request permissions
-        ActivityCompat.requestPermissions(this, new String[]{
-            Manifest.permission.BLUETOOTH,Manifest.permission.BLUETOOTH_CONNECT,Manifest.permission.BLUETOOTH_ADMIN
-        },1);
+
+        // Validate permission
+        String[] BtPerms = {
+                Manifest.permission.BLUETOOTH, Manifest.permission.BLUETOOTH_CONNECT,
+                Manifest.permission.BLUETOOTH_ADMIN
+        };
+        validatePermissions(BtPerms);
 
 
         setContentView(R.layout.activity_homescreen);
+
+        navdrawerBtn = findViewById(R.id.navDrawerBtn);
+        navdrawerBtn.setOnClickListener(v -> logout());
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, homeFragment).commit();
@@ -134,35 +146,32 @@ public class HomescreenActivity extends AppCompatActivity {
         bundle = new Bundle();
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                UnilinkUser user = getCurrentUser();
-                switch (item.getItemId()) {
-                    case R.id.home:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, homeFragment)
-                                .commit();
-                        return true;
-                    case R.id.chat:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, chatFragment)
-                                .commit();
-                        return true;
-                    case R.id.notification:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, notificationFragment)
-                                .commit();
-                        return true;
-                    case R.id.profile:
-                        // Add Profile Fragment argument to hold UnilinkUser
-                        // bundle.putParcelable("user", user);
-                        // user = bundle.getParcelable("user");
-                        // profileFragment.setArguments(bundle);
-                        profileFragment = profileFragment.newInstance(user);
-                        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, profileFragment)
-                                .commit();
-                        return true;
-                }
-                return false;
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            UnilinkUser user = getCurrentUser();
+            switch (item.getItemId()) {
+                case R.id.home:
+                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, homeFragment)
+                            .commit();
+                    return true;
+                case R.id.chat:
+                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, chatFragment)
+                            .commit();
+                    return true;
+                case R.id.notification:
+                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, notificationFragment)
+                            .commit();
+                    return true;
+                case R.id.profile:
+                    // Add Profile Fragment argument to hold UnilinkUser
+                    // bundle.putParcelable("user", user);
+                    // user = bundle.getParcelable("user");
+                    // profileFragment.setArguments(bundle);
+                    profileFragment = profileFragment.newInstance(user);
+                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, profileFragment)
+                            .commit();
+                    return true;
             }
+            return false;
         });
 
 
@@ -218,6 +227,60 @@ public class HomescreenActivity extends AppCompatActivity {
 
     public void openNavdrawer() {
         drawerLayout.setVisibility(View.VISIBLE);
+    }
+
+    private void validatePermissions(@NonNull String[] perms) {
+        // Initial check of the permissions, comes out to be true or not if it has
+        Boolean granted = true;
+        for (String perm : perms) {
+            if (ActivityCompat.checkSelfPermission(this, perm) != PackageManager.PERMISSION_GRANTED) {
+                granted = false;
+            }
+        }
+
+        if (!granted)
+            // Request permissions
+            ActivityCompat.requestPermissions(this, perms, 1);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        // Add in the code, that logs out and disables the app if Bluetooth isn't
+        // allowed by the user.
+        if (requestCode == 1) {
+            System.out.println("Request Permission CALLED");
+            for (int i = 0, len = permissions.length; i < len; i++) {
+                String perm = permissions[i];
+                if (grantResults[i] == PackageManager.PERMISSION_DENIED && perm.equals(Manifest.permission.BLUETOOTH_ADMIN)) {
+                    BluetoothHomeScreenDialog btDialog = new BluetoothHomeScreenDialog();
+                    btDialog.show(getSupportFragmentManager(), "BluetoothHomeDialogFragment");
+                    finish();
+                }
+            }
+        }
+
+        // if (grantResults.length > 0 && grantResults[0] ==
+        // PackageManager.PERMISSION_DENIED) {
+        // BluetoothHomeScreenDialog btDialog = new BluetoothHomeScreenDialog();
+        // btDialog.show(getSupportFragmentManager(), "BluetoothHomeDialogFragment");
+        // finish();
+        // }
+    }
+
+    // Dialog function
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog) {
+        String[] BtPerms = {
+                Manifest.permission.BLUETOOTH, Manifest.permission.BLUETOOTH_CONNECT,
+                Manifest.permission.BLUETOOTH_ADMIN
+        };
+        validatePermissions(BtPerms);
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog) {
+        System.out.println("LOL");
+        UnilinkApplication.ExitApplication();
     }
 
 }
