@@ -41,9 +41,12 @@ public class BluetoothHomeScreenDialog extends DialogFragment {
                     listener.onDialogNegativeClick(BluetoothHomeScreenDialog.this);
                 }
             })
-            .setTitle("Allow Bluetooth");
+            .setTitle("Allow Bluetooth")
+                .setCancelable(false);
 
-        return builder.create();
+        Dialog d = builder.create();
+        d.setCanceledOnTouchOutside(false);
+        return d;
     }
 
 }

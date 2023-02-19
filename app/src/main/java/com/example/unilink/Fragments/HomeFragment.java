@@ -19,6 +19,7 @@ import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.RequiresPermission;
+import androidx.annotation.RequiresPermission;
 import androidx.core.app.ActivityCompat;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -47,7 +48,7 @@ import pl.bclogic.pulsator4droid.library.PulsatorLayout;
  * create an instance of this fragment.
  */
 public class HomeFragment extends Fragment {
-    
+
     private static final int DATASET_COUNT = 10;
 
     private RecyclerView mRecyclerView;
@@ -158,6 +159,7 @@ public class HomeFragment extends Fragment {
                 if (state == BluetoothAdapter.STATE_ON) {
                     mBtBtn.setConnected();
                 } else if (state == BluetoothAdapter.STATE_OFF) {
+                    mPulsator.stop();
                     mBtBtn.setOff();
                 }
             }

@@ -5,7 +5,8 @@
     <uses-feature
         android:name="android.hardware.bluetooth" />
     <uses-feature
-        android:name="android.hardware.bluetooth_le"/>
+        android:name="android.hardware.bluetooth_le"
+        android:required="true" />
     <uses-permission
         android:name="android.permission.BLUETOOTH" />
     <uses-permission
