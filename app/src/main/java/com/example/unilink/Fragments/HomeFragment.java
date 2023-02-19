@@ -1,5 +1,6 @@
 package com.example.unilink.Fragments;
 
+import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -7,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 
+import androidx.annotation.RequiresPermission;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -129,6 +131,7 @@ public class HomeFragment extends Fragment {
                 if (state == BluetoothAdapter.STATE_ON) {
                     mBtBtn.setConnected();
                 } else if (state == BluetoothAdapter.STATE_OFF) {
+                    mPulsator.stop();
                     mBtBtn.setOff();
                 }
             }
@@ -148,6 +151,7 @@ public class HomeFragment extends Fragment {
         mDataset = new String[DATASET_COUNT];
     }
 
+    @RequiresPermission(Manifest.permission.BLUETOOTH_ADMIN)
     private void EnableBt() {
         if (!btAdapter.isEnabled()){
             Intent btIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);

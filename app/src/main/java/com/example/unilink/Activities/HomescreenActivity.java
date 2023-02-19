@@ -1,9 +1,12 @@
 package com.example.unilink.Activities;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.widget.Toolbar;
@@ -29,8 +32,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -212,11 +217,11 @@ public class HomescreenActivity extends AppCompatActivity
 
     // back method
     public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+//        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+//            drawerLayout.closeDrawer(GravityCompat.START);
+//        } else {
+//            super.onBackPressed();
+//        }
 
     }
 
@@ -225,6 +230,7 @@ public class HomescreenActivity extends AppCompatActivity
     }
 
     private void validatePermissions(@NonNull String[] perms) {
+        System.out.println("Validating Permission");
         // Initial check of the permissions, comes out to be true or not if it has
         Boolean granted = true;
         for (String perm : perms) {
@@ -233,49 +239,50 @@ public class HomescreenActivity extends AppCompatActivity
             }
         }
 
-        if (!granted)
+        if (!granted) {
+            System.out.println("Requesting permissions");
             // Request permissions
-            ActivityCompat.requestPermissions(this, perms, 1);
+            requestPermissions(perms, 1);
+        }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         // Add in the code, that logs out and disables the app if Bluetooth isn't
         // allowed by the user.
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        System.out.println("Requesting Permissions Code: "+requestCode + "; Result: " + grantResults[2]);
         if (requestCode == 1) {
-            System.out.println("Request Permission CALLED");
+            int denied = 0;
+            System.out.println("Requesting Permissions CALLED");
             for (int i = 0, len = permissions.length; i < len; i++) {
                 String perm = permissions[i];
                 if (grantResults[i] == PackageManager.PERMISSION_DENIED && perm.equals(Manifest.permission.BLUETOOTH_ADMIN)) {
-                    BluetoothHomeScreenDialog btDialog = new BluetoothHomeScreenDialog();
-                    btDialog.show(getSupportFragmentManager(), "BluetoothHomeDialogFragment");
-                    finish();
+                    denied++;
                 }
             }
+            System.out.println("Requesting Permissions " + denied);
+            if (denied > 0) {
+                BluetoothHomeScreenDialog btDialog = new BluetoothHomeScreenDialog();
+                btDialog.setCancelable(false);
+                btDialog.show(getSupportFragmentManager(), "BluetoothHomeDialogFragment");
+            }
         }
-
-        // if (grantResults.length > 0 && grantResults[0] ==
-        // PackageManager.PERMISSION_DENIED) {
-        // BluetoothHomeScreenDialog btDialog = new BluetoothHomeScreenDialog();
-        // btDialog.show(getSupportFragmentManager(), "BluetoothHomeDialogFragment");
-        // finish();
-        // }
     }
 
     // Dialog function
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
-        String[] BtPerms = {
-                Manifest.permission.BLUETOOTH, Manifest.permission.BLUETOOTH_CONNECT,
-                Manifest.permission.BLUETOOTH_ADMIN
-        };
-        validatePermissions(BtPerms);
+        dialog.getDialog().cancel();
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri = Uri.fromParts("package", getPackageName(), null);
+        intent.setData(uri);
+        startActivity(intent);
     }
 
     @Override
     public void onDialogNegativeClick(DialogFragment dialog) {
-        System.out.println("LOL");
-        UnilinkApplication.ExitApplication();
+        finishAndRemoveTask();
     }
 
 }

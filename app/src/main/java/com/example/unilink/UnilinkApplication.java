@@ -46,10 +46,4 @@ public class UnilinkApplication extends Application implements MonitorNotifier {
 
 	}
 
-	public static void ExitApplication() {
-		// Erase SharedPreferences
-		// Save necessary information
-		// Quit the application using System.exit()
-		System.exit(0);
-	}
 }

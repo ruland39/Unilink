@@ -8,15 +8,14 @@
     <uses-feature
         android:name="android.hardware.bluetooth_le"
         android:required="true" />
-    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT"/>
     <uses-permission
         android:name="android.permission.BLUETOOTH"
         android:maxSdkVersion="30"
-        android:requiredFeature="true"
-        tools:targetApi="o" />
+        android:requiredFeature="true" />
     <uses-permission
         android:name="android.permission.BLUETOOTH_ADMIN"
-        android:maxSdkVersion="30" />
+        android:maxSdkVersion="30"
+        android:requiredFeature="true"/>
     <uses-permission
         android:name="android.permission.BLUETOOTH_SCAN"
         android:usesPermissionFlags="neverForLocation"
