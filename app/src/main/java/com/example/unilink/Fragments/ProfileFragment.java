@@ -108,12 +108,10 @@ public class ProfileFragment extends Fragment {
         PopupMenu popup = new PopupMenu(getContext(), v);
         popup.getMenuInflater().inflate(menuRes, popup.getMenu());
 
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                // Respond to menu item click.
-                return true;
-            }
+        popup.setOnMenuItemClickListener(menuItem -> {
+            Toast.makeText(getActivity(), "LOl", Toast.LENGTH_SHORT).show();
+            // Respond to menu item click.
+            return true;
         });
         popup.setOnDismissListener(new PopupMenu.OnDismissListener() {
             @Override
