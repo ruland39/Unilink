@@ -22,28 +22,16 @@
         />
 
     <ImageButton
-        android:id="@+id/collapseMenuButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:background="@null"
-        android:contentDescription="@string/collapsemenubutton"
-        app:srcCompat="@drawable/collapsemenubutton" />
-
-    <ImageButton
         android:id="@+id/threedotsbutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="12dp"
         android:background="@null"
-        android:scaleX="1.2"
-        android:scaleY="1.2"
+        android:scaleX="1"
+        android:scaleY="1"
         android:src="@drawable/threedotsbutton" />
 
     <ImageView

@@ -1,12 +1,16 @@
 package com.example.unilink.Fragments;
 
+import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
+import androidx.annotation.RequiresPermission;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -69,13 +73,15 @@ public class HomeFragment extends Fragment {
         super.onCreate(savedInstanceState);
         initDataset();
     }
+
     @Override
+    @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_home, container, false);
         btAdapter = BluetoothAdapter.getDefaultAdapter();
-        if (btAdapter == null){
+        if (btAdapter == null) {
             Toast.makeText(getContext(), "Bluetooth is not supported on this devices", Toast.LENGTH_SHORT).show();
             return v;
         }
@@ -148,6 +154,7 @@ public class HomeFragment extends Fragment {
         mDataset = new String[DATASET_COUNT];
     }
 
+    @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
     private void EnableBt() {
         if (!btAdapter.isEnabled()){
             Intent btIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);

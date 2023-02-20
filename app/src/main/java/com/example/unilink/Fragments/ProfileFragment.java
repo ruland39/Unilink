@@ -2,11 +2,16 @@ package com.example.unilink.Fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.MenuRes;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,6 +67,9 @@ public class ProfileFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
+
+
+
         // Bundle bundle = getArguments();        
         // if(bundle != null) {
         //     user =  bundle.getParcelable("user");
@@ -76,6 +84,15 @@ public class ProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
+        ImageButton threedotsbutton = view.findViewById(R.id.threedotsbutton);
+        threedotsbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showMenu(v,R.menu.profileoptions);
+            }
+        });
+
+
         user = (UnilinkUser) getArguments().getSerializable(user_key);
         if (user == null) {
             Toast.makeText(getActivity(), "Unable to parse User", Toast.LENGTH_SHORT).show();
@@ -86,4 +103,26 @@ public class ProfileFragment extends Fragment {
 
         return view;
     }
+
+    private void showMenu(View v, @MenuRes int menuRes) {
+        PopupMenu popup = new PopupMenu(getContext(), v);
+        popup.getMenuInflater().inflate(menuRes, popup.getMenu());
+
+        popup.setOnMenuItemClickListener(menuItem -> {
+            Toast.makeText(getActivity(), "LOl", Toast.LENGTH_SHORT).show();
+            // Respond to menu item click.
+            return true;
+        });
+        popup.setOnDismissListener(new PopupMenu.OnDismissListener() {
+            @Override
+            public void onDismiss(PopupMenu popupMenu) {
+                // Respond to popup being dismissed.
+            }
+
+
+        });
+
+        popup.show();
+    }
+
 }
