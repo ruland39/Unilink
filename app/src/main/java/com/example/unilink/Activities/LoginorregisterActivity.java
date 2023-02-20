@@ -2,6 +2,7 @@ package com.example.unilink.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.unilink.Activities.FeaturePage.LoadingDialogBar;
 import com.example.unilink.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;

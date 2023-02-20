@@ -3,6 +3,7 @@ package com.example.unilink.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.annotation.NonNull;
 
+import com.example.unilink.Activities.FeaturePage.LoadingDialogBar;
 import com.example.unilink.R;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.DocumentReference;
@@ -50,6 +51,7 @@ public class RegisterpageActivity extends AppCompatActivity {
     private EditText email;
     private EditText password;
     private CheckBox showHidePW;
+    LoadingDialogBar loadingDialogBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +60,7 @@ public class RegisterpageActivity extends AppCompatActivity {
 
         // Set back button clicking
         ImageButton backbutton = findViewById(R.id.backbutton);
+        loadingDialogBar = new LoadingDialogBar(this);
         backbutton.setOnClickListener(v -> {
             finish(); // finishing the activity basically closing the page
             // openBacktoLoginorRegisterPage();
@@ -187,6 +190,7 @@ public class RegisterpageActivity extends AppCompatActivity {
                     lastName.getText().toString(),
                     phoneNumber.getText().toString());
             if (success1) {
+                loadingDialogBar.showDialog("Register");
                 finish();
             } else
                 Toast.makeText(getApplicationContext(), "Authentication Error", Toast.LENGTH_SHORT).show();
