@@ -13,8 +13,9 @@
     <color name="grey_inactive">#6E6F72</color>
     <color name="abit_grey">#787878</color>
     <color name="light_grey">#D0D0D0</color>
+    <color name="light_greyish">#C9C9C9</color>
     <color name="lighter_grey">#F5F5F7</color>
     <color name="blue">#2474D1</color>
     <color name="green">#79F494</color>
-    <color name="shimmer_color">#BFBDBD</color>
+    <color name="shimmer_color">#E8E8E8</color>
 </resources>
