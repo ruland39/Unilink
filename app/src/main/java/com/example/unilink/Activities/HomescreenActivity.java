@@ -36,6 +36,8 @@ import com.google.gson.Gson;
 
 import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.le.AdvertiseCallback;
+import android.bluetooth.le.AdvertiseSettings;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -56,6 +58,12 @@ import android.app.Dialog;
 import com.example.unilink.UnilinkApplication;
 import com.example.unilink.Models.UnilinkUser;
 import com.example.unilink.Dialogs.BluetoothHomeScreenDialog;
+
+import org.altbeacon.beacon.Beacon;
+import org.altbeacon.beacon.BeaconParser;
+import org.altbeacon.beacon.BeaconTransmitter;
+
+import java.util.Arrays;
 
 public class HomescreenActivity extends AppCompatActivity
         implements BluetoothHomeScreenDialog.BtHomeScreenDialogListener {
@@ -180,6 +188,35 @@ public class HomescreenActivity extends AppCompatActivity
         });
 
 
+
+        startBeaconTransmission();
+    }
+
+    private void startBeaconTransmission() {
+        Beacon beacon = new Beacon.Builder()
+                .setId1("2f234454-cf6d-4a0f-adf2-f4911ba9ffa6")
+                .setId2("1")
+                .setId3("2")
+                .setManufacturer(0x0118) // Radius Networks.  Change this for other beacon layouts
+                .setTxPower(-59)
+                .setDataFields(Arrays.asList(new Long[] {0l})) // Remove this for beacon layouts without d: fields
+                .build();
+
+        BeaconParser beaconParser = new BeaconParser()
+                .setBeaconLayout("m:2-3=beac,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25");
+        BeaconTransmitter beaconTransmitter = new BeaconTransmitter(getApplicationContext(), beaconParser);
+        beaconTransmitter.startAdvertising(beacon, new AdvertiseCallback() {
+            @Override
+            public void onStartSuccess(AdvertiseSettings settingsInEffect) {
+                super.onStartSuccess(settingsInEffect);
+                Log.d("com.example.unilink", "Beacon Advertisement started");
+            }
+
+            @Override
+            public void onStartFailure(int errorCode) {
+                Log.e("com.example.unilink", "Beacon Advertisement start failed with error: " + errorCode);
+            }
+        });
 
     }
 
