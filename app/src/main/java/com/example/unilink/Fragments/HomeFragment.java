@@ -25,6 +25,12 @@ import com.example.unilink.R;
 import com.facebook.shimmer.Shimmer;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
+import org.altbeacon.beacon.BeaconManager;
+import org.altbeacon.beacon.BeaconParser;
+import org.altbeacon.beacon.Identifier;
+import org.altbeacon.beacon.MonitorNotifier;
+import org.altbeacon.beacon.Region;
+
 import pl.bclogic.pulsator4droid.library.PulsatorLayout;
 
 /**
@@ -32,7 +38,7 @@ import pl.bclogic.pulsator4droid.library.PulsatorLayout;
  * Use the {@link HomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements MonitorNotifier {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -113,6 +119,9 @@ public class HomeFragment extends Fragment {
                 mPulsator.start();
                 shimmerFrameLayout.startShimmer();
 
+                // Start the monitoring activity while it looks for a person
+                BeaconManager beaconManager = BeaconManager.getInstanceForApplication(getContext());
+                startMonitor(beaconManager);
             }
             else if (mBtBtn.isDiscovering()) {
                 mBtBtn.setConnected();
@@ -138,6 +147,21 @@ public class HomeFragment extends Fragment {
         return v;
     }
 
+    private void startMonitor(BeaconManager beaconManager) {
+        beaconManager.getBeaconParsers().clear();
+        beaconManager.getBeaconParsers().add(new BeaconParser().
+                setBeaconLayout("m:2-3=beac,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25"));
+
+        beaconManager.setDebug(true);
+        beaconManager.addMonitorNotifier(this);
+        final Region wildcardRegion = new Region("wildcardRegion",
+                Identifier.parse("2f234454-cf6d-4a0f-adf2-f4911ba9ffa6"),
+                Identifier.parse("1") ,
+                Identifier.parse("2"));
+        beaconManager.startMonitoring(wildcardRegion);
+    }
+
+    //region Bt-Perms
     public BroadcastReceiver mBtUpdateReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -154,7 +178,6 @@ public class HomeFragment extends Fragment {
             }
         }
     };
-
     public void onDestroyView() {
         super.onDestroyView();
     }
@@ -175,4 +198,25 @@ public class HomeFragment extends Fragment {
             startActivity(btIntent);
         }
     }
+    //endregion
+    //region MonitorNotifier overriders
+    @Override
+    public void didEnterRegion(Region region) {
+        // For now, end the search if it finds one person.
+        Toast.makeText(getActivity(), "Entered a beacon region!", Toast.LENGTH_SHORT).show();
+        mBtBtn.setConnected();
+        mPulsator.stop();
+        shimmerFrameLayout.stopShimmer();
+        shimmerFrameLayout.setVisibility(View.GONE);
+        mRecyclerView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void didExitRegion(Region region) {
+
+    }
+
+    @Override
+    public void didDetermineStateForRegion(int state, Region region){}
+        //endregion
 }
