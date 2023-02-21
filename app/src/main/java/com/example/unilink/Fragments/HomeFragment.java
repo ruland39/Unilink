@@ -22,6 +22,8 @@ import android.widget.Toast;
 
 import com.example.unilink.Models.BluetoothButton;
 import com.example.unilink.R;
+import com.facebook.shimmer.Shimmer;
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 import pl.bclogic.pulsator4droid.library.PulsatorLayout;
 
@@ -50,6 +52,8 @@ public class HomeFragment extends Fragment {
     private BluetoothButton mBtBtn;
 
     private BluetoothAdapter btAdapter;
+
+    private ShimmerFrameLayout shimmerFrameLayout;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -82,9 +86,14 @@ public class HomeFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_home, container, false);
         btAdapter = BluetoothAdapter.getDefaultAdapter();
         if (btAdapter == null) {
-            Toast.makeText(getContext(), "Bluetooth is not supported on this devices", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Bluetooth is not supported on this device", Toast.LENGTH_SHORT).show();
             return v;
         }
+
+        // Shimmer
+        shimmerFrameLayout = v.findViewById(R.id.shimmer_layout);
+        shimmerFrameLayout.setShimmer(new Shimmer.AlphaHighlightBuilder().setAutoStart(false).build());
+
         // Initiating a pulsator
         mPulsator = v.findViewById(R.id.pulsator);
 
@@ -102,10 +111,15 @@ public class HomeFragment extends Fragment {
             else if (mBtBtn.isConnected()){
                 mBtBtn.setDiscovering();
                 mPulsator.start();
+                shimmerFrameLayout.startShimmer();
+
             }
             else if (mBtBtn.isDiscovering()) {
                 mBtBtn.setConnected();
                 mPulsator.stop();
+                shimmerFrameLayout.stopShimmer();
+                shimmerFrameLayout.setVisibility(View.GONE);
+                mRecyclerView.setVisibility(View.VISIBLE);
             }
         });
 

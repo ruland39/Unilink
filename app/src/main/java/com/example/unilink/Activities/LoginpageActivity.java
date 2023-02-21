@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.unilink.Activities.FeaturePage.LoadingDialogBar;
 import com.example.unilink.Models.UnilinkUser;
 import com.example.unilink.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,6 +38,8 @@ public class LoginpageActivity extends AppCompatActivity {
     private Button loginBtn;
     private CheckBox showHidePW;
     private boolean[] validatedInput;
+    LoadingDialogBar loadingDialogBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +47,8 @@ public class LoginpageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         ImageButton backbutton = findViewById(R.id.backbutton);
+        loadingDialogBar = new LoadingDialogBar(this);
+
         backbutton.setOnClickListener(v -> {
             finish(); // finishing the activity basically closing the pages
             // openBacktoLoginorRegisterPage();
@@ -117,6 +122,7 @@ public class LoginpageActivity extends AppCompatActivity {
         if (validated)
             loginBtn.setOnClickListener(v -> {
                 // Authenticates on press, then opens the page and ends this activity.
+                loadingDialogBar.showDialog("Loading");
                 authenticate(email.getText().toString(), password.getText().toString());
             });
 

@@ -67,6 +67,7 @@
     <string name="editprofilepicture">Edit Profile Picture</string>
     <string name="editprofilebanner">Edit Profile Banner</string>
     <string name="editprofiledetails">Edit Profile Details</string>
+    <string name="loading">Loading...</string>
 
 
 </resources>
