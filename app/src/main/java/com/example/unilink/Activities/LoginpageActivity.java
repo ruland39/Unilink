@@ -122,7 +122,7 @@ public class LoginpageActivity extends AppCompatActivity {
         if (validated)
             loginBtn.setOnClickListener(v -> {
                 // Authenticates on press, then opens the page and ends this activity.
-                loadingDialogBar.showDialog("Login");
+                loadingDialogBar.showDialog("Loading");
                 authenticate(email.getText().toString(), password.getText().toString());
             });
 

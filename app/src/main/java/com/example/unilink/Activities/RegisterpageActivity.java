@@ -190,7 +190,7 @@ public class RegisterpageActivity extends AppCompatActivity {
                     lastName.getText().toString(),
                     phoneNumber.getText().toString());
             if (success1) {
-                loadingDialogBar.showDialog("Register");
+                loadingDialogBar.showDialog("Loading");
                 finish();
             } else
                 Toast.makeText(getApplicationContext(), "Authentication Error", Toast.LENGTH_SHORT).show();
