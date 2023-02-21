@@ -16,4 +16,5 @@
     <color name="lighter_grey">#F5F5F7</color>
     <color name="blue">#2474D1</color>
     <color name="green">#79F494</color>
+    <color name="shimmer_color">#BFBDBD</color>
 </resources>
