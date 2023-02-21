@@ -13,23 +13,12 @@ import org.altbeacon.beacon.MonitorNotifier;
 import org.altbeacon.beacon.Region;
 
 public class UnilinkApplication extends Application implements MonitorNotifier {
-
+	// Simple test application that requires you to understand the
 	@Override
 	public void onCreate() {
 		super.onCreate();
-
-		BeaconManager beaconMgr = BeaconManager.getInstanceForApplication(this);
-		beaconMgr.setDebug(true);
-
-		// Setting up foreground service for the application
-		Notification.Builder notifBuilder = new Notification.Builder(this);
-		notifBuilder.setSmallIcon(R.mipmap.ic_launcher_round);
-		notifBuilder.setContentTitle("Scanning for beacons in the background");
-		Intent fgService = new Intent(this, MonitoringActivity.class);
-		PendingIntent pendingIntent = PendingIntent.getActivity(
-				this, 0, fgService, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
-		);
-		notifBuilder.setContentIntent(pendingIntent);
+		// Code to create foreground service should be coded here
+		// but need to make sure it doesn't scan if it's not logged in
 	}
 
 	@Override
@@ -45,4 +34,5 @@ public class UnilinkApplication extends Application implements MonitorNotifier {
 	public void didDetermineStateForRegion(int state, Region region) {
 
 	}
+
 }
