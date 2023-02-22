@@ -1,12 +1,18 @@
 package com.example.unilink.Fragments;
 
 import android.Manifest;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.RequiresPermission;
@@ -20,6 +26,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.unilink.Activities.BLE.MonitoringActivity;
 import com.example.unilink.Models.BluetoothButton;
 import com.example.unilink.R;
 import com.facebook.shimmer.Shimmer;
@@ -60,6 +67,9 @@ public class HomeFragment extends Fragment implements MonitorNotifier {
     private BluetoothAdapter btAdapter;
 
     private ShimmerFrameLayout shimmerFrameLayout;
+
+    private final Region wildcardRegion = new Region("wildcardRegion",
+            Identifier.parse("2f234454-cf6d-4a0f-adf2-f4911ba9ffa5"), Identifier.parse("1"),Identifier.parse("1"));
 
     public HomeFragment() {
         // Required empty public constructor
@@ -152,12 +162,8 @@ public class HomeFragment extends Fragment implements MonitorNotifier {
         beaconManager.getBeaconParsers().add(new BeaconParser().
                 setBeaconLayout("m:2-3=beac,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25"));
 
-        beaconManager.setDebug(true);
+        beaconManager.setDebug(false);
         beaconManager.addMonitorNotifier(this);
-        final Region wildcardRegion = new Region("wildcardRegion",
-                Identifier.parse("2f234454-cf6d-4a0f-adf2-f4911ba9ffa6"),
-                Identifier.parse("1") ,
-                Identifier.parse("2"));
         beaconManager.startMonitoring(wildcardRegion);
     }
 
@@ -203,12 +209,20 @@ public class HomeFragment extends Fragment implements MonitorNotifier {
     @Override
     public void didEnterRegion(Region region) {
         // For now, end the search if it finds one person.
-        Toast.makeText(getActivity(), "Entered a beacon region!", Toast.LENGTH_SHORT).show();
-        mBtBtn.setConnected();
-        mPulsator.stop();
-        shimmerFrameLayout.stopShimmer();
-        shimmerFrameLayout.setVisibility(View.GONE);
-        mRecyclerView.setVisibility(View.VISIBLE);
+        // Stop Monitoring
+        System.out.println("YOUR MOTHER I FOUND");
+        getActivity().runOnUiThread(() -> {
+            Toast.makeText(getActivity(), "Entered a beacon region!", Toast.LENGTH_LONG).show();
+            mBtBtn.setConnected();
+            mPulsator.stop();
+            shimmerFrameLayout.stopShimmer();
+            shimmerFrameLayout.setVisibility(View.GONE);
+            mRecyclerView.setVisibility(View.VISIBLE);
+
+            // Stop Monitoring
+            BeaconManager beaconManager = BeaconManager.getInstanceForApplication(getContext());
+            beaconManager.stopMonitoring(wildcardRegion);
+        });
     }
 
     @Override

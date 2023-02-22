@@ -9,8 +9,10 @@ import com.google.firebase.Timestamp;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class UnilinkUser implements Parcelable, Serializable {
+    private Long Uid;
     private String auth_uid;
     private HashMap<String, String> user_fullName; // first name and last name
     private String user_phoneNum;
@@ -26,7 +28,7 @@ public class UnilinkUser implements Parcelable, Serializable {
         this.user_phoneNum = null;
     }
 
-    public UnilinkUser(String auth_id, String firstName, String lastName, String user_phoneNum, String user_email) {
+    public UnilinkUser(String auth_id, String firstName, String lastName, String user_phoneNum, String user_email, Long uid) {
         // add user Id from Firebase
         this.auth_uid = auth_id;
         // creating first name and full name
@@ -38,7 +40,7 @@ public class UnilinkUser implements Parcelable, Serializable {
         this.user_phoneNum = user_phoneNum;
         this.user_email = user_email;
         this.user_lastUpdated = Timestamp.now();
-
+        this.Uid = uid != null ? uid : new Random().nextLong();
     }
 
     @Override
@@ -95,6 +97,8 @@ public class UnilinkUser implements Parcelable, Serializable {
     public String getAuthId() {
         return this.auth_uid;
     }
+
+    public Long getUid() {return this.Uid;}
     /* #endregion */
 
     /* #region setters */
@@ -121,6 +125,8 @@ public class UnilinkUser implements Parcelable, Serializable {
     public void setFullName(String ffN) {
         return;
     }
+
+    public void setUid(Long uid) {this.Uid = uid;}
     /* #endregion */
 
     /* #region Parcel Code */
@@ -138,6 +144,7 @@ public class UnilinkUser implements Parcelable, Serializable {
         dest.writeString(this.getFullName());
         dest.writeString(this.getFirstName());
         dest.writeString(this.getLastName());
+        dest.writeLong(this.Uid);
     }
 
     private UnilinkUser(Parcel in) {
@@ -146,6 +153,7 @@ public class UnilinkUser implements Parcelable, Serializable {
         this.user_email = in.readString();
         this.user_fullName.put("firstName", in.readString());
         this.user_fullName.put("lastName", in.readString());
+        this.Uid = in.readLong();
     }
 
     public static final Parcelable.Creator<UnilinkUser> CREATOR = new Parcelable.Creator<UnilinkUser>() {
