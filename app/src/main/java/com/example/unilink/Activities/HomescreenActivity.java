@@ -63,7 +63,9 @@ import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconParser;
 import org.altbeacon.beacon.BeaconTransmitter;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class HomescreenActivity extends AppCompatActivity
         implements BluetoothHomeScreenDialog.BtHomeScreenDialogListener {
@@ -100,11 +102,10 @@ public class HomescreenActivity extends AppCompatActivity
 
         // Validate permission
         String[] BtPerms = {
-                Manifest.permission.BLUETOOTH, Manifest.permission.BLUETOOTH_CONNECT,
-                Manifest.permission.BLUETOOTH_ADMIN
+                Manifest.permission.BLUETOOTH, Manifest.permission.BLUETOOTH_SCAN,
+                Manifest.permission.BLUETOOTH_ADVERTISE
         };
         validatePermissions(BtPerms);
-
 
         setContentView(R.layout.activity_homescreen);
 
@@ -116,7 +117,7 @@ public class HomescreenActivity extends AppCompatActivity
 
         // Get Authentication instance
         mAuth = FirebaseAuth.getInstance();
-        FirebaseUser currentUsr = mAuth.getCurrentUser();        
+        FirebaseUser currentUsr = mAuth.getCurrentUser();
         this.currentUser = new UnilinkUser();
         if (currentUsr == null) {
             Intent i = new Intent(this, LoginorregisterActivity.class);
@@ -193,13 +194,16 @@ public class HomescreenActivity extends AppCompatActivity
     }
 
     private void startBeaconTransmission() {
+        List<Long> userId = new ArrayList<Long>();
+        if(currentUser != null)
+            userId.add(currentUser.getUid());
         Beacon beacon = new Beacon.Builder()
-                .setId1("2f234454-cf6d-4a0f-adf2-f4911ba9ffa6")
+                .setId1("2f234454-cf6d-4a0f-adf2-f4911ba9ffa5")
                 .setId2("1")
-                .setId3("2")
-                .setManufacturer(0x0118) // Radius Networks.  Change this for other beacon layouts
-                .setTxPower(-59)
-                .setDataFields(Arrays.asList(new Long[] {0l})) // Remove this for beacon layouts without d: fields
+                .setId3("1")
+                .setRssi(-55)
+                .setTxPower(-59)// Remove this for beacon layouts without d: fields
+                .setDataFields(userId)
                 .build();
 
         BeaconParser beaconParser = new BeaconParser()
@@ -228,6 +232,9 @@ public class HomescreenActivity extends AppCompatActivity
     @Override
     public void onResume() {
         super.onResume();
+        if (checkSelfPermission(Manifest.permission.BLUETOOTH_ADVERTISE) == PackageManager.PERMISSION_GRANTED){
+            startBeaconTransmission();
+        }
     }
 
     private UnilinkUser getCurrentUser() {
@@ -271,7 +278,7 @@ public class HomescreenActivity extends AppCompatActivity
         drawerLayout.setVisibility(View.VISIBLE);
     }
 
-    private void validatePermissions(@NonNull String[] perms) {
+    private Boolean validatePermissions(@NonNull String[] perms) {
         System.out.println("Validating Permission");
         // Initial check of the permissions, comes out to be true or not if it has
         Boolean granted = true;
@@ -286,6 +293,7 @@ public class HomescreenActivity extends AppCompatActivity
             // Request permissions
             requestPermissions(perms, 1);
         }
+        return granted;
     }
 
     @Override
@@ -299,16 +307,17 @@ public class HomescreenActivity extends AppCompatActivity
             System.out.println("Requesting Permissions CALLED");
             for (int i = 0, len = permissions.length; i < len; i++) {
                 String perm = permissions[i];
-                if (grantResults[i] == PackageManager.PERMISSION_DENIED && perm.equals(Manifest.permission.BLUETOOTH_ADMIN)) {
+                if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
                     denied++;
                 }
             }
-            System.out.println("Requesting Permissions " + denied);
+            System.out.println("Requesting Permissions for " + denied + " denieds");
             if (denied > 0) {
                 BluetoothHomeScreenDialog btDialog = new BluetoothHomeScreenDialog();
                 btDialog.setCancelable(false);
                 btDialog.show(getSupportFragmentManager(), "BluetoothHomeDialogFragment");
-            }
+            } else
+                startBeaconTransmission();
         }
     }
 

@@ -190,7 +190,7 @@ public class RegisterpageActivity extends AppCompatActivity {
                     lastName.getText().toString(),
                     phoneNumber.getText().toString());
             if (success1) {
-                loadingDialogBar.showDialog("Loading");
+//                loadingDialogBar.showDialog("Loading");
                 finish();
             } else
                 Toast.makeText(getApplicationContext(), "Authentication Error", Toast.LENGTH_SHORT).show();
@@ -246,7 +246,7 @@ public class RegisterpageActivity extends AppCompatActivity {
         Log.d("com.example.unilink", "createUser:" + user.getEmail());
 
         UnilinkUser uUser = new UnilinkUser(user.getUid(), firstName.getText().toString(),
-                lastName.getText().toString(), phoneNumber.getText().toString(), email.getText().toString());
+                lastName.getText().toString(), phoneNumber.getText().toString(), email.getText().toString(), null);
         db.collection("user_information")
                 .add(uUser)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
