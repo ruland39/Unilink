@@ -64,6 +64,7 @@
     <string name="opendrawer">Open Drawer</string>
     <string name="closedrawer">Close Drawer</string>
     <string name="fpdots">Dotted indicator of the Features slide</string>
-
+    <string name="sidenav_open">Open</string>
+    <string name="sidenav_close">Close</string>
 
 </resources>

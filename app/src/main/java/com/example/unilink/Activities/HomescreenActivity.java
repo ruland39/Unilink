@@ -1,14 +1,21 @@
 package com.example.unilink.Activities;
 
+import static androidx.navigation.ui.NavigationUI.setupActionBarWithNavController;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
 
 import com.example.unilink.Fragments.ChatFragment;
 import com.example.unilink.Fragments.HomeFragment;
@@ -23,6 +30,7 @@ import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 
+import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -50,7 +58,10 @@ public class HomescreenActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
 
     DrawerLayout drawerLayout;
+    DrawerLayout drawNavView;
+    ActionBarDrawerToggle actionBarDrawerToggle;
     NavigationView navigationView;
+    AppBarConfiguration appBarConfiguration;
     Toolbar toolbar;
     ImageButton navdrawerBtn;
 
@@ -64,6 +75,7 @@ public class HomescreenActivity extends AppCompatActivity {
         super.onStart();        
     }
 
+    @SuppressLint("MissingInflatedId")
     @RequiresApi(api = Build.VERSION_CODES.S)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,16 +88,10 @@ public class HomescreenActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_homescreen);
 
-        navdrawerBtn = findViewById(R.id.navDrawerBtn);
-        navdrawerBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                logout();
-            }
-        });
-
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, homeFragment).commit();
+        //binding = ActivityMainBinding.inflate(getLayoutInflater());
+        //getSupportFragmentManager().beginTransaction().replace(R.id.side_nav_frame_layout, homeFragment).commit();
 
         // Get Authentication instance
         mAuth = FirebaseAuth.getInstance();
@@ -140,37 +146,20 @@ public class HomescreenActivity extends AppCompatActivity {
             }
         });
 
-        // drawerLayout = findViewById(R.id.drawerLayout);
-        // navigationView = findViewById(R.id.navigationView);
-        // toolbar = findViewById(R.id.toolbar);
-        //
-        // setSupportActionBar(toolbar);
-        //
-        // ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout,
-        // toolbar, R.string.opendrawer,
-        // R.string.closedrawer);
+        drawNavView = findViewById(R.id.nav_drawer_layout);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawNavView, R.string.sidenav_open, R.string.sidenav_close);
+        drawNavView.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
 
-        // drawerLayout.addDrawerListener(toggle);
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        // toggle.syncState();
-
-        // to open the options in the drawe
-        // navigationView.setNavigationItemSelectedListener(new
-        // NavigationView.OnNavigationItemSelectedListener() {
-        // @Override
-        // public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        // int id = item.getItemId();
-        // // Settings
-        // // Logout
-        // // Support
-        // // Terms and Policies
-        // // About
-        //
-        // drawerLayout.closeDrawer(GravityCompat.START);
-        // return true;
-        // }
-        // });
-
+        if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
