@@ -50,7 +50,7 @@
         app:srcCompat="@drawable/threedotsbutton" />
 
     <ImageView
-        android:id="@+id/profilebannercontainer"
+        android:id="@+id/profilebanner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -138,9 +138,9 @@
         android:contentDescription="@string/profilepicture"
         android:scaleX="2"
         android:scaleY="2"
-        app:layout_constraintEnd_toEndOf="@+id/profilebannercontainer"
-        app:layout_constraintStart_toStartOf="@+id/profilebannercontainer"
-        app:layout_constraintTop_toTopOf="@+id/profilebannercontainer"
+        app:layout_constraintEnd_toEndOf="@+id/profilebanner"
+        app:layout_constraintStart_toStartOf="@+id/profilebanner"
+        app:layout_constraintTop_toTopOf="@+id/profilebanner"
         app:srcCompat="@drawable/defaultprofilepicturesmall" />
 
     <TextView
