@@ -38,6 +38,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -59,10 +60,6 @@ public class HomescreenActivity extends AppCompatActivity {
 
     DrawerLayout drawerLayout;
     DrawerLayout drawNavView;
-    ActionBarDrawerToggle actionBarDrawerToggle;
-    NavigationView navigationView;
-    AppBarConfiguration appBarConfiguration;
-    Toolbar toolbar;
     ImageButton navdrawerBtn;
 
     HomeFragment homeFragment = new HomeFragment();
@@ -90,8 +87,6 @@ public class HomescreenActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, homeFragment).commit();
-        //binding = ActivityMainBinding.inflate(getLayoutInflater());
-        //getSupportFragmentManager().beginTransaction().replace(R.id.side_nav_frame_layout, homeFragment).commit();
 
         // Get Authentication instance
         mAuth = FirebaseAuth.getInstance();
@@ -111,6 +106,16 @@ public class HomescreenActivity extends AppCompatActivity {
             else
                 Log.w("com.example.unilink", "Error: current User is NULL");
         }
+
+        navdrawerBtn=findViewById(R.id.navDrawerBtn);
+        navdrawerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawNavView=findViewById(R.id.nav_drawer_layout);
+                if(!drawNavView.isDrawerOpen(GravityCompat.START)) drawNavView.openDrawer(GravityCompat.START);
+                else drawNavView.closeDrawer(GravityCompat.END);
+            }
+        });
 
         bundle = new Bundle();
 
@@ -146,20 +151,8 @@ public class HomescreenActivity extends AppCompatActivity {
             }
         });
 
-        drawNavView = findViewById(R.id.nav_drawer_layout);
-        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawNavView, R.string.sidenav_open, R.string.sidenav_close);
-        drawNavView.addDrawerListener(actionBarDrawerToggle);
-        actionBarDrawerToggle.syncState();
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
