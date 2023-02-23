@@ -1,12 +1,21 @@
 package com.example.unilink.Activities;
 
+import static androidx.navigation.ui.NavigationUI.setupActionBarWithNavController;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
 
 import com.example.unilink.Fragments.ChatFragment;
 import com.example.unilink.Fragments.HomeFragment;
@@ -21,13 +30,20 @@ import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 
+import android.annotation.SuppressLint;
+import android.bluetooth.BluetoothAdapter;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.util.Log;
+import android.Manifest;
 
 import com.example.unilink.Models.UnilinkUser;
 
@@ -43,8 +59,7 @@ public class HomescreenActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
 
     DrawerLayout drawerLayout;
-    NavigationView navigationView;
-    Toolbar toolbar;
+    DrawerLayout drawNavView;
     ImageButton navdrawerBtn;
 
     HomeFragment homeFragment = new HomeFragment();
@@ -57,18 +72,18 @@ public class HomescreenActivity extends AppCompatActivity {
         super.onStart();        
     }
 
+    @SuppressLint("MissingInflatedId")
+    @RequiresApi(api = Build.VERSION_CODES.S)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_homescreen);
+        // Request permissions
+        ActivityCompat.requestPermissions(this, new String[]{
+            Manifest.permission.BLUETOOTH,Manifest.permission.BLUETOOTH_CONNECT,Manifest.permission.BLUETOOTH_ADMIN
+        },1);
 
-        navdrawerBtn = findViewById(R.id.navDrawerBtn);
-        navdrawerBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                logout();
-            }
-        });
+
+        setContentView(R.layout.activity_homescreen);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, homeFragment).commit();
@@ -91,6 +106,16 @@ public class HomescreenActivity extends AppCompatActivity {
             else
                 Log.w("com.example.unilink", "Error: current User is NULL");
         }
+
+        navdrawerBtn=findViewById(R.id.navDrawerBtn);
+        navdrawerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawNavView=findViewById(R.id.nav_drawer_layout);
+                if(!drawNavView.isDrawerOpen(GravityCompat.START)) drawNavView.openDrawer(GravityCompat.START);
+                else drawNavView.closeDrawer(GravityCompat.END);
+            }
+        });
 
         bundle = new Bundle();
 
@@ -126,36 +151,7 @@ public class HomescreenActivity extends AppCompatActivity {
             }
         });
 
-        // drawerLayout = findViewById(R.id.drawerLayout);
-        // navigationView = findViewById(R.id.navigationView);
-        // toolbar = findViewById(R.id.toolbar);
-        //
-        // setSupportActionBar(toolbar);
-        //
-        // ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout,
-        // toolbar, R.string.opendrawer,
-        // R.string.closedrawer);
 
-        // drawerLayout.addDrawerListener(toggle);
-
-        // toggle.syncState();
-
-        // to open the options in the drawe
-        // navigationView.setNavigationItemSelectedListener(new
-        // NavigationView.OnNavigationItemSelectedListener() {
-        // @Override
-        // public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        // int id = item.getItemId();
-        // // Settings
-        // // Logout
-        // // Support
-        // // Terms and Policies
-        // // About
-        //
-        // drawerLayout.closeDrawer(GravityCompat.START);
-        // return true;
-        // }
-        // });
 
     }
 
@@ -183,6 +179,7 @@ public class HomescreenActivity extends AppCompatActivity {
         getSharedPreferences("UserPrefs",MODE_PRIVATE).edit().remove("userJson").commit();
         Log.d("com.example.unilink", "User Logout Successful");
         Intent i = new Intent(this, LoginorregisterActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(i);
         finish();
     }
