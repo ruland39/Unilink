@@ -26,17 +26,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.unilink.Activities.BLE.BeaconService;
 import com.example.unilink.Activities.BLE.MonitoringActivity;
 import com.example.unilink.Models.BluetoothButton;
 import com.example.unilink.R;
 import com.facebook.shimmer.Shimmer;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
+import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconManager;
 import org.altbeacon.beacon.BeaconParser;
 import org.altbeacon.beacon.Identifier;
 import org.altbeacon.beacon.MonitorNotifier;
+import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
+
+import java.io.UnsupportedEncodingException;
+import java.nio.ByteBuffer;
+import java.util.Collection;
 
 import pl.bclogic.pulsator4droid.library.PulsatorLayout;
 
@@ -45,7 +52,7 @@ import pl.bclogic.pulsator4droid.library.PulsatorLayout;
  * Use the {@link HomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeFragment extends Fragment implements MonitorNotifier {
+public class HomeFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -69,7 +76,8 @@ public class HomeFragment extends Fragment implements MonitorNotifier {
     private ShimmerFrameLayout shimmerFrameLayout;
 
     private final Region wildcardRegion = new Region("wildcardRegion",
-            Identifier.parse("2f234454-cf6d-4a0f-adf2-f4911ba9ffa5"), Identifier.parse("1"),Identifier.parse("1"));
+            null,null,null);
+    private BeaconManager beaconManager = null;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -92,6 +100,7 @@ public class HomeFragment extends Fragment implements MonitorNotifier {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initDataset();
+        beaconManager = BeaconManager.getInstanceForApplication(getContext());
     }
 
     @Override
@@ -130,8 +139,7 @@ public class HomeFragment extends Fragment implements MonitorNotifier {
                 shimmerFrameLayout.startShimmer();
 
                 // Start the monitoring activity while it looks for a person
-                BeaconManager beaconManager = BeaconManager.getInstanceForApplication(getContext());
-                startMonitor(beaconManager);
+                startMonitor();
             }
             else if (mBtBtn.isDiscovering()) {
                 mBtBtn.setConnected();
@@ -157,14 +165,28 @@ public class HomeFragment extends Fragment implements MonitorNotifier {
         return v;
     }
 
-    private void startMonitor(BeaconManager beaconManager) {
+    private void startMonitor() {
         beaconManager.getBeaconParsers().clear();
         beaconManager.getBeaconParsers().add(new BeaconParser().
-                setBeaconLayout("m:2-3=beac,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25"));
+                setBeaconLayout("m:2-3=beac,i:4-5,i:6-23,p:24-24,d:25-25"));
 
         beaconManager.setDebug(false);
-        beaconManager.addMonitorNotifier(this);
-        beaconManager.startMonitoring(wildcardRegion);
+//        beaconManager.addMonitorNotifier(this);
+//        beaconManager.startMonitoring(wildcardRegion);
+        beaconManager.addRangeNotifier(new RangeNotifier() {
+            @Override
+            public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
+                for (Beacon beacon : beacons) {
+                    if (beacon.getId1().equals(BeaconService.UNILINK_BEACON_ID)) {
+                        byte[] bytes = beacon.getId2().toByteArray();
+                        ByteBuffer buffer = ByteBuffer.wrap(bytes);
+                        Long uid = buffer.getLong();
+                        System.out.println("Found a Unilink User: " + uid);
+                    }
+                }
+            }
+        });
+        beaconManager.startRangingBeacons(wildcardRegion);
     }
 
     //region Bt-Perms
@@ -206,31 +228,31 @@ public class HomeFragment extends Fragment implements MonitorNotifier {
     }
     //endregion
     //region MonitorNotifier overriders
-    @Override
-    public void didEnterRegion(Region region) {
-        // For now, end the search if it finds one person.
-        // Stop Monitoring
-        System.out.println("YOUR MOTHER I FOUND");
-        getActivity().runOnUiThread(() -> {
-            Toast.makeText(getActivity(), "Entered a beacon region!", Toast.LENGTH_LONG).show();
-            mBtBtn.setConnected();
-            mPulsator.stop();
-            shimmerFrameLayout.stopShimmer();
-            shimmerFrameLayout.setVisibility(View.GONE);
-            mRecyclerView.setVisibility(View.VISIBLE);
-
-            // Stop Monitoring
-            BeaconManager beaconManager = BeaconManager.getInstanceForApplication(getContext());
-            beaconManager.stopMonitoring(wildcardRegion);
-        });
-    }
-
-    @Override
-    public void didExitRegion(Region region) {
-
-    }
-
-    @Override
-    public void didDetermineStateForRegion(int state, Region region){}
-        //endregion
+//    @Override
+//    public void didEnterRegion(Region region) {
+//        // For now, end the search if it finds one person.
+//        // Stop Monitoring
+//        System.out.println("YOUR MOTHER I FOUND");
+//        getActivity().runOnUiThread(() -> {
+//            Toast.makeText(getActivity(), "Entered a beacon region!", Toast.LENGTH_LONG).show();
+//            mBtBtn.setConnected();
+//            mPulsator.stop();
+//            shimmerFrameLayout.stopShimmer();
+//            shimmerFrameLayout.setVisibility(View.GONE);
+//            mRecyclerView.setVisibility(View.VISIBLE);
+//
+//            // Stop Monitoring
+//            BeaconManager beaconManager = BeaconManager.getInstanceForApplication(getContext());
+//            beaconManager.stopMonitoring(wildcardRegion);
+//        });
+//    }
+//
+//    @Override
+//    public void didExitRegion(Region region) {
+//
+//    }
+//
+//    @Override
+//    public void didDetermineStateForRegion(int state, Region region){}
+//        //endregion
 }
