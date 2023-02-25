@@ -21,6 +21,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.fragment.app.DialogFragment;
 
+import com.example.unilink.Activities.BLE.BeaconService;
 import com.example.unilink.Fragments.ChatFragment;
 import com.example.unilink.Fragments.HomeFragment;
 import com.example.unilink.Fragments.NotificationFragment;
@@ -45,7 +46,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.Gravity;
+import android.os.Parcelable;
 import android.provider.Settings;
 import android.view.MenuItem;
 import android.view.View;
@@ -193,37 +194,6 @@ public class HomescreenActivity extends AppCompatActivity
         startBeaconTransmission();
     }
 
-    private void startBeaconTransmission() {
-        List<Long> userId = new ArrayList<Long>();
-        if(currentUser != null)
-            userId.add(currentUser.getUid());
-        Beacon beacon = new Beacon.Builder()
-                .setId1("2f234454-cf6d-4a0f-adf2-f4911ba9ffa5")
-                .setId2("1")
-                .setId3("1")
-                .setRssi(-55)
-                .setTxPower(-59)// Remove this for beacon layouts without d: fields
-                .setDataFields(userId)
-                .build();
-
-        BeaconParser beaconParser = new BeaconParser()
-                .setBeaconLayout("m:2-3=beac,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25");
-        BeaconTransmitter beaconTransmitter = new BeaconTransmitter(getApplicationContext(), beaconParser);
-        beaconTransmitter.startAdvertising(beacon, new AdvertiseCallback() {
-            @Override
-            public void onStartSuccess(AdvertiseSettings settingsInEffect) {
-                super.onStartSuccess(settingsInEffect);
-                Log.d("com.example.unilink", "Beacon Advertisement started");
-            }
-
-            @Override
-            public void onStartFailure(int errorCode) {
-                Log.e("com.example.unilink", "Beacon Advertisement start failed with error: " + errorCode);
-            }
-        });
-
-    }
-
     @Override
     public void onStop() {
         super.onStop();
@@ -235,6 +205,12 @@ public class HomescreenActivity extends AppCompatActivity
         if (checkSelfPermission(Manifest.permission.BLUETOOTH_ADVERTISE) == PackageManager.PERMISSION_GRANTED){
             startBeaconTransmission();
         }
+    }
+
+    private void startBeaconTransmission() {
+        Intent startBeaconIntent = new Intent(this, BeaconService.class);
+        startBeaconIntent.putExtra("CurrentUid", currentUser.getUid());
+        startService(startBeaconIntent);
     }
 
     private UnilinkUser getCurrentUser() {

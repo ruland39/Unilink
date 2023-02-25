@@ -31,10 +31,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         // forces light mode
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        // Check for bluetooth availability
-        BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
+//        // Check for bluetooth availability
+//        BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
         // Checks for bluetooth support; if unavailable, end the application.
-        if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE) || adapter == null) {
+        if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
             Toast.makeText(this, "Bluetooth not supported. Application requires bluetooth to run", Toast.LENGTH_SHORT).show();
             finish();
         }
