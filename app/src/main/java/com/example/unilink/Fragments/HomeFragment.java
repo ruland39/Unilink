@@ -7,9 +7,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.Manifest;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.RequiresPermission;
+import androidx.core.app.ActivityCompat;
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,6 +30,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.unilink.Models.BluetoothButton;
@@ -27,17 +40,14 @@ import com.facebook.shimmer.ShimmerFrameLayout;
 
 import pl.bclogic.pulsator4droid.library.PulsatorLayout;
 
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link HomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class HomeFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    
     private static final int DATASET_COUNT = 10;
 
     private RecyclerView mRecyclerView;
@@ -108,13 +118,12 @@ public class HomeFragment extends Fragment {
             // If off, simply Enable Bluetooth and Receiver does the rest
             if (mBtBtn.isOff())
                 EnableBt();
-            else if (mBtBtn.isConnected()){
+            else if (mBtBtn.isConnected()) {
                 mBtBtn.setDiscovering();
                 mPulsator.start();
                 shimmerFrameLayout.startShimmer();
 
-            }
-            else if (mBtBtn.isDiscovering()) {
+            } else if (mBtBtn.isDiscovering()) {
                 mBtBtn.setConnected();
                 mPulsator.stop();
                 shimmerFrameLayout.stopShimmer();
@@ -170,7 +179,7 @@ public class HomeFragment extends Fragment {
 
     @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
     private void EnableBt() {
-        if (!btAdapter.isEnabled()){
+        if (!btAdapter.isEnabled()) {
             Intent btIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivity(btIntent);
         }
