@@ -61,6 +61,7 @@ public class HomescreenActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
     DrawerLayout drawNavView;
     ImageButton navdrawerBtn;
+    NavigationView navigationView;
 
     HomeFragment homeFragment = new HomeFragment();
     ChatFragment chatFragment = new ChatFragment();
@@ -114,6 +115,19 @@ public class HomescreenActivity extends AppCompatActivity {
                 drawNavView=findViewById(R.id.nav_drawer_layout);
                 if(!drawNavView.isDrawerOpen(GravityCompat.START)) drawNavView.openDrawer(GravityCompat.START);
                 else drawNavView.closeDrawer(GravityCompat.END);
+            }
+        });
+
+        navigationView=findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.logout:
+                        logout();
+                        return true;
+                }
+                return false;
             }
         });
 
