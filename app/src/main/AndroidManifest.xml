@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
     <!-- Permissions required for bluetooth and BLE usage -->
     <uses-feature
-        android:name="android.hardware.bluetooth" />
+        android:name="android.hardware.bluetooth"
+        android:required="true" />
     <uses-feature
         android:name="android.hardware.bluetooth_le"
         android:required="true" />
@@ -34,8 +35,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Unilink"
         tools:targetApi="31">
-        <service android:name=".Activities.BLE.BeaconService"
-            android:exported="false"/>
+        <service android:name=".Activities.BLE.BeaconWorker"
+            android:exported="false"
+            tools:node="merge"
+            android:foregroundServiceType="location"/>
         <activity
             android:name=".Activities.BLE.MonitoringActivity"
             android:exported="false" />

@@ -1,16 +1,10 @@
 package com.example.unilink.Activities;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import static androidx.navigation.ui.NavigationUI.setupActionBarWithNavController;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -20,8 +14,13 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.fragment.app.DialogFragment;
+import androidx.work.Data;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
+import androidx.work.WorkRequest;
+import androidx.core.view.GravityCompat;
 
-import com.example.unilink.Activities.BLE.BeaconService;
+import com.example.unilink.Activities.BLE.BeaconWorker;
 import com.example.unilink.Fragments.ChatFragment;
 import com.example.unilink.Fragments.HomeFragment;
 import com.example.unilink.Fragments.NotificationFragment;
@@ -31,22 +30,15 @@ import com.example.unilink.databinding.ActivityMainBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 
 import android.annotation.SuppressLint;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.le.AdvertiseCallback;
-import android.bluetooth.le.AdvertiseSettings;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.provider.Settings;
 import android.view.MenuItem;
 import android.view.View;
@@ -54,19 +46,9 @@ import android.widget.ImageButton;
 import android.util.Log;
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.app.Dialog;
 
-import com.example.unilink.UnilinkApplication;
 import com.example.unilink.Models.UnilinkUser;
 import com.example.unilink.Dialogs.BluetoothHomeScreenDialog;
-
-import org.altbeacon.beacon.Beacon;
-import org.altbeacon.beacon.BeaconParser;
-import org.altbeacon.beacon.BeaconTransmitter;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class HomescreenActivity extends AppCompatActivity
         implements BluetoothHomeScreenDialog.BtHomeScreenDialogListener {
@@ -197,20 +179,30 @@ public class HomescreenActivity extends AppCompatActivity
     @Override
     public void onStop() {
         super.onStop();
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
         if (checkSelfPermission(Manifest.permission.BLUETOOTH_ADVERTISE) == PackageManager.PERMISSION_GRANTED){
+            System.out.println("Transmission started");
             startBeaconTransmission();
+        } else {
+            startBeaconTransmission();
+            System.out.println("Transmission Failed; Bluetooth Ad not allowed");
+//            requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, 2);
         }
     }
 
     private void startBeaconTransmission() {
-        Intent startBeaconIntent = new Intent(this, BeaconService.class);
-        startBeaconIntent.putExtra("CurrentUid", currentUser.getUid());
-        startService(startBeaconIntent);
+        WorkRequest beaconWorkRequest =
+                new OneTimeWorkRequest.Builder(BeaconWorker.class)
+                        .setInputData(new Data.Builder()
+                                .putString("CurrentUid", currentUser.getUid())
+                                .build())
+                        .build();
+        WorkManager.getInstance(this).enqueue(beaconWorkRequest);
     }
 
     private UnilinkUser getCurrentUser() {
@@ -260,6 +252,7 @@ public class HomescreenActivity extends AppCompatActivity
         Boolean granted = true;
         for (String perm : perms) {
             if (ActivityCompat.checkSelfPermission(this, perm) != PackageManager.PERMISSION_GRANTED) {
+                System.out.println("Requesting permissions for "+perm+" denied");
                 granted = false;
             }
         }
@@ -277,7 +270,7 @@ public class HomescreenActivity extends AppCompatActivity
         // Add in the code, that logs out and disables the app if Bluetooth isn't
         // allowed by the user.
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        System.out.println("Requesting Permissions Code: "+requestCode + "; Result: " + grantResults[2]);
+        System.out.println("Requesting Permissions Code: "+requestCode + ";");
         if (requestCode == 1) {
             int denied = 0;
             System.out.println("Requesting Permissions CALLED");
@@ -294,6 +287,8 @@ public class HomescreenActivity extends AppCompatActivity
                 btDialog.show(getSupportFragmentManager(), "BluetoothHomeDialogFragment");
             } else
                 startBeaconTransmission();
+        } else {
+            return;
         }
     }
 
