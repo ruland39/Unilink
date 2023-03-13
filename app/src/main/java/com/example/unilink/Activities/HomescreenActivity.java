@@ -5,6 +5,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -107,7 +108,7 @@ public class HomescreenActivity extends AppCompatActivity
             startActivity(i);
             finish();
         } else {
-            String userJson = getSharedPreferences("UserPrefs",MODE_PRIVATE).getString("userJson", null);
+            String userJson = getSharedPreferences("UserPrefs", MODE_PRIVATE).getString("userJson", null);
             Log.d("com.example.unilink", "User JSON: " + userJson);
             Gson gson = new Gson();
             this.currentUser = gson.fromJson(userJson, UnilinkUser.class);
@@ -215,8 +216,8 @@ public class HomescreenActivity extends AppCompatActivity
         // remove sharedpreferences
         // open loginorregister
         mAuth.signOut();
-        getSharedPreferences("UserPrefs",MODE_PRIVATE).edit().remove("firebasekey").commit();
-        getSharedPreferences("UserPrefs",MODE_PRIVATE).edit().remove("userJson").commit();
+        getSharedPreferences("UserPrefs", MODE_PRIVATE).edit().remove("firebasekey").commit();
+        getSharedPreferences("UserPrefs", MODE_PRIVATE).edit().remove("userJson").commit();
         Log.d("com.example.unilink", "User Logout Successful");
         Intent i = new Intent(this, LoginorregisterActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
