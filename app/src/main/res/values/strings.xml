@@ -70,6 +70,45 @@
     <string name="editprofilebanner">Edit Profile Banner</string>
     <string name="editprofiledetails">Edit Profile Details</string>
     <string name="loading">Loading...</string>
+    <string name="addyourphoto">Add Your Photo</string>
+    <string name="addyourphotodetails">Choose a photo for your profile picture. You can change this later. </string>
+    <string name="proceed">Proceed</string>
+    <string name="addyourprofilebanner">Add your Profile Banner</string>
+    <string name="addyourprofilebannerdetails">Choose a photo for your profile banner. You can change this later. </string>
+    <string name="whensyourbirthday">When\'s your Birthday</string>
+    <string name="whensyourbirthdaydetails">A</string>
+    <string name="writeyourbiosection">Write your Bio Section</string>
+    <string name="writeyourbiosectiondetails">Tell everything about yourself here</string>
+    <string name="label">Insert here</string>
+    <string name="chooseyourinterests">Choose your interests</string>
+    <string name="chooseyourinterestsdetails">please select the things you are interested in</string>
+    <string name="music">Music</string>
+    <string name="moviesortvhosws">Movie or TV shows</string>
+    <string name="sports">Sports</string>
+    <string name="outdooractivities">Outdoor Activities</string>
+    <string name="food">Food</string>
+    <string name="travel">Travel</string>
+    <string name="books">Books</string>
+    <string name="art">Art</string>
+    <string name="gaming">Gaming</string>
+    <string name="pop">Pop</string>
+    <string name="hiphop">Hip-Hop</string>
+    <string name="rock">Rock</string>
+    <string name="jazz">Jazz</string>
+    <string name="classical">Classical</string>
+    <string name="country">Country</string>
+    <string name="soccer">Soccer</string>
+    <string name="basketball">Basketball</string>
+    <string name="football">Football</string>
+    <string name="tennis">Tennis</string>
+    <string name="volleyball">Volleyball</string>
+    <string name="swimming">Swimming</string>
+    <string name="running">Running</string>
+
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>
