@@ -22,6 +22,7 @@ import com.example.unilink.Fragments.HomeFragment;
 import com.example.unilink.Fragments.NotificationFragment;
 import com.example.unilink.Fragments.ProfileFragment;
 import com.example.unilink.R;
+import com.example.unilink.UnilinkApplication;
 import com.example.unilink.databinding.ActivityMainBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -70,11 +71,23 @@ public class HomescreenActivity extends AppCompatActivity {
 
     @Override
     public void onStart() {
-        super.onStart();        
+        super.onStart();
+        // Get Authentication instance
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUsr = mAuth.getCurrentUser();
+        this.currentUser = new UnilinkUser();
+        if (currentUsr == null) {
+            Intent i = new Intent(this, LoginorregisterActivity.class);
+            startActivity(i);
+            finish();
+        } else {
+            Intent i = getIntent();
+            currentUser = i.getParcelableExtra("AuthenticatedUser");
+        }
     }
 
     @SuppressLint("MissingInflatedId")
-    @RequiresApi(api = Build.VERSION_CODES.S)
+    @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,30 +96,10 @@ public class HomescreenActivity extends AppCompatActivity {
             Manifest.permission.BLUETOOTH,Manifest.permission.BLUETOOTH_CONNECT,Manifest.permission.BLUETOOTH_ADMIN
         },1);
 
-
         setContentView(R.layout.activity_homescreen);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, homeFragment).commit();
-
-        // Get Authentication instance
-        mAuth = FirebaseAuth.getInstance();
-        FirebaseUser currentUsr = mAuth.getCurrentUser();        
-        this.currentUser = new UnilinkUser();
-        if (currentUsr == null) {
-            Intent i = new Intent(this, LoginorregisterActivity.class);
-            startActivity(i);
-            finish();
-        } else {
-            String userJson = getSharedPreferences("UserPrefs",MODE_PRIVATE).getString("userJson", null);
-            Log.d("com.example.unilink", "User JSON: " + userJson);
-            Gson gson = new Gson();
-            this.currentUser = gson.fromJson(userJson, UnilinkUser.class);
-            if (this.currentUser != null)
-                Log.d("com.example.unilink", "Succesfully taken object from userJson");
-            else
-                Log.w("com.example.unilink", "Error: current User is NULL");
-        }
 
         navdrawerBtn=findViewById(R.id.navDrawerBtn);
         navdrawerBtn.setOnClickListener(new View.OnClickListener() {

@@ -4,6 +4,7 @@ import android.app.Application;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
+import android.content.Context;
 import android.content.Intent;
 
 import com.example.unilink.Activities.BLE.MonitoringActivity;
@@ -12,37 +13,23 @@ import org.altbeacon.beacon.BeaconManager;
 import org.altbeacon.beacon.MonitorNotifier;
 import org.altbeacon.beacon.Region;
 
-public class UnilinkApplication extends Application implements MonitorNotifier {
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
+public class UnilinkApplication extends Application{
+	private static Context mContext;
+	private static ExecutorService executor = Executors.newFixedThreadPool(3);
 	@Override
 	public void onCreate() {
 		super.onCreate();
-
-		BeaconManager beaconMgr = BeaconManager.getInstanceForApplication(this);
-		beaconMgr.setDebug(true);
-
-		// Setting up foreground service for the application
-		Notification.Builder notifBuilder = new Notification.Builder(this);
-		notifBuilder.setSmallIcon(R.mipmap.ic_launcher_round);
-		notifBuilder.setContentTitle("Scanning for beacons in the background");
-		Intent fgService = new Intent(this, MonitoringActivity.class);
-		PendingIntent pendingIntent = PendingIntent.getActivity(
-				this, 0, fgService, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
-		);
-		notifBuilder.setContentIntent(pendingIntent);
+		this.mContext = getApplicationContext();
 	}
 
-	@Override
-	public void didEnterRegion(Region region) {
-
+	public static Context getContext() {
+		return mContext;
 	}
 
-	@Override
-	public void didExitRegion(Region region) {
-
-	}
-	@Override
-	public void didDetermineStateForRegion(int state, Region region) {
-
+	public static ExecutorService getExecutor(){
+		return executor;
 	}
 }

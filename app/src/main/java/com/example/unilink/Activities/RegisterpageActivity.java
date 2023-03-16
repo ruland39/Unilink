@@ -1,46 +1,30 @@
 package com.example.unilink.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.annotation.NonNull;
 
 import com.example.unilink.Activities.FeaturePage.LoadingDialogBar;
 import com.example.unilink.R;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.AuthResult;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.gson.Gson;
+import com.example.unilink.Services.UserService;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import android.text.*;
 import android.util.Log;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import com.example.unilink.Models.UnilinkUser;
 
 public class RegisterpageActivity extends AppCompatActivity {
-
-    //TODO: Fix up unused variables
-    private FirebaseAuth mAuth;
-    private FirebaseFirestore db;
-
+    private static final String TAG = "RegisterPageActivity";
     private Button registerBtn;
 
     // EditText objects for the inputs
@@ -53,6 +37,8 @@ public class RegisterpageActivity extends AppCompatActivity {
     private CheckBox showHidePW;
     LoadingDialogBar loadingDialogBar;
 
+    private UserService userService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,24 +46,18 @@ public class RegisterpageActivity extends AppCompatActivity {
 
         // Set back button clicking
         ImageButton backbutton = findViewById(R.id.backbutton);
-        loadingDialogBar = new LoadingDialogBar(this);
+
         backbutton.setOnClickListener(v -> {
-            finish(); // finishing the activity basically closing the page
-            // openBacktoLoginorRegisterPage();
+            finish();
         });
 
-        mAuth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
+        loadingDialogBar = new LoadingDialogBar(this);
+        userService = new UserService();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        // Check connection value
-        if (mAuth == null || db == null) {
-            Toast.makeText(getApplicationContext(), "Unable to connect to Firebase", Toast.LENGTH_SHORT).show();
-            finish();
-        }
 
         // Getting input objects
         firstName = findViewById(R.id.firstname);
@@ -185,15 +165,8 @@ public class RegisterpageActivity extends AppCompatActivity {
             validated = b;
         registerBtn.setEnabled(validated);
         registerBtn.setOnClickListener(v -> {
-            boolean success1 = createAccount(email.getText().toString(), password.getText().toString(),
-                    firstName.getText().toString(),
-                    lastName.getText().toString(),
-                    phoneNumber.getText().toString());
-            if (success1) {
-                loadingDialogBar.showDialog("Loading");
-                finish();
-            } else
-                Toast.makeText(getApplicationContext(), "Authentication Error", Toast.LENGTH_SHORT).show();
+            loadingDialogBar.showDialog("Loading");
+            RegisterUser();
         });
 
         showHidePW.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -207,65 +180,21 @@ public class RegisterpageActivity extends AppCompatActivity {
         });
     }
 
-    public void openHomeScreen() {
-        Intent i = new Intent(this, HomescreenActivity.class);
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(i);
-        finish();
-    }
-
-    // Create FirebaseAuthentication
-    private boolean createAccount(String email, String password, String firstName, String lastName, String pNumber) {
-        Log.d("com.example.unilink", "createAccount:" + email);
-
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            String userId = user.getUid();
-                            getSharedPreferences("UserPrefs",MODE_PRIVATE).edit().putString("firebasekey", userId).commit();
-                            Log.d("com.example.unilink", "UserIdOnSharedPref: success");
-                            // Add the user information into the database
-                            addUserInfo(user);
-                            openHomeScreen();
-                        } else {
-                            Log.w("com.example.unilink", "createAccountWithEmail: failed");
-                            Toast.makeText(getApplicationContext(), "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                        }
+    private void RegisterUser() {
+        userService.Register(email.getText().toString(), password.getText().toString(),
+                firstName.getText().toString(),
+                lastName.getText().toString(),
+                phoneNumber.getText().toString(), authenticatedUser -> {
+                    Log.d(TAG, "[UserService] Successful User Register for " + authenticatedUser);
+                    loadingDialogBar.hideDialog();
+                    if (authenticatedUser != null){
+                        Intent i = new Intent(this, HomescreenActivity.class);
+                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        i.putExtra("AuthenticatedUser", (Parcelable) authenticatedUser);
+                        this.startActivity(i);
+                        this.finish();
                     }
                 });
 
-        return true;
-    }
-
-    // Adding user information into the database
-    private void addUserInfo(FirebaseUser user) {
-        Log.d("com.example.unilink", "createUser:" + user.getEmail());
-
-        UnilinkUser uUser = new UnilinkUser(user.getUid(), firstName.getText().toString(),
-                lastName.getText().toString(), phoneNumber.getText().toString(), email.getText().toString());
-        db.collection("user_information")
-                .add(uUser)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference docRef) {
-                        Log.d("com.example.unilink",
-                                "FirestoreDocument succesfully written with ID: " + docRef.getId());
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w("com.example.unilink", "Error adding User Information Document on Firestore", e);
-                    }
-                });
-
-        Gson gson = new Gson();
-        String objString = gson.toJson(uUser);
-        getSharedPreferences("UserPrefs",MODE_PRIVATE).edit().putString("userJson", objString).commit();
-        Log.d("com.example.unilink", "Succesfully added User JSON to SharedPref: " + objString);
     }
 }

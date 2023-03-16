@@ -29,7 +29,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Unilink"
-        tools:targetApi="31">
+        tools:targetApi="33">
         <activity
             android:name=".Activities.BLE.MonitoringActivity"
             android:exported="false" />

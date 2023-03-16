@@ -41,6 +41,15 @@ public class UnilinkUser implements Parcelable, Serializable {
 
     }
 
+    public UnilinkUser getDataFrom(UnilinkUser usr) {
+        this.auth_uid = usr.auth_uid;
+        this.user_fullName = usr.user_fullName;
+        this.user_email = usr.user_email;
+        this.user_phoneNum = usr.user_phoneNum;
+        this.user_lastUpdated = usr.user_lastUpdated;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "[Email: " + this.user_email + "; FullName: " + this.user_fullName + " ; Phone: " + this.user_phoneNum + "]";
@@ -135,17 +144,14 @@ public class UnilinkUser implements Parcelable, Serializable {
         dest.writeString(this.auth_uid);
         dest.writeString(this.user_phoneNum);
         dest.writeString(this.user_email);
-        dest.writeString(this.getFullName());
-        dest.writeString(this.getFirstName());
-        dest.writeString(this.getLastName());
+        dest.writeSerializable(this.user_fullName);
     }
 
     private UnilinkUser(Parcel in) {
         this.auth_uid = in.readString();
         this.user_phoneNum = in.readString();
         this.user_email = in.readString();
-        this.user_fullName.put("firstName", in.readString());
-        this.user_fullName.put("lastName", in.readString());
+        this.user_fullName = (HashMap<String, String>) in.readSerializable();
     }
 
     public static final Parcelable.Creator<UnilinkUser> CREATOR = new Parcelable.Creator<UnilinkUser>() {
