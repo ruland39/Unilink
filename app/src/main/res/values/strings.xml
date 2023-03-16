@@ -70,6 +70,6 @@
     <string name="editprofilebanner">Edit Profile Banner</string>
     <string name="editprofiledetails">Edit Profile Details</string>
     <string name="loading">Loading...</string>
-
+    <string name="firstTime">FirstTime?</string>
 
 </resources>

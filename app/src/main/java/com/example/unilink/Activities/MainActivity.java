@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -46,20 +47,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-    }
-
     // onStart method is called when the activity enters the Started state
     @Override
     public void onStart() {
         super.onStart();
         UserService userService = new UserService();
+        new Handler().postDelayed(()->{
             // in session
             if (userService.isInSession()) {
-                Log.d(TAG,"User session found!");
+                Log.d(TAG, "User session found!");
                 userService.getUserInfoByAuthId(userService.getCurrentUserSessionID(), user -> {
                     Log.d(TAG, "Retrieved current inSession User: " + user);
                     if (user != null) {
@@ -67,8 +63,7 @@ public class MainActivity extends AppCompatActivity {
                         i.putExtra("AuthenticatedUser", (Parcelable) user);
                         startActivity(i);
                         finish();
-                    }
-                    else {
+                    } else {
                         Toast.makeText(this,
                                 "No User Information Found but is in session! Contact Developer!",
                                 Toast.LENGTH_SHORT).show();
@@ -76,13 +71,26 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
             } else {
-                Log.d(TAG,"User session not found!");
-                openFp();
+                Log.d(TAG, "User session not found!");
+                // Get Boolean on first start
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+                boolean firstTime = prefs.getBoolean(getString(R.string.firstTime), true);
+                Intent i = new Intent(this, LoginorregisterActivity.class);
+                if (firstTime) {
+                    SharedPreferences.Editor edit = prefs.edit();
+                    edit.putBoolean(getString(R.string.firstTime),false).commit();
+                    i = new Intent(this, FeaturePageActivity.class);
+                }
+                startActivity(i);
+                finish();
             }
+        }, 1500);
     }
-    private void openFp() {
-        Intent i = new Intent(MainActivity.this, FeaturePageActivity.class);
-        startActivity(i);
-        finish();
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
+
 }
