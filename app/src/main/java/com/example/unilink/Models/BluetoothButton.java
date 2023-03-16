@@ -42,6 +42,7 @@ public class BluetoothButton extends AppCompatImageButton {
 		this.mIsConnected = true;
 		this.mIsDiscovering = false;
 		this.mIsOff = false;
+		refreshDrawableState();
 	}
 
 	public void setDiscovering() {
@@ -49,6 +50,7 @@ public class BluetoothButton extends AppCompatImageButton {
 		this.mIsConnected = false;
 		this.mIsDiscovering = true;
 		this.mIsOff = false;
+		refreshDrawableState();
 	}
 
 	public void setOff() {
@@ -56,6 +58,7 @@ public class BluetoothButton extends AppCompatImageButton {
 		this.mIsConnected = false;
 		this.mIsDiscovering = false;
 		this.mIsOff = true;
+		refreshDrawableState();
 	}
 
 	public boolean isConnected() {

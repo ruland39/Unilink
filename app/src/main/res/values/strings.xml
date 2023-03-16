@@ -71,5 +71,13 @@
     <string name="editprofiledetails">Edit Profile Details</string>
     <string name="loading">Loading...</string>
     <string name="firstTime">FirstTime?</string>
+    <!-- Beacon Transmission String Values -->
+    <string name="beaconlayout">m:2-3=beac,i:4-7,i:8-23,p:24-24,d:25-25</string>
+    <string name="beacon_transmission_notif_ChannelId">1</string>
+    <string name="beacon_transmission_notif_ChannelTitle">Unilink</string>
+    <string name= "beacon_transmission_notif_ChannelDesc">Unilink is using your bluetooth to show you off</string>
+    <string name="beacon_transmission_notif_id">1</string>
+    <string name="beacon_transmission_notif_title">Unilink - Showing your existence</string>
+    <string name="beacon_transmission_notif_cancel">Stop visibility</string>
 
 </resources>

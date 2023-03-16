@@ -9,8 +9,11 @@ import com.google.firebase.Timestamp;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
+import java.util.UUID;
 
 public class UnilinkUser implements Parcelable, Serializable {
+    private String Uid;
     private String auth_uid;
     private HashMap<String, String> user_fullName; // first name and last name
     private String user_phoneNum;
@@ -26,7 +29,7 @@ public class UnilinkUser implements Parcelable, Serializable {
         this.user_phoneNum = null;
     }
 
-    public UnilinkUser(String auth_id, String firstName, String lastName, String user_phoneNum, String user_email) {
+    public UnilinkUser(String auth_id, String firstName, String lastName, String user_phoneNum, String user_email, UUID uid) {
         // add user Id from Firebase
         this.auth_uid = auth_id;
         // creating first name and full name
@@ -38,7 +41,7 @@ public class UnilinkUser implements Parcelable, Serializable {
         this.user_phoneNum = user_phoneNum;
         this.user_email = user_email;
         this.user_lastUpdated = Timestamp.now();
-
+        this.Uid = uid != null ? uid.toString() : UUID.randomUUID().toString();
     }
 
     public UnilinkUser getDataFrom(UnilinkUser usr) {
@@ -104,6 +107,9 @@ public class UnilinkUser implements Parcelable, Serializable {
     public String getAuthId() {
         return this.auth_uid;
     }
+
+    public String getUid() {return this.Uid;}
+    public UUID getUUid() {return UUID.fromString(this.Uid);}
     /* #endregion */
 
     /* #region setters */
@@ -130,6 +136,9 @@ public class UnilinkUser implements Parcelable, Serializable {
     public void setFullName(String ffN) {
         return;
     }
+
+    public void setUid(String uid) {this.Uid = uid;}
+    public void setUUid(UUID uid) {this.Uid = uid.toString();}
     /* #endregion */
 
     /* #region Parcel Code */
@@ -145,6 +154,7 @@ public class UnilinkUser implements Parcelable, Serializable {
         dest.writeString(this.user_phoneNum);
         dest.writeString(this.user_email);
         dest.writeSerializable(this.user_fullName);
+        dest.writeString(this.Uid);
     }
 
     private UnilinkUser(Parcel in) {
@@ -152,6 +162,7 @@ public class UnilinkUser implements Parcelable, Serializable {
         this.user_phoneNum = in.readString();
         this.user_email = in.readString();
         this.user_fullName = (HashMap<String, String>) in.readSerializable();
+        this.Uid = in.readString();
     }
 
     public static final Parcelable.Creator<UnilinkUser> CREATOR = new Parcelable.Creator<UnilinkUser>() {

@@ -6,23 +6,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageManager;
-import android.Manifest;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothManager;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.RequiresPermission;
-import androidx.core.app.ActivityCompat;
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,21 +19,31 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.example.unilink.Activities.BLE.BeaconWorker;
 import com.example.unilink.Models.BluetoothButton;
 import com.example.unilink.R;
 import com.facebook.shimmer.Shimmer;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
-import pl.bclogic.pulsator4droid.library.PulsatorLayout;
+import org.altbeacon.beacon.Beacon;
+import org.altbeacon.beacon.BeaconManager;
+import org.altbeacon.beacon.BeaconParser;
+import org.altbeacon.beacon.RangeNotifier;
+import org.altbeacon.beacon.Region;
 
+import java.nio.ByteBuffer;
+import java.util.Collection;
+import java.util.UUID;
+
+import pl.bclogic.pulsator4droid.library.PulsatorLayout;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link HomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeFragment extends Fragment {
-    
+public class HomeFragment extends Fragment{
+
     private static final int DATASET_COUNT = 10;
 
     private RecyclerView mRecyclerView;
@@ -64,6 +60,10 @@ public class HomeFragment extends Fragment {
     private BluetoothAdapter btAdapter;
 
     private ShimmerFrameLayout shimmerFrameLayout;
+
+    private final Region wildcardRegion = new Region("wildcardRegion",
+            null,null,null);
+    private BeaconManager beaconManager = null;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -86,6 +86,10 @@ public class HomeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initDataset();
+        beaconManager = BeaconManager.getInstanceForApplication(getContext());
+        beaconManager.getBeaconParsers().clear();
+        beaconManager.getBeaconParsers().add(new BeaconParser().
+                setBeaconLayout(getString(R.string.beaconlayout)));
     }
 
     @Override
@@ -118,17 +122,23 @@ public class HomeFragment extends Fragment {
             // If off, simply Enable Bluetooth and Receiver does the rest
             if (mBtBtn.isOff())
                 EnableBt();
-            else if (mBtBtn.isConnected()) {
+            else if (mBtBtn.isConnected()){
                 mBtBtn.setDiscovering();
                 mPulsator.start();
                 shimmerFrameLayout.startShimmer();
 
-            } else if (mBtBtn.isDiscovering()) {
+                // Start the monitoring activity while it looks for a person
+                startMonitor();
+            }
+            else if (mBtBtn.isDiscovering()) {
                 mBtBtn.setConnected();
                 mPulsator.stop();
                 shimmerFrameLayout.stopShimmer();
                 shimmerFrameLayout.setVisibility(View.GONE);
                 mRecyclerView.setVisibility(View.VISIBLE);
+
+                // Stop Ranging
+                beaconManager.stopRangingBeacons(wildcardRegion);
             }
         });
 
@@ -147,6 +157,28 @@ public class HomeFragment extends Fragment {
         return v;
     }
 
+    private void startMonitor() {
+        beaconManager.setDebug(false);
+        beaconManager.addRangeNotifier(new RangeNotifier() {
+            @Override
+            public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
+                for (Beacon beacon : beacons) {
+                    System.out.println("PLEASEEEE" + beacon.getId1());
+                    if (beacon.getId1().equals(BeaconWorker.UNILINK_BEACON_ID)) {
+                        byte[] bytes = beacon.getId2().toByteArray();
+                        ByteBuffer buffer = ByteBuffer.wrap(bytes);
+                        long high = buffer.getLong();
+                        long low = buffer.getLong();
+                        UUID uid = new UUID(high, low);
+                        System.out.println("Found a Unilink User: " + uid.toString());
+                    }
+                }
+            }
+        });
+        beaconManager.startRangingBeacons(wildcardRegion);
+    }
+
+    //region Bt-Perms
     public BroadcastReceiver mBtUpdateReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -158,19 +190,18 @@ public class HomeFragment extends Fragment {
                 if (state == BluetoothAdapter.STATE_ON) {
                     mBtBtn.setConnected();
                 } else if (state == BluetoothAdapter.STATE_OFF) {
+                    mPulsator.stop();
                     mBtBtn.setOff();
                 }
             }
         }
     };
-
     public void onDestroyView() {
         super.onDestroyView();
     }
 
     public void onDestroy() {
         super.onDestroy();
-//        getActivity().unregisterReceiver(mBtUpdateReceiver);
     }
 
     private void initDataset() {
@@ -184,4 +215,5 @@ public class HomeFragment extends Fragment {
             startActivity(btIntent);
         }
     }
+    //endregion
 }

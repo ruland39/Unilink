@@ -3,21 +3,26 @@
     xmlns:tools="http://schemas.android.com/tools">
     <!-- Permissions required for bluetooth and BLE usage -->
     <uses-feature
-        android:name="android.hardware.bluetooth" />
+        android:name="android.hardware.bluetooth"
+        android:required="true" />
     <uses-feature
-        android:name="android.hardware.bluetooth_le"/>
+        android:name="android.hardware.bluetooth_le"
+        android:required="true" />
     <uses-permission
-        android:name="android.permission.BLUETOOTH" />
+        android:name="android.permission.BLUETOOTH"/>
     <uses-permission
         android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission
         android:name="android.permission.BLUETOOTH_SCAN"
-        android:usesPermissionFlags="neverForLocation"/>
+        android:usesPermissionFlags="neverForLocation" />
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" /> <!-- Permissions needed to use the beacon -->
+    <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:name=".UnilinkApplication"
@@ -30,6 +35,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Unilink"
         tools:targetApi="33">
+        <service android:name=".Activities.BLE.BeaconWorker"
+            android:exported="false"
+            tools:node="merge"
+            android:foregroundServiceType="location"/>
         <activity
             android:name=".Activities.BLE.MonitoringActivity"
             android:exported="false" />

@@ -46,7 +46,7 @@ public class RegisterpageActivity extends AppCompatActivity {
 
         // Set back button clicking
         ImageButton backbutton = findViewById(R.id.backbutton);
-
+        loadingDialogBar = new LoadingDialogBar(this);
         backbutton.setOnClickListener(v -> {
             finish();
         });
