@@ -2,9 +2,11 @@ package com.example.unilink.Activities;
 
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -15,6 +17,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import com.example.unilink.Activities.FeaturePage.FeaturePageActivity;
 import com.example.unilink.Models.UnilinkUser;
 import com.example.unilink.R;
+import com.example.unilink.Services.UserService;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -22,9 +25,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.gson.Gson;
 
 public class MainActivity extends AppCompatActivity {
-    private FirebaseAuth mAuth;
-    private FirebaseFirestore db;
-
+    private final static String TAG = "MainActivity";
     // onCreate refers to a method that fires when the app is *created*
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,11 +44,6 @@ public class MainActivity extends AppCompatActivity {
 
         // set first page
         setContentView(R.layout.activity_main);
-        mAuth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
-        if(mAuth!= null){
-            mAuth.signOut();
-        }
     }
 
     @Override
@@ -60,62 +56,33 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        // basically, hold the layout main page for 1.5 seconds
-        new Handler().postDelayed(() -> {
-            FirebaseUser currentUsr = mAuth.getCurrentUser();
+        UserService userService = new UserService();
             // in session
-            if (currentUsr != null) {
-                String userId = currentUsr.getUid();
-                getSharedPreferences("UserPrefs", MODE_PRIVATE).edit().putString("firebasekey", userId).commit();
-                getUserInfo(user -> {
-                    Gson gson = new Gson();
-                    String objString = gson.toJson(user);
-                    getSharedPreferences("UserPrefs",MODE_PRIVATE).edit().putString("userJson", objString).commit();
-                    Log.d("com.example.unilink", "Succesfully added User JSON to SharedPref: " + objString);
-                    if (user != null)
-                        openHomeScreen();
-                    else
+            if (userService.isInSession()) {
+                Log.d(TAG,"User session found!");
+                userService.getUserInfoByAuthId(userService.getCurrentUserSessionID(), user -> {
+                    Log.d(TAG, "Retrieved current inSession User: " + user);
+                    if (user != null) {
+                        Intent i = new Intent(MainActivity.this, HomescreenActivity.class);
+                        i.putExtra("AuthenticatedUser", (Parcelable) user);
+                        startActivity(i);
                         finish();
-                });
-            } else
-                openFp();
-        }, 1500);
-    }
-
-    // Get the user information from firestore
-    private void getUserInfo(GetUserCallback myCallback) {
-        // Log.d("com.example.unilink", "Getting User Information from Firestore for: " + user.getEmail());
-        db.collection("user_information")
-                .whereEqualTo("authId", getSharedPreferences("UserPrefs",MODE_PRIVATE).getString("firebasekey", ""))
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot doc : task.getResult()) {
-                            UnilinkUser uUser = doc.toObject(UnilinkUser.class);
-                            myCallback.onCallback(uUser);
-                        }
-                    } else {
-                        Log.w("com.example.unilink", "Error getting document: ", task.getException());
-                        Toast.makeText(getApplicationContext(), "Unable to get User Information",
+                    }
+                    else {
+                        Toast.makeText(this,
+                                "No User Information Found but is in session! Contact Developer!",
                                 Toast.LENGTH_SHORT).show();
                         finish();
                     }
                 });
+            } else {
+                Log.d(TAG,"User session not found!");
+                openFp();
+            }
     }
-
     private void openFp() {
         Intent i = new Intent(MainActivity.this, FeaturePageActivity.class);
         startActivity(i);
         finish();
-    }
-
-    private void openHomeScreen() {
-        Intent i = new Intent(MainActivity.this, HomescreenActivity.class);
-        startActivity(i);
-        finish();
-    }
-
-    private interface GetUserCallback {
-        void onCallback(UnilinkUser user);
     }
 }

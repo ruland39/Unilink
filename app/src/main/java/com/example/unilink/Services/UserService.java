@@ -141,6 +141,67 @@ public class UserService {
                 });
     }
 
+    /**
+     * Function that retrieves user information from the Firestore
+     * database. Returns the information through a callback (async function)
+     * @param AuthId used as parameter of User Information to be found
+     * @param callback Callback used to return information; Returns null if NOT FOUND
+     */
+    public void getUserInfoByAuthId(String AuthId, UserCallback callback) {
+        Log.d(TAG, "Get User Information by Auth ID has been called");
+        db.collection("user_information")
+                .whereEqualTo("authId", AuthId)
+                .get()
+                .addOnCompleteListener(task->{
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot doc : task.getResult()) {
+                            UnilinkUser uUser = doc.toObject(UnilinkUser.class);
+                            callback.onCallback(uUser);
+                        }
+                    } else {
+                        callback.onCallback(null);
+                    }
+                });
+    }
+
+    /**
+     * Function that retrieves user information from the Firestore
+     * database. Returns the information through a callback (async function)
+     * @param Uid used as parameter of User Information to be found
+     * @param callback Callback used to return information; Returns null if NOT FOUND
+     */
+    public void getUserInfoByUId(String Uid, UserCallback callback) {
+        Log.d(TAG, "Get User Information by UID has been called for UID: " + Uid);
+        db.collection("user_information")
+                .whereEqualTo("uid", Uid)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot doc : task.getResult()) {
+                            UnilinkUser uUser = doc.toObject(UnilinkUser.class);
+                            callback.onCallback(uUser);
+                        }
+                    } else {
+                        callback.onCallback(null);
+                    }
+                });
+    }
+
+    /**
+     * @return The current user session/auth id
+     */
+    public String getCurrentUserSessionID() {
+        return mAuth.getUid();
+    }
+
+    /**
+     * @return If Current User Session is authenticated
+     */
+    public boolean isInSession() {
+        FirebaseUser usr = mAuth.getCurrentUser();
+        return (usr!=null? true : false);
+    }
+
     public interface UserCallback {
         void onCallback(UnilinkUser uUser);
     }
