@@ -51,8 +51,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        UserService userService = new UserService();
         new Handler().postDelayed(()->{
+            UserService userService = new UserService();
             // in session
             if (userService.isInSession()) {
                 Log.d(TAG, "User session found!");

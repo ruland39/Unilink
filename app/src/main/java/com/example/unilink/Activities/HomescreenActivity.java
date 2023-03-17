@@ -27,6 +27,7 @@ import com.example.unilink.Fragments.HomeFragment;
 import com.example.unilink.Fragments.NotificationFragment;
 import com.example.unilink.Fragments.ProfileFragment;
 import com.example.unilink.R;
+import com.example.unilink.Services.UserService;
 import com.example.unilink.UnilinkApplication;
 import com.example.unilink.databinding.ActivityMainBinding;
 import com.google.firebase.auth.FirebaseAuth;
@@ -55,11 +56,9 @@ import com.example.unilink.Dialogs.BluetoothHomeScreenDialog;
 public class HomescreenActivity extends AppCompatActivity
         implements BluetoothHomeScreenDialog.BtHomeScreenDialogListener {
 
-    // TODO: BIG TODO, FIX UP THE HOMESCREEN ACTIVITY and add all of its fragments
-    private FirebaseAuth mAuth;
-    private SharedPreferences sharedPref;
+    private static final String TAG = "HomescreenActivity";
     private UnilinkUser currentUser;
-    private Bundle bundle;
+    private UserService userService;
 
     ActivityMainBinding binding;
     BottomNavigationView bottomNavigationView;
@@ -77,17 +76,16 @@ public class HomescreenActivity extends AppCompatActivity
     @Override
     public void onStart() {
         super.onStart();
-        // Get Authentication instance
-        mAuth = FirebaseAuth.getInstance();
-        FirebaseUser currentUsr = mAuth.getCurrentUser();
-        this.currentUser = new UnilinkUser();
-        if (currentUsr == null) {
+        this.currentUser = null;
+        if (!userService.isInSession()) {
             Intent i = new Intent(this, LoginorregisterActivity.class);
             startActivity(i);
             finish();
         } else {
-            Intent i = getIntent();
-            currentUser = i.getParcelableExtra("AuthenticatedUser");
+            if (currentUser == null) {
+                Intent i = getIntent();
+                currentUser = i.getParcelableExtra("AuthenticatedUser");
+            }
         }
     }
 
@@ -96,6 +94,12 @@ public class HomescreenActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        userService = new UserService();
+
+        // Saved Instance state of activity to retrieve data
+        if (savedInstanceState != null) {
+            currentUser = savedInstanceState.getParcelable("CurrentUser");
+        }
 
         // Validate permission
         String[] BtPerms = {
@@ -110,29 +114,21 @@ public class HomescreenActivity extends AppCompatActivity
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, homeFragment).commit();
 
         navdrawerBtn=findViewById(R.id.navDrawerBtn);
-        navdrawerBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                drawNavView=findViewById(R.id.nav_drawer_layout);
-                if(!drawNavView.isDrawerOpen(GravityCompat.START)) drawNavView.openDrawer(GravityCompat.START);
-                else drawNavView.closeDrawer(GravityCompat.END);
-            }
+        navdrawerBtn.setOnClickListener(v -> {
+            drawNavView=findViewById(R.id.nav_drawer_layout);
+            if(!drawNavView.isDrawerOpen(GravityCompat.START)) drawNavView.openDrawer(GravityCompat.START);
+            else drawNavView.closeDrawer(GravityCompat.END);
         });
 
         navigationView=findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){
-                    case R.id.logout:
-                        logout();
-                        return true;
-                }
-                return false;
+        navigationView.setNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()){
+                case R.id.logout:
+                    logout();
+                    return true;
             }
+            return false;
         });
-
-        bundle = new Bundle();
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(item -> {
@@ -151,10 +147,6 @@ public class HomescreenActivity extends AppCompatActivity
                             .commit();
                     return true;
                 case R.id.profile:
-                    // Add Profile Fragment argument to hold UnilinkUser
-                    // bundle.putParcelable("user", user);
-                    // user = bundle.getParcelable("user");
-                    // profileFragment.setArguments(bundle);
                     profileFragment = profileFragment.newInstance(user);
                     getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, profileFragment)
                             .commit();
@@ -162,9 +154,13 @@ public class HomescreenActivity extends AppCompatActivity
             }
             return false;
         });
+    }
 
-
-
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        Log.d(TAG, "Activity going to the background! Saving states..");
+        outState.putParcelable("CurrentUser", currentUser);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -186,6 +182,8 @@ public class HomescreenActivity extends AppCompatActivity
     }
 
     private void startBeaconTransmission() {
+        if(currentUser == null)
+            throw new RuntimeException("CURRENT USER IS NULL");
         WorkRequest beaconWorkRequest =
                 new OneTimeWorkRequest.Builder(BeaconWorker.class)
                         .setInputData(new Data.Builder()
@@ -201,14 +199,13 @@ public class HomescreenActivity extends AppCompatActivity
 
     // logout method
     public void logout() {
-        // drawerLayout.setVisibility(View.VISIBLE);
-        // remove sharedpreferences
-        // open loginorregister
-        mAuth.signOut();
-        Log.d("com.example.unilink", "User Logout Successful");
-        Intent i = new Intent(this, LoginorregisterActivity.class);
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(i);
+        Intent ix = getIntent();
+        ix.removeExtra("AuthenticatedUser");
+        userService.signOut();
+        Log.d(TAG, "User Logout Successful");
+        ix = new Intent(this, LoginorregisterActivity.class);
+        ix.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(ix);
         finish();
     }
 

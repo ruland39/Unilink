@@ -36,6 +36,7 @@ public class BeaconWorker extends Worker {
 
     public static final Identifier UNILINK_BEACON_ID = Identifier.fromInt(0x8b9c);
     private BeaconTransmitter mBeaconTransmitter;
+    private UUID userID;
 
     public BeaconWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
@@ -46,12 +47,14 @@ public class BeaconWorker extends Worker {
         // Applying beacon parser
         mBeaconMgr.getBeaconParsers().add(customBeaconParser);
         mBeaconTransmitter = new BeaconTransmitter(getApplicationContext(), customBeaconParser);
+
+        userID = UUID.fromString(getInputData().getString("CurrentUid"));
+        Log.d("BeaconWorker", "Successfully set up Beacon Transmission Service");
     }
 
     @NonNull
     @Override
     public Result doWork() {
-        UUID userID = UUID.fromString(getInputData().getString("CurrentUid"));
         if (userID == null) {
             Toast.makeText(getApplicationContext(), "Unable to start Beacon Transmission", Toast.LENGTH_SHORT).show();
             Log.e("com.example.unilink: BeaconService","Unable to start beacon service due to a null Unilink user");

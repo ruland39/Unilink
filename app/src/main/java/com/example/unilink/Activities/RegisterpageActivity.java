@@ -160,9 +160,8 @@ public class RegisterpageActivity extends AppCompatActivity {
     // to be called on every text change
     private void buttonValidates() {
         // enable button after all validated
-        boolean validated = false;
-        for (boolean b : validatedInput)
-            validated = b;
+        boolean validated = true;
+        for (boolean b : validatedInput) if (!b) validated = false;
         registerBtn.setEnabled(validated);
         registerBtn.setOnClickListener(v -> {
             loadingDialogBar.showDialog("Loading");
@@ -181,13 +180,17 @@ public class RegisterpageActivity extends AppCompatActivity {
     }
 
     private void RegisterUser() {
-        userService.Register(email.getText().toString(), password.getText().toString(),
+        userService.Register(
+                loadingDialogBar,
+                email.getText().toString(),
+                password.getText().toString(),
                 firstName.getText().toString(),
                 lastName.getText().toString(),
-                phoneNumber.getText().toString(), authenticatedUser -> {
+                phoneNumber.getText().toString(),
+                authenticatedUser -> {
                     Log.d(TAG, "[UserService] Successful User Register for " + authenticatedUser);
-                    loadingDialogBar.hideDialog();
                     if (authenticatedUser != null){
+                        loadingDialogBar.hideDialog();
                         Intent i = new Intent(this, HomescreenActivity.class);
                         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         i.putExtra("AuthenticatedUser", (Parcelable) authenticatedUser);

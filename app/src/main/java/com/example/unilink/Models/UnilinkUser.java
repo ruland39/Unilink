@@ -29,7 +29,7 @@ public class UnilinkUser implements Parcelable, Serializable {
         this.user_phoneNum = null;
     }
 
-    public UnilinkUser(String auth_id, String firstName, String lastName, String user_phoneNum, String user_email, UUID uid) {
+    public UnilinkUser(String auth_id, String firstName, String lastName, String user_phoneNum, String user_email, String uid) {
         // add user Id from Firebase
         this.auth_uid = auth_id;
         // creating first name and full name
@@ -41,7 +41,7 @@ public class UnilinkUser implements Parcelable, Serializable {
         this.user_phoneNum = user_phoneNum;
         this.user_email = user_email;
         this.user_lastUpdated = Timestamp.now();
-        this.Uid = uid != null ? uid.toString() : UUID.randomUUID().toString();
+        this.Uid = (uid != null ? uid : UUID.randomUUID().toString());
     }
 
     public UnilinkUser getDataFrom(UnilinkUser usr) {
@@ -50,12 +50,13 @@ public class UnilinkUser implements Parcelable, Serializable {
         this.user_email = usr.user_email;
         this.user_phoneNum = usr.user_phoneNum;
         this.user_lastUpdated = usr.user_lastUpdated;
+        this.Uid = usr.getUid();
         return this;
     }
 
     @Override
     public String toString() {
-        return "[Email: " + this.user_email + "; FullName: " + this.user_fullName + " ; Phone: " + this.user_phoneNum + "]";
+        return "[UID: " + Uid + "; Email: " + this.user_email + "; FullName: " + this.user_fullName + " ; Phone: " + this.user_phoneNum + "]";
     }
 
     /* #region getName */
@@ -138,7 +139,6 @@ public class UnilinkUser implements Parcelable, Serializable {
     }
 
     public void setUid(String uid) {this.Uid = uid;}
-    public void setUUid(UUID uid) {this.Uid = uid.toString();}
     /* #endregion */
 
     /* #region Parcel Code */

@@ -57,12 +57,13 @@ public class UserService {
      * @param pNumber Phone Number details of the new user
      * @return A Result object that holds the UnilinkUser resulting data
      */
-    public void Register(String email,
+    public void Register(LoadingDialogBar bar,
+                         String email,
                          String password,
                          String firstName, String lastName, String pNumber,
                          UserCallback callback) {
         UnilinkUser uUser = new UnilinkUser(null, firstName,
-                lastName, pNumber, email);
+                lastName, pNumber, email,null);
         // Authenticate a new user
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
@@ -82,10 +83,10 @@ public class UserService {
 
                         Log.d(TAG, "Successful User and Account Creation for " + email);
                     } else {
-                        Log.w(TAG, "Account Authentication Failed.");
-                        Toast.makeText(UnilinkApplication.getContext(), "Authentication failed.",
+                        Log.w(TAG, "Account Registration Failed.");
+                        Toast.makeText(UnilinkApplication.getContext(), "Registration failed. Check network connection",
                                 Toast.LENGTH_SHORT).show();
-                        throw new UserException("Account Authentication Failed - User Creation Failed", new Throwable(UserExceptionType.AccountRegistrationFailed.name()));
+                        bar.hideDialog();
                     }
                 });
     }
@@ -96,7 +97,7 @@ public class UserService {
      * @param password Password used as input for authentication
      * @param callback Callback used for completion
      */
-    public void Login(String email, String password, UserCallback callback) {
+    public void Login(LoadingDialogBar bar, String email, String password, UserCallback callback) {
         Log.d(TAG, "Logged in called for user " + email);
         // Authenticate User
         UnilinkUser uUser = new UnilinkUser();
@@ -135,7 +136,7 @@ public class UserService {
                             Log.w(TAG, "Account Authentication Failed.");
                             Toast.makeText(UnilinkApplication.getContext(), "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
-                            throw new UserException("Account Authentication Failed - User Login Failed", new Throwable(UserExceptionType.LoginFailed.name()));
+                            bar.hideDialog();
                         }
                     }
                 });
@@ -200,6 +201,10 @@ public class UserService {
     public boolean isInSession() {
         FirebaseUser usr = mAuth.getCurrentUser();
         return (usr!=null? true : false);
+    }
+
+    public void signOut() {
+       mAuth.signOut();
     }
 
     public interface UserCallback {

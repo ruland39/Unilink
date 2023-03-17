@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -105,9 +106,8 @@ public class LoginpageActivity extends AppCompatActivity {
     }
 
     private void buttonValidates() {
-        boolean validated = false;
-        for (boolean b : validatedInput)
-            validated = b;
+        boolean validated = true;
+        for (boolean b : validatedInput) if (!b) validated = false;
         loginBtn.setEnabled(validated);
         if (validated)
             loginBtn.setOnClickListener(v -> {
@@ -127,18 +127,20 @@ public class LoginpageActivity extends AppCompatActivity {
     }
 
     private void LoginUser() {
-        userService.Login(email.getText().toString(),
-                password.getText().toString(), authenticatedUser -> {
-                    Log.d(TAG, "[UserService] Successful User Login for " + authenticatedUser);
-                    loadingDialogBar.hideDialog();
-                    if (authenticatedUser != null){
-                        Intent i = new Intent(this, HomescreenActivity.class);
-                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        i.putExtra("AuthenticatedUser", (Parcelable) authenticatedUser);
-                        this.startActivity(i);
-                        this.finish();
-                    }
-                });
+            userService.Login(loadingDialogBar,
+                    email.getText().toString(),
+                    password.getText().toString(),
+                    authenticatedUser -> {
+                        Log.d(TAG, "[UserService] Successful User Login for " + authenticatedUser);
+                        if (authenticatedUser != null) {
+                            loadingDialogBar.hideDialog();
+                            Intent i = new Intent(this, HomescreenActivity.class);
+                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            i.putExtra("AuthenticatedUser", (Parcelable) authenticatedUser);
+                            this.startActivity(i);
+                            this.finish();
+                        }
+                    });
 
     }
 
