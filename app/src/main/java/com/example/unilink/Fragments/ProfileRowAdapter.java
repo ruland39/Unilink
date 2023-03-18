@@ -9,12 +9,15 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.unilink.Models.UnilinkUser;
 import com.example.unilink.R;
 
+import java.util.ArrayList;
+
 public class ProfileRowAdapter extends RecyclerView.Adapter<ProfileRowAdapter.ViewHolder> {
-    private String[] mDataset;
-    public ProfileRowAdapter(String[] dataset) {
-        mDataset = dataset;
+    private ArrayList<UnilinkUser> mDataset;
+    public ProfileRowAdapter() {
+        mDataset = new ArrayList<>();
     }
 
     @NonNull
@@ -26,12 +29,31 @@ public class ProfileRowAdapter extends RecyclerView.Adapter<ProfileRowAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-//        holder.getText().setText(mDataset[position]);
+        if (mDataset.isEmpty())
+            holder.getText().setText("A Unilink User");
+        else
+            holder.getText().setText(mDataset.get(position).getFullName());
     }
 
     @Override
     public int getItemCount() {
-        return mDataset.length;
+        return mDataset.size();
+    }
+
+    public void addUser(UnilinkUser userToBeAdded,int position) {
+        this.mDataset.add(position,userToBeAdded);
+        this.notifyItemInserted(position);
+    }
+
+    public void removeUser(UnilinkUser userToBeRemoved) {
+        int index = mDataset.indexOf(userToBeRemoved);
+        mDataset.remove(userToBeRemoved);
+        notifyItemRemoved(index);
+    }
+
+    public void clearData(){
+        this.mDataset.clear();
+        this.notifyDataSetChanged();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
@@ -39,7 +61,6 @@ public class ProfileRowAdapter extends RecyclerView.Adapter<ProfileRowAdapter.Vi
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
             cardView = (CardView) itemView.findViewById(R.id.profile_row_cardview);
         }
 

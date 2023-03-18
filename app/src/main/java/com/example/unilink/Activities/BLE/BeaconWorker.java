@@ -34,8 +34,8 @@ import java.util.UUID;
 
 public class BeaconWorker extends Worker {
 
-    public static final Identifier UNILINK_BEACON_ID = Identifier.fromInt(0x8b9c);
-    private BeaconTransmitter mBeaconTransmitter;
+    public static final Identifier UNILINK_BEACON_ID = Identifier.fromInt(0x00008b9c);
+    private static BeaconTransmitter mBeaconTransmitter;
     private UUID userID;
 
     public BeaconWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
@@ -79,6 +79,12 @@ public class BeaconWorker extends Worker {
         return Result.success(new Data.Builder()
                 .putBoolean("StartedTransmission",
                         mBeaconTransmitter.isStarted()).build());
+    }
+
+    public static void stopAdvertisement() {
+        Log.d("BeaconWorker","Stopping Beacon Advertisement called...");
+        if (mBeaconTransmitter.isStarted())
+            mBeaconTransmitter.stopAdvertising();
     }
 
     @NonNull

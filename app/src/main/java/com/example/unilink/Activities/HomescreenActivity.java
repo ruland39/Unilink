@@ -16,6 +16,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.fragment.app.DialogFragment;
 import androidx.work.Data;
+import androidx.work.ExistingWorkPolicy;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 import androidx.work.WorkRequest;
@@ -52,6 +53,9 @@ import android.content.pm.PackageManager;
 
 import com.example.unilink.Models.UnilinkUser;
 import com.example.unilink.Dialogs.BluetoothHomeScreenDialog;
+
+import org.altbeacon.beacon.Beacon;
+import org.altbeacon.beacon.BeaconManager;
 
 public class HomescreenActivity extends AppCompatActivity
         implements BluetoothHomeScreenDialog.BtHomeScreenDialogListener {
@@ -104,7 +108,7 @@ public class HomescreenActivity extends AppCompatActivity
         // Validate permission
         String[] BtPerms = {
                 Manifest.permission.BLUETOOTH, Manifest.permission.BLUETOOTH_SCAN,
-                Manifest.permission.BLUETOOTH_ADVERTISE
+                Manifest.permission.BLUETOOTH_ADVERTISE, Manifest.permission.BLUETOOTH_CONNECT
         };
         validatePermissions(BtPerms);
 
@@ -113,9 +117,9 @@ public class HomescreenActivity extends AppCompatActivity
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, homeFragment).commit();
 
+        drawNavView=findViewById(R.id.nav_drawer_layout);
         navdrawerBtn=findViewById(R.id.navDrawerBtn);
         navdrawerBtn.setOnClickListener(v -> {
-            drawNavView=findViewById(R.id.nav_drawer_layout);
             if(!drawNavView.isDrawerOpen(GravityCompat.START)) drawNavView.openDrawer(GravityCompat.START);
             else drawNavView.closeDrawer(GravityCompat.END);
         });
@@ -165,6 +169,7 @@ public class HomescreenActivity extends AppCompatActivity
 
     @Override
     public void onStop() {
+        BeaconWorker.stopAdvertisement();
         super.onStop();
     }
 
@@ -184,13 +189,16 @@ public class HomescreenActivity extends AppCompatActivity
     private void startBeaconTransmission() {
         if(currentUser == null)
             throw new RuntimeException("CURRENT USER IS NULL");
-        WorkRequest beaconWorkRequest =
+        OneTimeWorkRequest beaconWorkRequest =
                 new OneTimeWorkRequest.Builder(BeaconWorker.class)
                         .setInputData(new Data.Builder()
                                 .putString("CurrentUid", currentUser.getUid())
                                 .build())
                         .build();
-        WorkManager.getInstance(this).enqueue(beaconWorkRequest);
+        WorkManager.getInstance(this).beginUniqueWork(
+                "BeaconTransmission",
+                ExistingWorkPolicy.REPLACE,
+                beaconWorkRequest).enqueue();
     }
 
     private UnilinkUser getCurrentUser() {
@@ -203,6 +211,7 @@ public class HomescreenActivity extends AppCompatActivity
         ix.removeExtra("AuthenticatedUser");
         userService.signOut();
         Log.d(TAG, "User Logout Successful");
+        BeaconWorker.stopAdvertisement();
         ix = new Intent(this, LoginorregisterActivity.class);
         ix.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(ix);
@@ -219,16 +228,10 @@ public class HomescreenActivity extends AppCompatActivity
 
     // back method
     public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START);
-        } else {
+        if (drawNavView.isDrawerOpen(GravityCompat.START)){
+            drawNavView.closeDrawer(GravityCompat.START);
+        }else
             super.onBackPressed();
-        }
-
-    }
-
-    public void openNavdrawer() {
-        drawerLayout.setVisibility(View.VISIBLE);
     }
 
     private Boolean validatePermissions(@NonNull String[] perms) {

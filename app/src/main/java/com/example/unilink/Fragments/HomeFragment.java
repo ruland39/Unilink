@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,9 @@ import android.widget.Toast;
 
 import com.example.unilink.Activities.BLE.BeaconWorker;
 import com.example.unilink.Models.BluetoothButton;
+import com.example.unilink.Models.UnilinkUser;
 import com.example.unilink.R;
+import com.example.unilink.Services.UserService;
 import com.facebook.shimmer.Shimmer;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
@@ -30,9 +33,16 @@ import org.altbeacon.beacon.BeaconManager;
 import org.altbeacon.beacon.BeaconParser;
 import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
+import org.checkerframework.checker.units.qual.A;
 
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import pl.bclogic.pulsator4droid.library.PulsatorLayout;
@@ -43,15 +53,12 @@ import pl.bclogic.pulsator4droid.library.PulsatorLayout;
  * create an instance of this fragment.
  */
 public class HomeFragment extends Fragment{
-
-    private static final int DATASET_COUNT = 10;
-
+    // Checking using Map; String holds user id found
+    private static Map<String, UnilinkUser> usersInRange = new HashMap<>();
+    private UserService userService;
     private RecyclerView mRecyclerView;
     private ProfileRowAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-
-    // TODO: Replace mDataset below with the meaningful data taken using Bluetooth
-    private String[] mDataset;
 
     private PulsatorLayout mPulsator;
 
@@ -64,6 +71,8 @@ public class HomeFragment extends Fragment{
     private final Region wildcardRegion = new Region("wildcardRegion",
             null,null,null);
     private BeaconManager beaconManager = null;
+
+    private static final String TAG = "HomeFragment";
 
     public HomeFragment() {
         // Required empty public constructor
@@ -85,11 +94,11 @@ public class HomeFragment extends Fragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initDataset();
         beaconManager = BeaconManager.getInstanceForApplication(getContext());
         beaconManager.getBeaconParsers().clear();
         beaconManager.getBeaconParsers().add(new BeaconParser().
                 setBeaconLayout(getString(R.string.beaconlayout)));
+        userService = new UserService();
     }
 
     @Override
@@ -125,18 +134,14 @@ public class HomeFragment extends Fragment{
             else if (mBtBtn.isConnected()){
                 mBtBtn.setDiscovering();
                 mPulsator.start();
-                shimmerFrameLayout.startShimmer();
-
+                enableShimmer();
                 // Start the monitoring activity while it looks for a person
                 startMonitor();
             }
             else if (mBtBtn.isDiscovering()) {
                 mBtBtn.setConnected();
                 mPulsator.stop();
-                shimmerFrameLayout.stopShimmer();
-                shimmerFrameLayout.setVisibility(View.GONE);
-                mRecyclerView.setVisibility(View.VISIBLE);
-
+                disableShimmer();
                 // Stop Ranging
                 beaconManager.stopRangingBeacons(wildcardRegion);
             }
@@ -148,7 +153,7 @@ public class HomeFragment extends Fragment{
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.scrollToPosition(0);
 
-        mAdapter = new ProfileRowAdapter(mDataset);
+        mAdapter = new ProfileRowAdapter();
         mRecyclerView.setAdapter(mAdapter);
 
         IntentFilter filter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
@@ -158,21 +163,65 @@ public class HomeFragment extends Fragment{
     }
 
     private void startMonitor() {
-        beaconManager.setDebug(false);
+        // Resetting current found users
+        usersInRange.clear();
+        mAdapter.clearData();
+
+        beaconManager.setForegroundScanPeriod(5000l);
         beaconManager.addRangeNotifier(new RangeNotifier() {
             @Override
             public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
+                Log.d(TAG, "New Range Cycle; Beacons found: " + beacons.size());
                 for (Beacon beacon : beacons) {
-                    System.out.println("PLEASEEEE" + beacon.getId1());
-                    if (beacon.getId1().equals(BeaconWorker.UNILINK_BEACON_ID)) {
-                        byte[] bytes = beacon.getId2().toByteArray();
+                    byte[] bytes = beacon.getId2().toByteArray();
+                    ByteBuffer buffer = ByteBuffer.wrap(bytes);
+                    long high = buffer.getLong();
+                    long low = buffer.getLong();
+                    UUID uid = new UUID(high, low);
+
+                    if (!usersInRange.containsKey(uid.toString())){
+                        // User is not in the known list (new)
+                        Log.d(TAG, "New unilink user found: " + uid);
+                        userService.getUserInfoByUId(uid.toString(), foundUser -> {
+                            if (foundUser == null)
+                                return;
+                            usersInRange.put(uid.toString(), foundUser);
+                            requireActivity().runOnUiThread(()-> {
+                                disableShimmer();
+                                mAdapter.addUser(foundUser, 0);
+                            });
+                        });
+                    } else {
+                        Log.d(TAG, "Existing unilink user found: " + uid);
+                    }
+                }
+
+                List<String> usersToRemove = new ArrayList<>();
+                for (String userId : usersInRange.keySet()) {
+                    boolean found = false;
+                    for (Beacon beac : beacons) {
+                        byte[] bytes = beac.getId2().toByteArray();
                         ByteBuffer buffer = ByteBuffer.wrap(bytes);
                         long high = buffer.getLong();
                         long low = buffer.getLong();
                         UUID uid = new UUID(high, low);
-                        System.out.println("Found a Unilink User: " + uid.toString());
+                        if (uid.toString().equals(userId)){
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        usersToRemove.add(userId);
                     }
                 }
+
+                for (String userId : usersToRemove) {
+                    requireActivity().runOnUiThread(()->mAdapter.removeUser(usersInRange.get(userId))
+                    );
+                    usersInRange.remove(userId);
+                    Log.d(TAG, "Unilink User no longer in range! Removed Address: " + userId);
+                }
+                Log.d(TAG,"End of ranging cycle");
             }
         });
         beaconManager.startRangingBeacons(wildcardRegion);
@@ -200,13 +249,22 @@ public class HomeFragment extends Fragment{
         super.onDestroyView();
     }
 
-    public void onDestroy() {
-        super.onDestroy();
+    public void onStop() {
+        super.onStop();
     }
 
-    private void initDataset() {
-        mDataset = new String[DATASET_COUNT];
+    private void enableShimmer() {
+        mRecyclerView.setVisibility(View.GONE);
+        shimmerFrameLayout.setVisibility(View.VISIBLE);
+        shimmerFrameLayout.startShimmer();
     }
+
+    private void disableShimmer() {
+            shimmerFrameLayout.stopShimmer();
+            shimmerFrameLayout.setVisibility(View.GONE);
+        mRecyclerView.setVisibility(View.VISIBLE);
+    }
+
 
     @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
     private void EnableBt() {
