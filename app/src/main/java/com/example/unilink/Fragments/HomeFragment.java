@@ -53,26 +53,20 @@ import pl.bclogic.pulsator4droid.library.PulsatorLayout;
  * create an instance of this fragment.
  */
 public class HomeFragment extends Fragment{
-    // Checking using Map; String holds user id found
-    private static Map<String, UnilinkUser> usersInRange = new HashMap<>();
     private UserService userService;
-    private RecyclerView mRecyclerView;
     private ProfileRowAdapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-
-    private PulsatorLayout mPulsator;
-
     private BluetoothButton mBtBtn;
-
-    private BluetoothAdapter btAdapter;
-
     private ShimmerFrameLayout shimmerFrameLayout;
+    private PulsatorLayout mPulsator;
+    private RecyclerView mRecyclerView;
 
     private final Region wildcardRegion = new Region("wildcardRegion",
             null,null,null);
     private BeaconManager beaconManager = null;
-
+    private static Map<String, UnilinkUser> usersInRange = new HashMap<>();
     private static final String TAG = "HomeFragment";
+
+    private View _rootView;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -98,76 +92,6 @@ public class HomeFragment extends Fragment{
         beaconManager.getBeaconParsers().clear();
         beaconManager.getBeaconParsers().add(new BeaconParser().
                 setBeaconLayout(getString(R.string.beaconlayout)));
-        userService = new UserService();
-    }
-
-    @Override
-    @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_home, container, false);
-        btAdapter = BluetoothAdapter.getDefaultAdapter();
-        if (btAdapter == null) {
-            Toast.makeText(getContext(), "Bluetooth is not supported on this device", Toast.LENGTH_SHORT).show();
-            return v;
-        }
-
-        // Shimmer
-        shimmerFrameLayout = v.findViewById(R.id.shimmer_layout);
-        shimmerFrameLayout.setShimmer(new Shimmer.AlphaHighlightBuilder().setAutoStart(false).build());
-
-        // Initiating a pulsator
-        mPulsator = v.findViewById(R.id.pulsator);
-
-        // Setting up the Bluetooth Button
-        mBtBtn = (BluetoothButton) v.findViewById(R.id.bluetoothbtn);
-        // Checking if Bluetooth is enabled
-        if (btAdapter.isEnabled())
-            mBtBtn.setConnected();
-        else
-            mBtBtn.setOff();
-        mBtBtn.setOnClickListener(view -> {
-            // If off, simply Enable Bluetooth and Receiver does the rest
-            if (mBtBtn.isOff())
-                EnableBt();
-            else if (mBtBtn.isConnected()){
-                mBtBtn.setDiscovering();
-                mPulsator.start();
-                enableShimmer();
-                // Start the monitoring activity while it looks for a person
-                startMonitor();
-            }
-            else if (mBtBtn.isDiscovering()) {
-                mBtBtn.setConnected();
-                mPulsator.stop();
-                disableShimmer();
-                // Stop Ranging
-                beaconManager.stopRangingBeacons(wildcardRegion);
-            }
-        });
-
-        // Calling the RecyclerView
-        mRecyclerView = (RecyclerView) v.findViewById(R.id.home_recyclerview);
-        mLayoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.scrollToPosition(0);
-
-        mAdapter = new ProfileRowAdapter();
-        mRecyclerView.setAdapter(mAdapter);
-
-        IntentFilter filter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
-        getActivity().registerReceiver(mBtUpdateReceiver, filter);
-
-        return v;
-    }
-
-    private void startMonitor() {
-        // Resetting current found users
-        usersInRange.clear();
-        mAdapter.clearData();
-
-        beaconManager.setForegroundScanPeriod(5000l);
         beaconManager.addRangeNotifier(new RangeNotifier() {
             @Override
             public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
@@ -186,10 +110,8 @@ public class HomeFragment extends Fragment{
                             if (foundUser == null)
                                 return;
                             usersInRange.put(uid.toString(), foundUser);
-                            requireActivity().runOnUiThread(()-> {
-                                disableShimmer();
-                                mAdapter.addUser(foundUser, 0);
-                            });
+                            disableShimmer();
+                            mAdapter.addUser(foundUser, 0);
                         });
                     } else {
                         Log.d(TAG, "Existing unilink user found: " + uid);
@@ -216,15 +138,92 @@ public class HomeFragment extends Fragment{
                 }
 
                 for (String userId : usersToRemove) {
-                    requireActivity().runOnUiThread(()->mAdapter.removeUser(usersInRange.get(userId))
-                    );
+                    mAdapter.removeUser(usersInRange.get(userId));
                     usersInRange.remove(userId);
                     Log.d(TAG, "Unilink User no longer in range! Removed Address: " + userId);
                 }
                 Log.d(TAG,"End of ranging cycle");
             }
         });
+        userService = new UserService();
+    }
+
+    @Override
+    @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        BluetoothAdapter btAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (btAdapter == null) {
+            Toast.makeText(getContext(), "Bluetooth is not supported on this device", Toast.LENGTH_SHORT).show();
+            return _rootView;
+        }
+
+        if (_rootView == null) {
+            _rootView = inflater.inflate(R.layout.fragment_home, container, false);
+
+            // Shimmer
+            shimmerFrameLayout = _rootView.findViewById(R.id.shimmer_layout);
+            shimmerFrameLayout.setShimmer(new Shimmer.AlphaHighlightBuilder().setAutoStart(false).build());
+
+            // Initiating a pulsator
+            mPulsator = _rootView.findViewById(R.id.pulsator);
+
+            // Setting up the Bluetooth Button
+            mBtBtn = _rootView.findViewById(R.id.bluetoothbtn);
+            // Checking if Bluetooth is enabled
+            if (btAdapter.isEnabled())
+                mBtBtn.setConnected();
+            else
+                mBtBtn.setOff();
+            mBtBtn.setOnClickListener(view -> {
+                // If off, simply Enable Bluetooth and Receiver does the rest
+                if (mBtBtn.isOff())
+                    EnableBt(btAdapter);
+                else if (mBtBtn.isConnected()){
+                    mBtBtn.setDiscovering();
+                    mPulsator.start();
+                    enableShimmer();
+                    // Start the monitoring activity while it looks for a person
+                    startRange();
+                }
+                else if (mBtBtn.isDiscovering()) {
+                    mBtBtn.setConnected();
+                    mPulsator.stop();
+                    disableShimmer();
+                    // Stop Ranging
+                    stopRange();
+                }
+            });
+
+            // Calling the RecyclerView
+            mRecyclerView = _rootView.findViewById(R.id.home_recyclerview);
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+            mRecyclerView.setLayoutManager(mLayoutManager);
+            mRecyclerView.scrollToPosition(0);
+
+            mAdapter = new ProfileRowAdapter();
+            mRecyclerView.setAdapter(mAdapter);
+        } else {
+
+        }
+
+        IntentFilter filter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
+        getActivity().registerReceiver(mBtUpdateReceiver, filter);
+
+        return _rootView;
+    }
+
+    private void startRange() {
+        // Resetting current found users
+        usersInRange.clear();
+        mAdapter.clearData();
+
+        beaconManager.setForegroundScanPeriod(5000l);
         beaconManager.startRangingBeacons(wildcardRegion);
+    }
+
+    private void stopRange(){
+        beaconManager.stopRangingBeacons(wildcardRegion);
     }
 
     //region Bt-Perms
@@ -245,11 +244,17 @@ public class HomeFragment extends Fragment{
             }
         }
     };
+    @Override
     public void onDestroyView() {
+        if (_rootView.getParent() != null) {
+            ((ViewGroup)_rootView.getParent()).removeView(_rootView);
+        }
         super.onDestroyView();
     }
 
+    @Override
     public void onStop() {
+        stopRange();
         super.onStop();
     }
 
@@ -267,7 +272,7 @@ public class HomeFragment extends Fragment{
 
 
     @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
-    private void EnableBt() {
+    private void EnableBt(BluetoothAdapter btAdapter) {
         if (!btAdapter.isEnabled()) {
             Intent btIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivity(btIntent);

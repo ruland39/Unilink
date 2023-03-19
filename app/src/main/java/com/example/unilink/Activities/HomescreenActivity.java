@@ -115,7 +115,6 @@ public class HomescreenActivity extends AppCompatActivity
         setContentView(R.layout.activity_homescreen);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
-        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, homeFragment).commit();
 
         drawNavView=findViewById(R.id.nav_drawer_layout);
         navdrawerBtn=findViewById(R.id.navDrawerBtn);
@@ -134,27 +133,43 @@ public class HomescreenActivity extends AppCompatActivity
             return false;
         });
 
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.frame_layout, homeFragment, "HOME_FRAGMENT")
+                .commit();
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(item -> {
             UnilinkUser user = getCurrentUser();
+            FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
+            // Get the fragment in the backstack
+            Fragment home_frag = null;
+            if (getSupportFragmentManager().getBackStackEntryCount() > 0){
+                home_frag = getSupportFragmentManager().findFragmentByTag("HOME_FRAGMENT");
+            }
+
             switch (item.getItemId()) {
                 case R.id.home:
-                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, homeFragment)
+                    if (home_frag != null) {
+                        getSupportFragmentManager().popBackStack("HOME_FRAGMENT", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                        Log.d("HomescreenActivity", "Backstack popped");
+                    }else
+                        trans.replace(R.id.frame_layout, homeFragment, "HOME_FRAGMENT")
                             .commit();
                     return true;
                 case R.id.chat:
-                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, chatFragment)
+                    trans.replace(R.id.frame_layout, chatFragment, "CHAT_FRAGMENT")
+                            .addToBackStack("HOME_FRAGMENT")
                             .commit();
                     return true;
                 case R.id.notification:
-                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, notificationFragment)
+                    trans.replace(R.id.frame_layout, notificationFragment, "NOTIF_FRAGMENT")
+                            .addToBackStack("HOME_FRAGMENT")
                             .commit();
                     return true;
                 case R.id.profile:
-                    profileFragment = profileFragment.newInstance(user);
-                    getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, profileFragment)
+                    profileFragment = ProfileFragment.newInstance(user);
+                    trans.replace(R.id.frame_layout, profileFragment, "PROFILE_FRAGMENT")
+                            .addToBackStack("HOME_FRAGMENT")
                             .commit();
-                    return true;
             }
             return false;
         });

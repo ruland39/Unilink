@@ -110,7 +110,6 @@ public class UnilinkUser implements Parcelable, Serializable {
     }
 
     public String getUid() {return this.Uid;}
-    public UUID getUUid() {return UUID.fromString(this.Uid);}
     /* #endregion */
 
     /* #region setters */
