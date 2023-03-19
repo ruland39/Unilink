@@ -110,8 +110,10 @@ public class HomeFragment extends Fragment{
                             if (foundUser == null)
                                 return;
                             usersInRange.put(uid.toString(), foundUser);
-                            disableShimmer();
-                            mAdapter.addUser(foundUser, 0);
+                            requireActivity().runOnUiThread(()->{
+                                disableShimmer();
+                                mAdapter.addUser(foundUser, 0);
+                            });
                         });
                     } else {
                         Log.d(TAG, "Existing unilink user found: " + uid);
@@ -138,7 +140,7 @@ public class HomeFragment extends Fragment{
                 }
 
                 for (String userId : usersToRemove) {
-                    mAdapter.removeUser(usersInRange.get(userId));
+                    requireActivity().runOnUiThread(()->mAdapter.removeUser(usersInRange.get(userId)));
                     usersInRange.remove(userId);
                     Log.d(TAG, "Unilink User no longer in range! Removed Address: " + userId);
                 }

@@ -135,7 +135,7 @@ public class HomescreenActivity extends AppCompatActivity
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frame_layout, homeFragment, "HOME_FRAGMENT")
-                .commit();
+                .commitNow();
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(item -> {
             UnilinkUser user = getCurrentUser();
@@ -153,7 +153,7 @@ public class HomescreenActivity extends AppCompatActivity
                         Log.d("HomescreenActivity", "Backstack popped");
                     }else
                         trans.replace(R.id.frame_layout, homeFragment, "HOME_FRAGMENT")
-                            .commit();
+                            .commitNow();
                     return true;
                 case R.id.chat:
                     trans.replace(R.id.frame_layout, chatFragment, "CHAT_FRAGMENT")
