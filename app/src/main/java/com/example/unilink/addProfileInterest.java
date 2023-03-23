@@ -7,6 +7,13 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -53,12 +60,91 @@ public class addProfileInterest extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_profile_interest, container, false);
+        View view = inflater.inflate(R.layout.fragment_add_profile_interest, container, false);
+
+        ChipGroup musicChipGroup = view.findViewById(R.id.musicchipgroup);
+        ChipGroup moviesChipGroup = view.findViewById(R.id.movieschipgroup);
+        ChipGroup sportsChipGroup = view.findViewById(R.id.sportschipgroup);
+        ChipGroup foodChipGroup = view.findViewById(R.id.foodchipgroup);
+        ChipGroup booksChipGroup = view.findViewById(R.id.bookschipgroup);
+        ChipGroup gamingChipGroup = view.findViewById(R.id.gamingchipgroup);
+
+        musicChipGroup.setOnCheckedStateChangeListener(((group, checkedIds) -> {
+            for (int chipId : checkedIds) {
+                Chip chip = group.findViewById(chipId);
+                if (chip != null){
+                    Toast.makeText(this.getActivity(), "Choice:" + chip.getText(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }));
+
+        moviesChipGroup.setOnCheckedStateChangeListener((((group, checkedIds) -> {
+            for (int chipId : checkedIds) {
+                Chip chip = group.findViewById(chipId);
+                if (chip != null){
+                    Toast.makeText(this.getActivity(), "Choice:" + chip.getText(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        })));
+
+        sportsChipGroup.setOnCheckedStateChangeListener((((group, checkedIds) -> {
+            for (int chipId : checkedIds) {
+                Chip chip = group.findViewById(chipId);
+                if (chip != null){
+                    Toast.makeText(this.getActivity(), "Choice:" + chip.getText(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        })));
+
+        foodChipGroup.setOnCheckedStateChangeListener((((group, checkedIds) -> {
+            for (int chipId : checkedIds) {
+                Chip chip = group.findViewById(chipId);
+                if (chip != null){
+                    Toast.makeText(this.getActivity(), "Choice:" + chip.getText(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        })));
+
+        booksChipGroup.setOnCheckedStateChangeListener((((group, checkedIds) -> {
+            for (int chipId : checkedIds) {
+                Chip chip = group.findViewById(chipId);
+                if (chip != null){
+                    Toast.makeText(this.getActivity(), "Choice:" + chip.getText(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        })));
+
+        gamingChipGroup.setOnCheckedStateChangeListener((((group, checkedIds) -> {
+            for (int chipId : checkedIds) {
+                Chip chip = group.findViewById(chipId);
+                if (chip != null){
+                    Toast.makeText(this.getActivity(), "Choice:" + chip.getText(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        })));
+
+        List<Integer> checkChipsIdList = new ArrayList<>();
+        checkChipsIdList.addAll(musicChipGroup.getCheckedChipIds());
+        checkChipsIdList.addAll(moviesChipGroup.getCheckedChipIds());
+        checkChipsIdList.addAll(foodChipGroup.getCheckedChipIds());
+        checkChipsIdList.addAll(booksChipGroup.getCheckedChipIds());
+        checkChipsIdList.addAll(gamingChipGroup.getCheckedChipIds());
+
+
+
+    //https://www.youtube.com/watch?v=GtsmzUBbeKE
+
+        return view;
+    }
+
+    public void isButtonEnabled(){
+
     }
 }
