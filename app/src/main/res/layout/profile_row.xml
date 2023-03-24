@@ -16,6 +16,15 @@
         app:cardCornerRadius="10dp"
         >
 
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/border"
+            android:tint="@color/light_grey"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="8dp"
+            />
+
         <ImageButton
             android:id="@+id/profilepic"
             android:layout_width="wrap_content"
@@ -23,11 +32,13 @@
             android:layout_marginStart="4dp"
             android:layout_marginTop="6dp"
             android:layout_marginBottom="4dp"
-            android:background="@null"
+            android:background="null"
             android:contentDescription="@string/profile"
             android:paddingHorizontal="8dp"
             android:paddingVertical="8dp"
             android:src="@drawable/defaultprofilepicturesmall" />
+
+
 
         <TextView
             android:id="@+id/defaultusername"
@@ -36,7 +47,7 @@
             android:layout_marginStart="72dp"
             android:layout_marginEnd="72dp"
             android:layout_marginTop="12dp"
-            android:fontFamily="@font/nunitosemibold"
+            android:fontFamily="@font/nunitobold"
             android:text="@string/personusernametextviewmaincontainer"
             android:textColor="@color/abit_grey"
             android:textSize="16sp" />
