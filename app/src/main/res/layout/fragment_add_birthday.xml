@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".addBirthdayFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="64dp"
+        android:paddingTop="32dp"
+        android:gravity="center_horizontal"
+        >
+
+        <TextView
+            android:id="@+id/birthdaytextview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nunitobold"
+            android:text="@string/whensyourbirthday"
+            android:textColor="@color/almost_black"
+            android:textSize="32sp"
+            android:layout_marginTop="32dp"
+            />
+
+        <DatePicker
+            android:id="@+id/datepicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/birthdaytextview"
+            android:layout_marginTop="16dp"
+            android:yearListSelectorColor="@color/purple_main"
+            android:calendarTextColor="@color/purple_main"
+
+            />
+
+    </RelativeLayout>
+
+</FrameLayout>
