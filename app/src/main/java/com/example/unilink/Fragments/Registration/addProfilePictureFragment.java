@@ -1,25 +1,20 @@
-package com.example.unilink;
+package com.example.unilink.Fragments.Registration;
 
 import static android.app.Activity.RESULT_OK;
 
 import android.content.Intent;
-import android.media.Image;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
+import com.example.unilink.R;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -103,11 +98,11 @@ public class addProfilePictureFragment extends Fragment  {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(resultCode == RESULT_OK){
-            if(requestCode == GALLERY_REQUEST_CODE){
-                temp.setImageURI(data.getData());
-            }
-        }
+//`        if(resultCode == RESULT_OK){
+//            if(requestCode == GALLERY_REQUEST_CODE){
+//                temp.setImageURI(data.getData());
+//            }
+//        }`
     }
 
     // Save Profile Picture to Database

@@ -1,4 +1,4 @@
-package com.example.unilink;
+package com.example.unilink.Fragments.Registration;
 
 import android.os.Bundle;
 
@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.unilink.R;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 

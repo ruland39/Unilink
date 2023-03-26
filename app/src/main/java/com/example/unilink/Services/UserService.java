@@ -1,29 +1,20 @@
 package com.example.unilink.Services;
 
 import android.util.Log;
-import android.util.StateSet;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.example.unilink.Activities.FeaturePage.LoadingDialogBar;
-import com.example.unilink.Models.UnilinkUser;
+import com.example.unilink.Models.UnilinkAccount;
 import com.example.unilink.UnilinkApplication;
-import com.firebase.ui.auth.data.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 
 /**
  * User service will be used for all things that
@@ -62,7 +53,7 @@ public class UserService {
                          String password,
                          String firstName, String lastName, String pNumber,
                          UserCallback callback) {
-        UnilinkUser uUser = new UnilinkUser(null, firstName,
+        UnilinkAccount uUser = new UnilinkAccount(null, firstName,
                 lastName, pNumber, email,null);
         // Authenticate a new user
         mAuth.createUserWithEmailAndPassword(email, password)
@@ -100,7 +91,7 @@ public class UserService {
     public void Login(LoadingDialogBar bar, String email, String password, UserCallback callback) {
         Log.d(TAG, "Logged in called for user " + email);
         // Authenticate User
-        UnilinkUser uUser = new UnilinkUser();
+        UnilinkAccount uUser = new UnilinkAccount();
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -115,10 +106,10 @@ public class UserService {
                                     .get()
                                     .addOnCompleteListener(tasked -> {
                                         if (tasked.isSuccessful()) {
-                                            UnilinkUser user = null;
+                                            UnilinkAccount user = null;
                                             Log.d(TAG,"Number of Documents Found :" + tasked.getResult().size());
                                             for (QueryDocumentSnapshot doc : tasked.getResult()) {
-                                                user = doc.toObject(UnilinkUser.class);
+                                                user = doc.toObject(UnilinkAccount.class);
                                                 Log.d(TAG, user.toString());
                                             }
                                             if (user == null)
@@ -156,7 +147,7 @@ public class UserService {
                 .addOnCompleteListener(task->{
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot doc : task.getResult()) {
-                            UnilinkUser uUser = doc.toObject(UnilinkUser.class);
+                            UnilinkAccount uUser = doc.toObject(UnilinkAccount.class);
                             callback.onCallback(uUser);
                         }
                     } else {
@@ -179,7 +170,7 @@ public class UserService {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot doc : task.getResult()) {
-                            UnilinkUser uUser = doc.toObject(UnilinkUser.class);
+                            UnilinkAccount uUser = doc.toObject(UnilinkAccount.class);
                             callback.onCallback(uUser);
                         }
                     } else {
@@ -208,7 +199,7 @@ public class UserService {
     }
 
     public interface UserCallback {
-        void onCallback(UnilinkUser uUser);
+        void onCallback(UnilinkAccount uUser);
     }
 
     private class UserException extends RuntimeException {

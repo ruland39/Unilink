@@ -2,25 +2,18 @@ package com.example.unilink.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
 import androidx.fragment.app.DialogFragment;
 import androidx.work.Data;
 import androidx.work.ExistingWorkPolicy;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
-import androidx.work.WorkRequest;
-import androidx.core.view.GravityCompat;
 
 import com.example.unilink.Activities.BLE.BeaconWorker;
 import com.example.unilink.Fragments.ChatFragment;
@@ -29,39 +22,29 @@ import com.example.unilink.Fragments.NotificationFragment;
 import com.example.unilink.Fragments.ProfileFragment;
 import com.example.unilink.R;
 import com.example.unilink.Services.UserService;
-import com.example.unilink.UnilinkApplication;
 import com.example.unilink.databinding.ActivityMainBinding;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
-import com.google.gson.Gson;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageButton;
 import android.util.Log;
 import android.Manifest;
 import android.content.pm.PackageManager;
 
-import com.example.unilink.Models.UnilinkUser;
+import com.example.unilink.Models.UnilinkAccount;
 import com.example.unilink.Dialogs.BluetoothHomeScreenDialog;
-
-import org.altbeacon.beacon.Beacon;
-import org.altbeacon.beacon.BeaconManager;
 
 public class HomescreenActivity extends AppCompatActivity
         implements BluetoothHomeScreenDialog.BtHomeScreenDialogListener {
 
     private static final String TAG = "HomescreenActivity";
-    private UnilinkUser currentUser;
+    private UnilinkAccount currentUser;
     private UserService userService;
 
     ActivityMainBinding binding;
@@ -138,7 +121,7 @@ public class HomescreenActivity extends AppCompatActivity
                 .commitNow();
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(item -> {
-            UnilinkUser user = getCurrentUser();
+            UnilinkAccount user = getCurrentUser();
             FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
             // Get the fragment in the backstack
             Fragment home_frag = null;
@@ -216,7 +199,7 @@ public class HomescreenActivity extends AppCompatActivity
                 beaconWorkRequest).enqueue();
     }
 
-    private UnilinkUser getCurrentUser() {
+    private UnilinkAccount getCurrentUser() {
         return this.currentUser;
     }
 

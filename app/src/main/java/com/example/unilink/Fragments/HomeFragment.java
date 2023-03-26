@@ -17,12 +17,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.example.unilink.Activities.BLE.BeaconWorker;
 import com.example.unilink.Models.BluetoothButton;
-import com.example.unilink.Models.UnilinkUser;
+import com.example.unilink.Models.UnilinkAccount;
 import com.example.unilink.R;
 import com.example.unilink.Services.UserService;
 import com.facebook.shimmer.Shimmer;
@@ -33,16 +31,13 @@ import org.altbeacon.beacon.BeaconManager;
 import org.altbeacon.beacon.BeaconParser;
 import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
-import org.checkerframework.checker.units.qual.A;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 
 import pl.bclogic.pulsator4droid.library.PulsatorLayout;
@@ -63,7 +58,7 @@ public class HomeFragment extends Fragment{
     private final Region wildcardRegion = new Region("wildcardRegion",
             null,null,null);
     private BeaconManager beaconManager = null;
-    private static Map<String, UnilinkUser> usersInRange = new HashMap<>();
+    private static Map<String, UnilinkAccount> usersInRange = new HashMap<>();
     private static final String TAG = "HomeFragment";
 
     private View _rootView;

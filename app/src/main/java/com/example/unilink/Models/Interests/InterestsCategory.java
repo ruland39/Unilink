@@ -1,4 +1,4 @@
-package com.example.unilink.Activities.User;
+package com.example.unilink.Models.Interests;
 
 public abstract class InterestsCategory implements Comparable<InterestsCategory>{
     private int priorityLevel;

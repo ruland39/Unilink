@@ -3,14 +3,8 @@ package com.example.unilink.Fragments;
 import static android.app.Activity.RESULT_OK;
 
 import android.content.Intent;
-import android.media.Image;
-import android.nfc.Tag;
 import android.os.Bundle;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.MenuRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,17 +15,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.unilink.Models.UnilinkUser;
+import com.example.unilink.Models.UnilinkAccount;
 import com.example.unilink.R;
-
-import java.sql.SQLOutput;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -51,7 +42,7 @@ public class ProfileFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private UnilinkUser user;
+    private UnilinkAccount user;
     private static final String user_key = "user";
     private static final int GALLERY_REQUEST_CODE = 1000;
 
@@ -71,7 +62,7 @@ public class ProfileFragment extends Fragment {
      * @return A new instance of fragment ProfileFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ProfileFragment newInstance(UnilinkUser user) {
+    public static ProfileFragment newInstance(UnilinkAccount user) {
         ProfileFragment fragment = new ProfileFragment();
         Bundle args = new Bundle();
         args.putSerializable(user_key, user);
@@ -123,7 +114,7 @@ public class ProfileFragment extends Fragment {
         });
 
 
-        user = (UnilinkUser) getArguments().getSerializable(user_key);
+        user = (UnilinkAccount) getArguments().getSerializable(user_key);
         if (user == null) {
             Toast.makeText(getActivity(), "Unable to parse User", Toast.LENGTH_SHORT).show();
             return view;

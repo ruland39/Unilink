@@ -9,13 +9,13 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.unilink.Models.UnilinkUser;
+import com.example.unilink.Models.UnilinkAccount;
 import com.example.unilink.R;
 
 import java.util.ArrayList;
 
 public class ProfileRowAdapter extends RecyclerView.Adapter<ProfileRowAdapter.ViewHolder> {
-    private ArrayList<UnilinkUser> mDataset;
+    private ArrayList<UnilinkAccount> mDataset;
     public ProfileRowAdapter() {
         mDataset = new ArrayList<>();
     }
@@ -40,12 +40,12 @@ public class ProfileRowAdapter extends RecyclerView.Adapter<ProfileRowAdapter.Vi
         return mDataset.size();
     }
 
-    public void addUser(UnilinkUser userToBeAdded,int position) {
+    public void addUser(UnilinkAccount userToBeAdded, int position) {
         this.mDataset.add(position,userToBeAdded);
         this.notifyItemInserted(position);
     }
 
-    public void removeUser(UnilinkUser userToBeRemoved) {
+    public void removeUser(UnilinkAccount userToBeRemoved) {
         int index = mDataset.indexOf(userToBeRemoved);
         mDataset.remove(userToBeRemoved);
         notifyItemRemoved(index);

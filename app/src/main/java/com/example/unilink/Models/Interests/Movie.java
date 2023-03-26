@@ -1,4 +1,4 @@
-package com.example.unilink.Activities.User;
+package com.example.unilink.Models.Interests;
 
 import java.util.ArrayList;
 import java.util.List;

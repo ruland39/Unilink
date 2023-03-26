@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".profileSetupActivity">
+    tools:context=".Activities.profileSetupActivity">
 
     <FrameLayout
         android:id="@+id/frame_layout"
@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
-        android:background="null"
+        android:background="@null"
         android:contentDescription="@string/backbutton"
         android:src="@drawable/arrow_left"
         app:layout_constraintStart_toStartOf="parent"

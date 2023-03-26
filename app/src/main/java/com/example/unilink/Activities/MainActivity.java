@@ -1,6 +1,5 @@
 package com.example.unilink.Activities;
 
-import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -16,14 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import com.example.unilink.Activities.FeaturePage.FeaturePageActivity;
-import com.example.unilink.Models.UnilinkUser;
 import com.example.unilink.R;
 import com.example.unilink.Services.UserService;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.gson.Gson;
 
 public class MainActivity extends AppCompatActivity {
     private final static String TAG = "MainActivity";
