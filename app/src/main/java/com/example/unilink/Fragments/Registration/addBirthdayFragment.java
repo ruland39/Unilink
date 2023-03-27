@@ -1,4 +1,4 @@
-package com.example.unilink;
+package com.example.unilink.Fragments.Registration;
 
 import android.os.Bundle;
 
@@ -8,14 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.firebase.storage.FirebaseStorage;
+import com.example.unilink.R;
+import com.google.android.material.datepicker.MaterialDatePicker;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link addBioFragment#newInstance} factory method to
+ * Use the {@link addBirthdayFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class addBioFragment extends Fragment {
+public class addBirthdayFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +27,7 @@ public class addBioFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public addBioFragment() {
+    public addBirthdayFragment() {
         // Required empty public constructor
     }
 
@@ -36,11 +37,11 @@ public class addBioFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment addBioFragment.
+     * @return A new instance of fragment addBirthdayFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static addBioFragment newInstance(String param1, String param2) {
-        addBioFragment fragment = new addBioFragment();
+    public static addBirthdayFragment newInstance(String param1, String param2) {
+        addBirthdayFragment fragment = new addBirthdayFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -61,14 +62,22 @@ public class addBioFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_add_bio, container, false);
+        View view = inflater.inflate(R.layout.fragment_add_birthday, container, false);
+
+        pickDate();
+
+
+
+
 
 
         return view;
     }
 
-    // Input Field
+    public void pickDate(){
+        MaterialDatePicker.Builder.datePicker().setTitleText("Select date of birth").build().show(getActivity().getSupportFragmentManager(), "DATE_PICKER");
+    }
 
+    // Set Birthday to Database
 
-    // Set Bio to Database
 }

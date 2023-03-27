@@ -40,7 +40,7 @@
             tools:node="merge"
             android:foregroundServiceType="location"/>
         <activity
-            android:name=".profileSetupActivity"
+            android:name=".Activities.profileSetupActivity"
             android:exported="false" />
         <activity
             android:name=".Activities.BLE.MonitoringActivity"

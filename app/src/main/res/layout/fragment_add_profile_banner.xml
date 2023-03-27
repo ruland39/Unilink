@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".addProfileBannerFragment">
+    tools:context=".Fragments.Registration.addProfileBannerFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:scaleType="fitXY"
             app:srcCompat="@drawable/banneradd"
-            android:background="null"
+            android:background="@null"
             android:layout_below="@id/addyourphotodetailstextview"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="64dp"

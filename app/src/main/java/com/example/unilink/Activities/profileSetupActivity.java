@@ -1,4 +1,4 @@
-package com.example.unilink;
+package com.example.unilink.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -12,19 +12,21 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
-import com.example.unilink.Activities.HomescreenActivity;
-import com.example.unilink.Fragments.ProfileFragment;
-import com.example.unilink.databinding.ActivityMainBinding;
+import com.example.unilink.R;
+import com.example.unilink.Fragments.Registration.addBioFragment;
+import com.example.unilink.Fragments.Registration.addBirthdayFragment;
+import com.example.unilink.Fragments.Registration.addProfileBannerFragment;
+import com.example.unilink.Fragments.Registration.addProfilePictureFragment;
 
 public class profileSetupActivity extends AppCompatActivity {
 
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
     private Fragment fragment1, fragment2, fragment3, fragment4;
-    private addProfilePictureFragment addProfilePictureFragment;
-    private addProfileBannerFragment addProfileBannerFragment;
-    private addBirthdayFragment addBirthdayFragment;
-    private addBioFragment addBioFragment;
+    private com.example.unilink.Fragments.Registration.addProfilePictureFragment addProfilePictureFragment;
+    private com.example.unilink.Fragments.Registration.addProfileBannerFragment addProfileBannerFragment;
+    private com.example.unilink.Fragments.Registration.addBirthdayFragment addBirthdayFragment;
+    private com.example.unilink.Fragments.Registration.addBioFragment addBioFragment;
     private int currentFragmentIndex = 1;
 
     @Override
