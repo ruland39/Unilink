@@ -103,11 +103,11 @@ public class addProfilePictureFragment extends Fragment  {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(resultCode == RESULT_OK){
-            if(requestCode == GALLERY_REQUEST_CODE){
-                temp.setImageURI(data.getData());
-            }
-        }
+//        if(resultCode == RESULT_OK){
+//            if(requestCode == GALLERY_REQUEST_CODE){
+//                temp.setImageURI(data.getData());
+//            }
+//        }
     }
 
     // Save Profile Picture to Database

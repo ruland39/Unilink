@@ -103,25 +103,58 @@
         android:textAlignment="center"
         android:text="@string/personusernametextviewmaincontainer" />
 
-    <TextView
-        android:id="@+id/defaultabout"
+    <HorizontalScrollView
+        android:id="@+id/linearlayout1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/defaultusername"
+        android:layout_below="@id/defaultusername"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="4dp"
-        android:fontFamily="@font/nunitosemibold"
-        android:textSize="16sp"
-        android:textAlignment="center"
-        android:text="@string/personabouttextviewmaincontainer" />
+        >
+
+        <com.google.android.material.chip.ChipGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipSpacingHorizontal="8dp"
+            app:selectionRequired="false"
+            >
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/interest1"
+                app:chipBackgroundColor="@color/light_purple"
+                app:chipIcon="@drawable/sports"
+                />
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/interest2"
+                app:chipBackgroundColor="@color/light_purple"
+                app:chipIcon="@drawable/sports"
+                />
+            <com.google.android.material.chip.Chip
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/interest3"
+                app:chipBackgroundColor="@color/light_purple"
+                app:chipIcon="@drawable/sports"
+                />
+
+        </com.google.android.material.chip.ChipGroup>
+
+
+    </HorizontalScrollView>
+
 
     <TextView
         android:id="@+id/connectionnumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/defaultabout"
+        android:layout_below="@+id/linearlayout1"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="8dp"
         android:fontFamily="@font/nunitobold"
         android:textColor="@color/purple_main"
         android:textAlignment="center"
@@ -133,23 +166,38 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/connectionnumber"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         android:fontFamily="@font/nunitosemibold"
         android:textSize="20sp"
         android:textAlignment="center"
         android:text="@string/about" />
 
-    <TextView
-        android:id="@+id/profilecommentheading"
+    <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/profileaboutheading"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="124dp"
-        android:fontFamily="@font/nunitosemibold"
-        android:textSize="20sp"
-        android:textAlignment="center"
-        android:text="@string/comments" />
+        android:layout_marginHorizontal="24dp"
+        android:layout_below="@id/profileaboutheading"
+        android:layout_marginTop="8dp"
+        app:cardBackgroundColor="@color/lighter_grey"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="0dp"
 
+        >
+
+        <TextView
+            android:id="@+id/aboutsection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/profileaboutheading"
+            android:text="@string/loremipsum"
+            android:textAlignment="center"
+            android:fontFamily="@font/nunitoregular"
+            android:textColor="@color/almost_black"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="16dp"
+            />
+
+    </androidx.cardview.widget.CardView>
 
 </RelativeLayout>

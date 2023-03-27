@@ -50,7 +50,7 @@
     <string name="friendbutton">Friend Button</string>
     <string name="wavesmallbuttonnotif">Wave Small Button Notification </string>
     <string name="connectionsmallbuttonnotif">Connection Small Button Notification</string>
-    <string name="loremipsum">Lorem Ipsum</string>
+    <string name="loremipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
     <string name="threedotsbutton">Three Dots Button</string>
     <string name="profilebannercontainer">Profile Banner Container</string>
     <string name="profilepicture">Profile Picture</string>
@@ -75,7 +75,7 @@
     <string name="beaconlayout">m:2-3=beac,i:4-7,i:8-23,p:24-24,d:25-25</string>
     <string name="beacon_transmission_notif_ChannelId">1</string>
     <string name="beacon_transmission_notif_ChannelTitle">Unilink</string>
-    <string name= "beacon_transmission_notif_ChannelDesc">Unilink is using your bluetooth to show you off</string>
+    <string name="beacon_transmission_notif_ChannelDesc">Unilink is using your bluetooth to show you off</string>
     <string name="beacon_transmission_notif_id">1</string>
     <string name="beacon_transmission_notif_title">Unilink - Showing your existence</string>
     <string name="beacon_transmission_notif_cancel">Stop visibility</string>
@@ -150,6 +150,9 @@
     <string name="mobile">Mobile</string>
     <string name="fps">FPS</string>
     <string name="strategy">Strategy</string>
+    <string name="interest1">Interest 1</string>
+    <string name="interest2">Interest 2</string>
+    <string name="interest3">Interest 3</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->
