@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".othersProfileActivity">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <ImageButton
+        android:id="@+id/backbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="16dp"
+        android:background="@null"
+        android:src="@drawable/arrow_left" />
+
+    <RelativeLayout
+        android:id="@+id/relativelayoutbanner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/profilebannercontainer"
+            android:visibility="visible"
+            android:layout_width="328dp"
+            android:layout_height="156dp"
+            app:cardBackgroundColor="@color/purple_main"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="0dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="56dp">
+
+            <ImageView
+                android:id="@+id/profilebanner"
+                android:visibility="visible"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:src="@drawable/profilebannercontainer" />
+
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/relativelayoutbanner"
+        android:layout_alignStart="@id/relativelayoutbanner"
+        android:layout_alignEnd="@id/relativelayoutbanner"
+        android:gravity="center"
+        android:paddingTop="160dp">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            app:cardBackgroundColor="@color/purple_main"
+            app:cardCornerRadius="70dp"
+            app:cardElevation="0dp">
+
+            <ImageView
+                android:id="@+id/defaultprofilepicture"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:saveEnabled="true"
+                android:src="@drawable/defaultprofilepicturesmall"/>
+
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
+
+
+
+
+    <TextView
+        android:id="@+id/defaultusername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relativelayoutbanner"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/nunitobold"
+        android:textSize="24sp"
+        android:textAlignment="center"
+        android:text="@string/personusernametextviewmaincontainer" />
+
+    <HorizontalScrollView
+        android:id="@+id/linearlayout1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/defaultusername"
+        android:layout_centerHorizontal="true"
+        >
+
+        <com.google.android.material.chip.ChipGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipSpacingHorizontal="8dp"
+            app:selectionRequired="false"
+            >
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/interest1"
+                app:chipBackgroundColor="@color/light_purple"
+                app:chipIcon="@drawable/sports"
+                />
+
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/interest2"
+                app:chipBackgroundColor="@color/light_purple"
+                app:chipIcon="@drawable/sports"
+                />
+            <com.google.android.material.chip.Chip
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/interest3"
+                app:chipBackgroundColor="@color/light_purple"
+                app:chipIcon="@drawable/sports"
+                />
+
+        </com.google.android.material.chip.ChipGroup>
+
+
+    </HorizontalScrollView>
+
+
+    <TextView
+        android:id="@+id/connectionnumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linearlayout1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/nunitobold"
+        android:textColor="@color/purple_main"
+        android:textAlignment="center"
+        android:text="@string/connection" />
+
+    <TextView
+        android:id="@+id/profileaboutheading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/connectionnumber"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/nunitosemibold"
+        android:textSize="20sp"
+        android:textAlignment="center"
+        android:text="@string/about" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginHorizontal="24dp"
+        android:layout_below="@id/profileaboutheading"
+        android:layout_marginTop="8dp"
+        app:cardBackgroundColor="@color/lighter_grey"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="0dp"
+
+        >
+
+        <TextView
+            android:id="@+id/aboutsection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/profileaboutheading"
+            android:text="@string/loremipsum"
+            android:textAlignment="center"
+            android:fontFamily="@font/nunitoregular"
+            android:textColor="@color/almost_black"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="16dp"
+            />
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>
