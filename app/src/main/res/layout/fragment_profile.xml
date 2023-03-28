@@ -72,9 +72,9 @@
         <androidx.cardview.widget.CardView
             android:layout_width="70dp"
             android:layout_height="70dp"
-            app:cardBackgroundColor="@color/purple_main"
-            app:cardCornerRadius="70dp"
-            app:cardElevation="0dp">
+            app:cardBackgroundColor="@null"
+            app:cardCornerRadius="700dp"
+            app:cardElevation="8dp">
 
             <ImageView
                 android:id="@+id/defaultprofilepicture"
