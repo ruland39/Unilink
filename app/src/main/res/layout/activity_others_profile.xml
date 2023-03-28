@@ -61,7 +61,9 @@
             android:layout_height="70dp"
             app:cardBackgroundColor="@null"
             app:cardCornerRadius="700dp"
-            app:cardElevation="8dp">
+            app:cardElevation="4dp"
+            android:layout_margin="4dp"
+            >
 
             <ImageView
                 android:id="@+id/defaultprofilepicture"

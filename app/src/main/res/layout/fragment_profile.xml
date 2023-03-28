@@ -72,9 +72,12 @@
         <androidx.cardview.widget.CardView
             android:layout_width="70dp"
             android:layout_height="70dp"
+            android:clipToPadding="false"
             app:cardBackgroundColor="@null"
-            app:cardCornerRadius="700dp"
-            app:cardElevation="8dp">
+            app:cardCornerRadius="1000dp"
+            android:layout_margin="4dp"
+            app:cardElevation="4dp"
+            >
 
             <ImageView
                 android:id="@+id/defaultprofilepicture"
