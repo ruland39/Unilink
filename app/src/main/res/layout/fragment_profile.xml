@@ -113,6 +113,7 @@
         android:layout_below="@id/defaultusername"
         android:layout_centerHorizontal="true"
         android:scrollbars="none"
+        android:paddingStart="16dp"
         >
 
         <com.google.android.material.chip.ChipGroup
@@ -152,6 +153,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/pop"
+                android:layout_marginRight="8dp"
                 app:chipBackgroundColor="@color/light_purple"
                 />
 
@@ -186,7 +188,7 @@
         android:text="@string/about" />
 
     <androidx.cardview.widget.CardView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginHorizontal="24dp"
