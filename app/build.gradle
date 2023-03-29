@@ -60,4 +60,5 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore'
     implementation 'pl.bclogic:pulsator4droid:1.0.3'
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
+    implementation 'com.onesignal:OneSignal:[4.0.0, 4.99.99]'
 }

@@ -89,6 +89,7 @@ public class HomescreenActivity extends AppCompatActivity
             if (currentUser == null) {
                 Intent i = getIntent();
                 currentUser = i.getParcelableExtra("AuthenticatedUser");
+
             }
         }
     }
