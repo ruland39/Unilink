@@ -54,22 +54,6 @@
             android:contentDescription="@string/collapsemenubutton"
             />
 
-        <ImageButton
-            android:id="@+id/connectionbutton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/friendbutton"
-            android:background="@null"
-            android:layout_marginTop="28dp"
-            android:layout_marginEnd="24dp"
-            android:scaleType="center"
-            android:scaleX="1.1"
-            android:scaleY="1.1"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            />
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView

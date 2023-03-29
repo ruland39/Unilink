@@ -1,4 +1,4 @@
-package com.example.unilink;
+package com.example.unilink.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import com.example.unilink.Activities.HomescreenActivity;
+import com.example.unilink.R;
 
 public class othersProfileActivity extends AppCompatActivity {
 
