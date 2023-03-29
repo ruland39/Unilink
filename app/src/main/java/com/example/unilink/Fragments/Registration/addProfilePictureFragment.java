@@ -1,8 +1,13 @@
-package com.example.unilink;
+package com.example.unilink.Fragments.Registration;
+
+import static android.app.Activity.RESULT_OK;
 
 import android.content.Intent;
+import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -13,12 +18,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import com.example.unilink.R;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link addProfileBannerFragment#newInstance} factory method to
+ * Use the {@link addProfilePictureFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class addProfileBannerFragment extends Fragment {
+public class addProfilePictureFragment extends Fragment  {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -30,7 +39,9 @@ public class addProfileBannerFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public addProfileBannerFragment() {
+    ImageButton addProfilePicture;
+
+    public addProfilePictureFragment() {
         // Required empty public constructor
     }
 
@@ -40,11 +51,11 @@ public class addProfileBannerFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment addProfileBannerFragment.
+     * @return A new instance of fragment AddProfilePictureFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static addProfileBannerFragment newInstance(String param1, String param2) {
-        addProfileBannerFragment fragment = new addProfileBannerFragment();
+    public static addProfilePictureFragment newInstance(String param1, String param2) {
+        addProfilePictureFragment fragment = new addProfilePictureFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -59,28 +70,28 @@ public class addProfileBannerFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_add_profile_banner, container, false);
+        View view = inflater.inflate(R.layout.fragment_add_profile_picture, container, false);
 
-        ImageButton addProfileBanner = view.findViewById(R.id.addprofilepicturebutton);
-
-        addProfileBanner.setOnClickListener(new View.OnClickListener() {
+        ImageButton addprofilepicturebutton = view.findViewById(R.id.addprofilepicturebutton);
+        addprofilepicturebutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addProfileBanner();
+                addprofilepicture();
             }
         });
 
         return view;
     }
 
-    // Add Profile Banner
-    public void addProfileBanner(){
+    // Add Profile Picture
+    public void addprofilepicture(){
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, GALLERY_REQUEST_CODE);
@@ -88,18 +99,20 @@ public class addProfileBannerFragment extends Fragment {
     }
 
 
-    // Set Profile Banner
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
+    // Set Profile Picture
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 //
 //        if(resultCode == RESULT_OK){
 //            if(requestCode == GALLERY_REQUEST_CODE){
 //                temp.setImageURI(data.getData());
 //            }
 //        }
-//    }
+    }
 
-    // Set Profile Banner to Database
+    // Save Profile Picture to Database
+
+
 
 }
