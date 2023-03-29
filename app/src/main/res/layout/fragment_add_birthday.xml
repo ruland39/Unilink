@@ -26,13 +26,15 @@
             android:layout_marginTop="32dp"
             />
 
-        <DatePicker
-            android:id="@+id/datepicker"
+        <EditText
+            android:id="@+id/birthdayedittext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:hint="@string/ddmmmyyyy"
             android:layout_below="@id/birthdaytextview"
+            android:fontFamily="@font/nunitobold"
+            android:textSize="28sp"
             android:layout_marginTop="16dp"
-            android:headerBackground="@color/purple_main"
             />
 
     </RelativeLayout>

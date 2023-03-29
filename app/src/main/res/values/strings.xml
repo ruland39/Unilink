@@ -75,7 +75,7 @@
     <string name="beaconlayout">m:2-3=beac,i:4-7,i:8-23,p:24-24,d:25-25</string>
     <string name="beacon_transmission_notif_ChannelId">1</string>
     <string name="beacon_transmission_notif_ChannelTitle">Unilink</string>
-    <string name= "beacon_transmission_notif_ChannelDesc">Unilink is using your bluetooth to show you off</string>
+    <string name="beacon_transmission_notif_ChannelDesc">Unilink is using your bluetooth to show you off</string>
     <string name="beacon_transmission_notif_id">1</string>
     <string name="beacon_transmission_notif_title">Unilink - Showing your existence</string>
     <string name="beacon_transmission_notif_cancel">Stop visibility</string>
@@ -150,7 +150,8 @@
     <string name="mobile">Mobile</string>
     <string name="fps">FPS</string>
     <string name="strategy">Strategy</string>
-
+    <string name="ddmmmyyyy">DD/MM/YYYY</string>
+    <string name="letssetupyourprofile">Let\'s Setup your Profile</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
