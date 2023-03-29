@@ -21,7 +21,7 @@ import com.example.unilink.Fragments.HomeFragment;
 import com.example.unilink.Fragments.NotificationFragment;
 import com.example.unilink.Fragments.ProfileFragment;
 import com.example.unilink.R;
-import com.example.unilink.Services.UserService;
+import com.example.unilink.Services.AccountService;
 import com.example.unilink.databinding.ActivityMainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -44,8 +44,8 @@ public class HomescreenActivity extends AppCompatActivity
         implements BluetoothHomeScreenDialog.BtHomeScreenDialogListener {
 
     private static final String TAG = "HomescreenActivity";
-    private UnilinkAccount currentUser;
-    private UserService userService;
+    private UnilinkAccount currentUAcc;
+    private AccountService accountService;
 
     ActivityMainBinding binding;
     BottomNavigationView bottomNavigationView;
@@ -63,15 +63,15 @@ public class HomescreenActivity extends AppCompatActivity
     @Override
     public void onStart() {
         super.onStart();
-        this.currentUser = null;
-        if (!userService.isInSession()) {
+        this.currentUAcc = null;
+        if (!accountService.isInSession()) {
             Intent i = new Intent(this, LoginorregisterActivity.class);
             startActivity(i);
             finish();
         } else {
-            if (currentUser == null) {
+            if (currentUAcc == null) {
                 Intent i = getIntent();
-                currentUser = i.getParcelableExtra("AuthenticatedUser");
+                currentUAcc = i.getParcelableExtra("AuthenticatedUser");
             }
         }
     }
@@ -81,11 +81,11 @@ public class HomescreenActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        userService = new UserService();
+        accountService = new AccountService();
 
         // Saved Instance state of activity to retrieve data
         if (savedInstanceState != null) {
-            currentUser = savedInstanceState.getParcelable("CurrentUser");
+            currentUAcc = savedInstanceState.getParcelable("CurrentAccount");
         }
 
         // Validate permission
@@ -121,7 +121,7 @@ public class HomescreenActivity extends AppCompatActivity
                 .commitNow();
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(item -> {
-            UnilinkAccount user = getCurrentUser();
+            UnilinkAccount user = getCurrentAccount();
             FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
             // Get the fragment in the backstack
             Fragment home_frag = null;
@@ -161,7 +161,7 @@ public class HomescreenActivity extends AppCompatActivity
     @Override
     public void onSaveInstanceState(Bundle outState) {
         Log.d(TAG, "Activity going to the background! Saving states..");
-        outState.putParcelable("CurrentUser", currentUser);
+        outState.putParcelable("CurrentAccount", currentUAcc);
         super.onSaveInstanceState(outState);
     }
 
@@ -185,12 +185,12 @@ public class HomescreenActivity extends AppCompatActivity
     }
 
     private void startBeaconTransmission() {
-        if(currentUser == null)
+        if(currentUAcc == null)
             throw new RuntimeException("CURRENT USER IS NULL");
         OneTimeWorkRequest beaconWorkRequest =
                 new OneTimeWorkRequest.Builder(BeaconWorker.class)
                         .setInputData(new Data.Builder()
-                                .putString("CurrentUid", currentUser.getUid())
+                                .putString("CurrentUid", currentUAcc.getUid())
                                 .build())
                         .build();
         WorkManager.getInstance(this).beginUniqueWork(
@@ -199,15 +199,15 @@ public class HomescreenActivity extends AppCompatActivity
                 beaconWorkRequest).enqueue();
     }
 
-    private UnilinkAccount getCurrentUser() {
-        return this.currentUser;
+    private UnilinkAccount getCurrentAccount() {
+        return this.currentUAcc;
     }
 
     // logout method
     public void logout() {
         Intent ix = getIntent();
         ix.removeExtra("AuthenticatedUser");
-        userService.signOut();
+        accountService.signOut();
         Log.d(TAG, "User Logout Successful");
         BeaconWorker.stopAdvertisement();
         ix = new Intent(this, LoginorregisterActivity.class);

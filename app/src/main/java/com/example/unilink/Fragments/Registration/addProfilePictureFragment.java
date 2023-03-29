@@ -1,20 +1,24 @@
 package com.example.unilink.Fragments.Registration;
 
-import static android.app.Activity.RESULT_OK;
-
-import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
+import com.example.unilink.Activities.FeaturePage.LoadingDialogBar;
+import com.example.unilink.Models.UnilinkAccount;
+import com.example.unilink.Models.UnilinkUser;
 import com.example.unilink.R;
+import com.example.unilink.Services.UserService;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,17 +27,12 @@ import com.example.unilink.R;
  */
 public class addProfilePictureFragment extends Fragment  {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-    private static final int GALLERY_REQUEST_CODE = 1000;
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    ImageButton addProfilePicture;
+    private static final String TAG = "AddProfilePictureFragment";
+    private UnilinkAccount uAcc;
+    private UnilinkUser uUser;
+    ImageView pfp;
+    private UserService userService;
+    ProfileSetupListener listener;
 
     public addProfilePictureFragment() {
         // Required empty public constructor
@@ -42,27 +41,32 @@ public class addProfilePictureFragment extends Fragment  {
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment AddProfilePictureFragment.
      */
-    // TODO: Rename and change types and number of parameters
-    public static addProfilePictureFragment newInstance(String param1, String param2) {
+    public static addProfilePictureFragment newInstance(UnilinkAccount uAcc) {
         addProfilePictureFragment fragment = new addProfilePictureFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putParcelable("Account", uAcc);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onAttach(@NonNull Context ctx){
+        super.onAttach(ctx);
+        try {
+            listener = (ProfileSetupListener) ctx;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(ctx.toString() + " must implement ProfileSetupListener");
+        }
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            uAcc = (UnilinkAccount) getArguments().getParcelable("Account");
+            userService = new UserService();
         }
 
     }
@@ -72,41 +76,30 @@ public class addProfilePictureFragment extends Fragment  {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add_profile_picture, container, false);
-
-        ImageButton addprofilepicturebutton = view.findViewById(R.id.addprofilepicturebutton);
-        addprofilepicturebutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addprofilepicture();
-            }
+        pfp = view.findViewById(R.id.addprofilepictureimg);
+        ImageButton addPFPBtn = view.findViewById(R.id.addprofilepicturebutton);
+        addPFPBtn.setOnClickListener(v -> {
+            chooseImageActivity.launch("image/*");
         });
 
         return view;
     }
 
-    // Add Profile Picture
-    public void addprofilepicture(){
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent, GALLERY_REQUEST_CODE);
-
-    }
-
-
-    // Set Profile Picture
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-//`        if(resultCode == RESULT_OK){
-//            if(requestCode == GALLERY_REQUEST_CODE){
-//                temp.setImageURI(data.getData());
-//            }
-//        }`
-    }
-
-    // Save Profile Picture to Database
-
-
+    ActivityResultLauncher<String> chooseImageActivity = registerForActivityResult(
+            new ActivityResultContracts.GetContent(),
+            uri -> {
+                if (uri == null) return;
+                LoadingDialogBar loadingDialogBar = new LoadingDialogBar(requireContext());
+                loadingDialogBar.showDialog("Uploading");
+                userService.uploadImage(uri,
+                        uAcc.getUid() + uri.getLastPathSegment(),
+                        UserService.ImageType.ProfilePicture,
+                        uploadedUrl -> {
+                            loadingDialogBar.hideDialog();
+                            userService.setImage2View(requireContext(), pfp, uploadedUrl);
+                            listener.AddedProfileImage(uploadedUrl);
+                        });
+            }
+    );
 
 }

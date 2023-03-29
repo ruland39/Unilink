@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragments.Registration.addProfilePictureFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:paddingHorizontal="64dp"
         android:paddingTop="64dp"
         android:gravity="center_horizontal"
@@ -38,17 +36,37 @@
             android:layout_below="@id/addyourphototextview"
             />
 
-        <ImageButton
-            android:id="@+id/addprofilepicturebutton"
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/profileadd"
-            android:background="@null"
+            android:layout_height="284dp"
             android:layout_below="@id/addyourphotodetailstextview"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="64dp"
-            android:contentDescription="@string/profilepicture" />
+            android:layout_centerHorizontal="true">
 
+            <androidx.cardview.widget.CardView
+                android:layout_width="216dp"
+                android:layout_height="216dp"
+                app:cardCornerRadius="216dp"
+                android:layout_marginTop="64dp"
+                android:layout_centerHorizontal="true"
+                app:cardElevation="0dp">
+            <ImageView
+                android:id="@+id/addprofilepictureimg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:src="@drawable/profileadd"
+                />
+            </androidx.cardview.widget.CardView>
+
+            <ImageButton
+                android:id="@+id/addprofilepicturebutton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/profileaddcircle"
+                android:background="@null"
+                android:layout_marginTop="64dp"
+                android:contentDescription="@string/profilepicture" />
+        </RelativeLayout>
     </RelativeLayout>
 
 </RelativeLayout>

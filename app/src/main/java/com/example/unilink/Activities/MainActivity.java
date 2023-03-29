@@ -16,7 +16,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 
 import com.example.unilink.Activities.FeaturePage.FeaturePageActivity;
 import com.example.unilink.R;
-import com.example.unilink.Services.UserService;
+import com.example.unilink.Services.AccountService;
 
 public class MainActivity extends AppCompatActivity {
     private final static String TAG = "MainActivity";
@@ -45,11 +45,11 @@ public class MainActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         new Handler().postDelayed(()->{
-            UserService userService = new UserService();
+            AccountService accountService = new AccountService();
             // in session
-            if (userService.isInSession()) {
+            if (accountService.isInSession()) {
                 Log.d(TAG, "User session found!");
-                userService.getUserInfoByAuthId(userService.getCurrentUserSessionID(), user -> {
+                accountService.getAccountByAuthID(accountService.getCurrentUserSessionID(), user -> {
                     Log.d(TAG, "Retrieved current inSession User: " + user);
                     if (user != null) {
                         Intent i = new Intent(MainActivity.this, HomescreenActivity.class);

@@ -1,28 +1,37 @@
 package com.example.unilink.Models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
 import com.example.unilink.Models.Interests.Food;
 import com.example.unilink.Models.Interests.Gaming;
 import com.example.unilink.Models.Interests.InterestsCategory;
 import com.example.unilink.Models.Interests.Movie;
 import com.example.unilink.Models.Interests.Music;
 import com.example.unilink.Models.Interests.Sport;
+import com.google.firebase.Timestamp;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.time.LocalDateTime;
 
-public class UnilinkUser {
-
-    private String userID;
-    private String bio;
-    private LocalDateTime timeCreated;
+public class UnilinkUser implements Serializable {
+    private final String userID;
+    private final Timestamp timeCreated;
     public List<String> ConnectedUIDs;
     private PriorityQueue<InterestsCategory> categories;
-
-    public UnilinkUser(String userID, String bio) {
+    private String bio;
+    private String pfpURL;
+    private String pfbURL;
+    public UnilinkUser(String userID) {
         this.userID = userID;
-        this.bio = bio;
+        this.bio = null;
+        this.pfpURL = null;
+        this.pfbURL = null;
         this.categories = new PriorityQueue<>();
         categories.add(new Food(0));
         categories.add(new Music(0));
@@ -30,7 +39,7 @@ public class UnilinkUser {
         categories.add(new Sport(0));
         categories.add(new Gaming(0));
         this.ConnectedUIDs = new ArrayList<>();
-        this.timeCreated = LocalDateTime.now();
+        this.timeCreated = Timestamp.now();
     }
 
     public PriorityQueue<InterestsCategory> getCategories() {
@@ -40,10 +49,15 @@ public class UnilinkUser {
     public String getBio() {
         return bio;
     }
+    public String getUserID() {return userID;}
+    public String getPfpURL() {return pfpURL;}
+    public String getPfbURL() {return pfbURL;}
 
     public void setBio(String bio) {
         this.bio = bio;
     }
+    public void setProfilePicture(String url) {this.pfpURL = url;}
+    public void setProfileBanner(String url) {this.pfbURL = url;}
 
     public void addChosenInterest(Enum interest, InterestsCategory category) {
         if (category instanceof Food) {

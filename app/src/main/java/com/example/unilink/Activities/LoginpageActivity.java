@@ -12,13 +12,12 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.unilink.Activities.FeaturePage.LoadingDialogBar;
 import com.example.unilink.R;
-import com.example.unilink.Services.UserService;
+import com.example.unilink.Services.AccountService;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -33,7 +32,7 @@ public class LoginpageActivity extends AppCompatActivity {
     private CheckBox showHidePW;
     private boolean[] validatedInput;
     LoadingDialogBar loadingDialogBar;
-    private UserService userService;
+    private AccountService accountService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +41,7 @@ public class LoginpageActivity extends AppCompatActivity {
 
         ImageButton backbutton = findViewById(R.id.backbutton);
         loadingDialogBar = new LoadingDialogBar(this);
-        userService = new UserService();
+        accountService = new AccountService();
 
         backbutton.setOnClickListener(v -> {
             finish();
@@ -127,7 +126,7 @@ public class LoginpageActivity extends AppCompatActivity {
     }
 
     private void LoginUser() {
-            userService.Login(loadingDialogBar,
+            accountService.Login(loadingDialogBar,
                     email.getText().toString(),
                     password.getText().toString(),
                     authenticatedUser -> {

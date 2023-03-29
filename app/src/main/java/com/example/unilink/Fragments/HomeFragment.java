@@ -22,7 +22,7 @@ import android.widget.Toast;
 import com.example.unilink.Models.BluetoothButton;
 import com.example.unilink.Models.UnilinkAccount;
 import com.example.unilink.R;
-import com.example.unilink.Services.UserService;
+import com.example.unilink.Services.AccountService;
 import com.facebook.shimmer.Shimmer;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
@@ -48,7 +48,7 @@ import pl.bclogic.pulsator4droid.library.PulsatorLayout;
  * create an instance of this fragment.
  */
 public class HomeFragment extends Fragment{
-    private UserService userService;
+    private AccountService accountService;
     private ProfileRowAdapter mAdapter;
     private BluetoothButton mBtBtn;
     private ShimmerFrameLayout shimmerFrameLayout;
@@ -101,7 +101,7 @@ public class HomeFragment extends Fragment{
                     if (!usersInRange.containsKey(uid.toString())){
                         // User is not in the known list (new)
                         Log.d(TAG, "New unilink user found: " + uid);
-                        userService.getUserInfoByUId(uid.toString(), foundUser -> {
+                        accountService.getAccountByUId(uid.toString(), foundUser -> {
                             if (foundUser == null)
                                 return;
                             usersInRange.put(uid.toString(), foundUser);
@@ -142,7 +142,7 @@ public class HomeFragment extends Fragment{
                 Log.d(TAG,"End of ranging cycle");
             }
         });
-        userService = new UserService();
+        accountService = new AccountService();
     }
 
     @Override
