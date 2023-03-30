@@ -19,7 +19,15 @@ import com.onesignal.OneSignal;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Handler;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import okhttp3.MediaType;
 
 public class ProfileRowAdapter extends RecyclerView.Adapter<ProfileRowAdapter.ViewHolder> {
     private ArrayList<UnilinkUser> mDataset;
@@ -39,25 +47,39 @@ public class ProfileRowAdapter extends RecyclerView.Adapter<ProfileRowAdapter.Vi
         if (mDataset.isEmpty())
             holder.getText().setText("A Unilink User");
         else{
-            holder.getText().setText(mDataset.get(position).getFullName());
+            UnilinkUser uAcc = mDataset.get(position);
+            holder.getText().setText(uAcc.getFullName());
             holder.getWaveBtn().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     JSONObject notifJSON = new JSONObject();
-                    try {
-                        notifJSON.accumulate("contents", "{'en':'Test Message'}");
-                        notifJSON.accumulate("include_external_user_ids", new String[]{mDataset.get(position).getUid()});
-                        OneSignal.postNotification(notifJSON, new OneSignal.PostNotificationResponseHandler() {
-                                    @Override
-                                    public void onSuccess(JSONObject response) {
-                                        Log.i("OneSignalExample", "postNotification Success: " + response.toString());
-                                    }
 
-                                    @Override
-                                    public void onFailure(JSONObject response) {
-                                        Log.e("OneSignalExample", "postNotification Failure: " + response.toString());
-                                    }
-                                });
+                    try {
+                        notifJSON.accumulate("include_external_user_ids", new String[]{uAcc.getUid()});
+                        notifJSON.accumulate("template_id", "9540d0b1-ab93-44c5-9140-7fdf11d9e5e6");
+                        OneSignal.sendTag("username", uAcc.getFullName());
+                        OneSignal.setExternalUserId(uAcc.getUid());
+
+                        new Thread(() -> {
+                            OkHttpClient client = new OkHttpClient();
+
+                            MediaType mediaType = MediaType.parse("application/json");
+                            RequestBody body = RequestBody.create( notifJSON.toString(),mediaType);
+                            Request request = new Request.Builder()
+                                    .url("https://onesignal.com/api/v1/notifications")
+                                    .post(body)
+                                    .addHeader("accept", "application/json")
+                                    .addHeader("Authorization", "Basic NjU2Yzk0NTQtNjI2OC00NzQ5LTk2OTEtMDhlMTk5MmM0ZDNi")
+                                    .addHeader("content-type", "application/json")
+                                    .build();
+
+                            try {
+                                Response response = client.newCall(request).execute();
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }).run();
+
                     } catch (JSONException e) {
                         throw new RuntimeException(e);
                     }

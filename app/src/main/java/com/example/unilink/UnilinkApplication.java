@@ -27,7 +27,7 @@ public class UnilinkApplication extends Application{
 		super.onCreate();
 		System.out.println("YO");
 		this.mContext = getApplicationContext();
-		OneSignal.setLogLevel(OneSignal.LOG_LEVEL.DEBUG, OneSignal.LOG_LEVEL.DEBUG);
+		OneSignal.setLogLevel(OneSignal.LOG_LEVEL.VERBOSE, OneSignal.LOG_LEVEL.NONE);
 		OneSignal.initWithContext(this);
 		OneSignal.setAppId(ONESIGNAL_APP_ID);
 		OneSignal.promptForPushNotifications();

@@ -53,6 +53,7 @@ import android.content.pm.PackageManager;
 
 import com.example.unilink.Models.UnilinkUser;
 import com.example.unilink.Dialogs.BluetoothHomeScreenDialog;
+import com.onesignal.OneSignal;
 
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconManager;
@@ -89,7 +90,7 @@ public class HomescreenActivity extends AppCompatActivity
             if (currentUser == null) {
                 Intent i = getIntent();
                 currentUser = i.getParcelableExtra("AuthenticatedUser");
-
+                OneSignal.setExternalUserId(currentUser.getUid());
             }
         }
     }
