@@ -16,21 +16,19 @@ import com.example.unilink.Fragments.Registration.ProfileSetupListener;
 import com.example.unilink.Fragments.Registration.addBioFragment;
 import com.example.unilink.Fragments.Registration.addBirthdayFragment;
 import com.example.unilink.Fragments.Registration.addProfileBannerFragment;
+import com.example.unilink.Fragments.Registration.addProfileInterest;
 import com.example.unilink.Fragments.Registration.addProfilePictureFragment;
 import com.example.unilink.Models.UnilinkAccount;
 import com.example.unilink.Models.UnilinkUser;
 import com.example.unilink.R;
 import com.example.unilink.Services.AccountService;
 
+import java.util.Date;
+import java.util.List;
+
 public class ProfileSetupActivity extends AppCompatActivity implements ProfileSetupListener {
 
     private FragmentManager fragmentManager;
-    private FragmentTransaction fragmentTransaction;
-    private Fragment fragment1, fragment2, fragment3, fragment4;
-    private addProfilePictureFragment profilePictureFragment;
-    private addProfileBannerFragment profileBannerFragment;
-    private addBirthdayFragment birthdayFragment;
-    private addBioFragment bioFragment;
     private int currentFragmentIndex = 0;
 
     private UnilinkAccount uAcc = null;
@@ -67,10 +65,11 @@ public class ProfileSetupActivity extends AppCompatActivity implements ProfileSe
 
         fragmentManager = getSupportFragmentManager();
 
-        profilePictureFragment = addProfilePictureFragment.newInstance(uAcc);
-        profileBannerFragment = addProfileBannerFragment.newInstance(uAcc);
-        birthdayFragment = addBirthdayFragment.newInstance(uAcc);
-        bioFragment = new addBioFragment();
+        addProfilePictureFragment profilePictureFragment = addProfilePictureFragment.newInstance(uAcc);
+        addProfileBannerFragment profileBannerFragment = addProfileBannerFragment.newInstance(uAcc);
+        addBirthdayFragment birthdayFragment = addBirthdayFragment.newInstance(uAcc);
+        addBioFragment bioFragment = addBioFragment.newInstance();
+        addProfileInterest interestFragment = new addProfileInterest();
 
         // Replace the initial fragment with addProfilePictureFragment
         fragmentManager.beginTransaction()
@@ -87,23 +86,25 @@ public class ProfileSetupActivity extends AppCompatActivity implements ProfileSe
                     fragmentManager.beginTransaction()
                             .replace(R.id.frame_layout, profileBannerFragment)
                             .commitNow();
-                    currentFragmentIndex++;
                     break;
                 case 2:
                     // Replace addProfileBannerFragment with addBirthdayFragment
                     fragmentManager.beginTransaction()
                             .replace(R.id.frame_layout, birthdayFragment)
                             .commitNow();
-                    currentFragmentIndex++;
                     break;
                 case 3:
                     // Replace addBirthdayFragment with addBioFragment
                     fragmentManager.beginTransaction()
                             .replace(R.id.frame_layout, bioFragment)
                             .commitNow();
-                    currentFragmentIndex++;
                     break;
                 case 4:
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.frame_layout, interestFragment)
+                            .commitNow();
+                    break;
+                case 5:
                     // Do something when the user reaches the last fragment
                     openHomeScreen();
                     break;
@@ -137,5 +138,24 @@ public class ProfileSetupActivity extends AppCompatActivity implements ProfileSe
         Toast.makeText(this, "Added Profile Banner: " + newBannerImageURL,
                 Toast.LENGTH_SHORT).show();
         proceedBtn.setEnabled(true);
+    }
+
+    @Override
+    public void AddedBirthdate(Date newBirthDate){
+        uUser.setBirthdate(newBirthDate);
+        Toast.makeText(this, "Birthdate set!:" + newBirthDate, Toast.LENGTH_SHORT).show();
+        proceedBtn.setEnabled(true);
+    }
+
+    @Override
+    public void AddedBio(String bio){
+        uUser.setBio(bio);
+        Toast.makeText(this, "Set the bio!", Toast.LENGTH_SHORT).show();
+        proceedBtn.setEnabled(true);
+    }
+
+    @Override
+    public void AddedInterest(List<Enum> interests) {
+
     }
 }

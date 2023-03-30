@@ -45,7 +45,7 @@ public class addProfileBannerFragment extends Fragment {
      *
      * @return A new instance of fragment addProfileBannerFragment.
      */
-    // TODO: Rename and change types and number of parameters
+
     public static addProfileBannerFragment newInstance(UnilinkAccount uAcc) {
         addProfileBannerFragment fragment = new addProfileBannerFragment();
         Bundle args = new Bundle();

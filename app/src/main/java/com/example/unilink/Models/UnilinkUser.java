@@ -15,6 +15,7 @@ import com.google.firebase.Timestamp;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.time.LocalDateTime;
@@ -27,6 +28,7 @@ public class UnilinkUser implements Serializable {
     private String bio;
     private String pfpURL;
     private String pfbURL;
+    private Date birthdate;
     public UnilinkUser(String userID) {
         this.userID = userID;
         this.bio = null;
@@ -40,6 +42,7 @@ public class UnilinkUser implements Serializable {
         categories.add(new Gaming(0));
         this.ConnectedUIDs = new ArrayList<>();
         this.timeCreated = Timestamp.now();
+        this.birthdate = null;
     }
 
     public PriorityQueue<InterestsCategory> getCategories() {
@@ -58,6 +61,7 @@ public class UnilinkUser implements Serializable {
     }
     public void setProfilePicture(String url) {this.pfpURL = url;}
     public void setProfileBanner(String url) {this.pfbURL = url;}
+    public void setBirthdate(Date date) {this.birthdate = date;}
 
     public void addChosenInterest(Enum interest, InterestsCategory category) {
         if (category instanceof Food) {

@@ -1,7 +1,9 @@
 package com.example.unilink.Fragments.Registration;
 
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -9,6 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.unilink.Models.Interests.Food;
+import com.example.unilink.Models.Interests.Movie;
+import com.example.unilink.Models.Interests.Music;
+import com.example.unilink.Models.UnilinkAccount;
 import com.example.unilink.R;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -22,15 +28,9 @@ import java.util.List;
  * create an instance of this fragment.
  */
 public class addProfileInterest extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private UnilinkAccount uAcc;
+    private ProfileSetupListener listener;
+    private List<Enum> chosenInterests = new ArrayList<>();
 
     public addProfileInterest() {
         // Required empty public constructor
@@ -40,28 +40,32 @@ public class addProfileInterest extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment addProfileInterest.
      */
-    // TODO: Rename and change types and number of parameters
-    public static addProfileInterest newInstance(String param1, String param2) {
+    public static addProfileInterest newInstance(UnilinkAccount uAcc) {
         addProfileInterest fragment = new addProfileInterest();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putParcelable("Account",uAcc);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onAttach(@NonNull Context ctx){
+        super.onAttach(ctx);
+        try {
+            listener = (ProfileSetupListener) ctx;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(ctx.toString() + " must implement ProfileSetupListener");
+        }
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            uAcc = getArguments().getParcelable("Account");
         }
-
     }
 
     @Override
@@ -78,74 +82,48 @@ public class addProfileInterest extends Fragment {
         ChipGroup gamingChipGroup = view.findViewById(R.id.gamingchipgroup);
 
         musicChipGroup.setOnCheckedStateChangeListener(((group, checkedIds) -> {
-            for (int chipId : checkedIds) {
-                Chip chip = group.findViewById(chipId);
-                if (chip != null){
-                    Toast.makeText(this.getActivity(), "Choice:" + chip.getText(), Toast.LENGTH_SHORT).show();
-                }
-            }
+
         }));
 
         moviesChipGroup.setOnCheckedStateChangeListener((((group, checkedIds) -> {
-            for (int chipId : checkedIds) {
-                Chip chip = group.findViewById(chipId);
-                if (chip != null){
-                    Toast.makeText(this.getActivity(), "Choice:" + chip.getText(), Toast.LENGTH_SHORT).show();
-                }
-            }
+
         })));
 
         sportsChipGroup.setOnCheckedStateChangeListener((((group, checkedIds) -> {
-            for (int chipId : checkedIds) {
-                Chip chip = group.findViewById(chipId);
-                if (chip != null){
-                    Toast.makeText(this.getActivity(), "Choice:" + chip.getText(), Toast.LENGTH_SHORT).show();
-                }
-            }
+
         })));
 
         foodChipGroup.setOnCheckedStateChangeListener((((group, checkedIds) -> {
-            for (int chipId : checkedIds) {
-                Chip chip = group.findViewById(chipId);
-                if (chip != null){
-                    Toast.makeText(this.getActivity(), "Choice:" + chip.getText(), Toast.LENGTH_SHORT).show();
-                }
-            }
+
         })));
 
         booksChipGroup.setOnCheckedStateChangeListener((((group, checkedIds) -> {
-            for (int chipId : checkedIds) {
-                Chip chip = group.findViewById(chipId);
-                if (chip != null){
-                    Toast.makeText(this.getActivity(), "Choice:" + chip.getText(), Toast.LENGTH_SHORT).show();
-                }
-            }
+
         })));
 
         gamingChipGroup.setOnCheckedStateChangeListener((((group, checkedIds) -> {
-            for (int chipId : checkedIds) {
-                Chip chip = group.findViewById(chipId);
-                if (chip != null){
-                    Toast.makeText(this.getActivity(), "Choice:" + chip.getText(), Toast.LENGTH_SHORT).show();
-                }
-            }
+
         })));
 
-        List<Integer> checkChipsIdList = new ArrayList<>();
-        checkChipsIdList.addAll(musicChipGroup.getCheckedChipIds());
-        checkChipsIdList.addAll(moviesChipGroup.getCheckedChipIds());
-        checkChipsIdList.addAll(foodChipGroup.getCheckedChipIds());
-        checkChipsIdList.addAll(booksChipGroup.getCheckedChipIds());
-        checkChipsIdList.addAll(gamingChipGroup.getCheckedChipIds());
+//        checkChipsIdList.addAll(musicChipGroup.getCheckedChipIds());
+//        checkChipsIdList.addAll(moviesChipGroup.getCheckedChipIds());
+//        checkChipsIdList.addAll(foodChipGroup.getCheckedChipIds());
+//        checkChipsIdList.addAll(booksChipGroup.getCheckedChipIds());
+//        checkChipsIdList.addAll(gamingChipGroup.getCheckedChipIds());
 
-
-
-    //https://www.youtube.com/watch?v=GtsmzUBbeKE
+        List<Enum> musicInterests = parseChosenInterests(musicChipGroup.getCheckedChipIds());
 
         return view;
     }
 
-    public void isButtonEnabled(){
+    /**
+     * A Method to parse the chosen chip Ids into it's specific
+     * Interest Enum, per it's category.
+     * @param chosenChips
+     * @return A List of Enumerators to be added into the user's list
+     */
+    private List<Enum> parseChosenInterests(List<Integer> chosenChips) {
 
+        return null;
     }
 }
