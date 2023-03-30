@@ -39,20 +39,35 @@
         />
 
 
-    <ImageButton
-        android:id="@+id/navDrawerBtn"
-        android:visibility="visible"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:background="@null"
-        android:scaleX="1.2"
-        android:scaleY="1.2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/collapsemenubutton"
-        android:contentDescription="@string/collapsemenubutton" />
+        <ImageButton
+            android:id="@+id/navDrawerBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:background="@null"
+            android:scaleX="1.2"
+            android:scaleY="1.2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/collapsemenubutton"
+            android:contentDescription="@string/collapsemenubutton"
+            />
+
+        <ImageButton
+            android:id="@+id/connectionbutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/friendbutton"
+            android:background="@null"
+            android:layout_marginTop="28dp"
+            android:layout_marginEnd="24dp"
+            android:scaleType="center"
+            android:scaleX="1.1"
+            android:scaleY="1.1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

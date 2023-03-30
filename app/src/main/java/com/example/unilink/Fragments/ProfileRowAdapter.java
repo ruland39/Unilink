@@ -138,15 +138,17 @@ public class ProfileRowAdapter extends RecyclerView.Adapter<ProfileRowAdapter.Vi
     public static class ViewHolder extends RecyclerView.ViewHolder{
         private final CardView cardView;
         private final ImageButton waveBtn;
+        private final TextView username;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             cardView = (CardView) itemView.findViewById(R.id.profile_row_cardview);
             waveBtn = (ImageButton) itemView.findViewById(R.id.waveorconnectbtn);
+            username = (TextView) itemView.findViewById(R.id.defaultusername);
         }
 
         public TextView getText() {
-            return (TextView) cardView.getChildAt(1);
+            return (TextView) username;
         }
         public ImageButton getWaveBtn(){return (ImageButton) waveBtn;}
 
