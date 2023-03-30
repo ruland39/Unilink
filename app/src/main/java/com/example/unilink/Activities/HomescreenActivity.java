@@ -154,9 +154,11 @@ public class HomescreenActivity extends AppCompatActivity
                     if (home_frag != null) {
                         getSupportFragmentManager().popBackStack("HOME_FRAGMENT", FragmentManager.POP_BACK_STACK_INCLUSIVE);
                         Log.d("HomescreenActivity", "Backstack popped");
-                    }else
+                    }else {
+                        homeFragment = HomeFragment.newInstance(currentUser);
                         trans.replace(R.id.frame_layout, homeFragment, "HOME_FRAGMENT")
-                            .commitNow();
+                                .commitNow();
+                    }
                     return true;
                 case R.id.chat:
                     trans.replace(R.id.frame_layout, chatFragment, "CHAT_FRAGMENT")
@@ -173,6 +175,7 @@ public class HomescreenActivity extends AppCompatActivity
                     trans.replace(R.id.frame_layout, profileFragment, "PROFILE_FRAGMENT")
                             .addToBackStack("HOME_FRAGMENT")
                             .commit();
+                    return true;
             }
             return false;
         });

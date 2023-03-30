@@ -20,27 +20,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginRight="8dp"
+            android:layout_marginHorizontal="8dp"
             >
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                >
-
-            </RelativeLayout>
-
-            <TextView
-                android:id="@+id/defaultusername"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="8dp"
-                android:fontFamily="@font/nunitobold"
-                android:text="@string/personusernametextviewmaincontainer"
-                android:textColor="@color/abit_grey"
-                android:textSize="16sp" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="wrap_content"
@@ -48,16 +29,14 @@
                 android:src="@drawable/border"
                 android:tint="@color/light_grey"
                 android:layout_marginTop="10dp"
-                android:layout_toLeftOf="@+id/defaultusername"
                 android:layout_marginRight="20dp"
-                />
+                android:layout_marginLeft="4dp"
+            />
 
             <ImageButton
                 android:id="@+id/profilepic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toLeftOf="@+id/defaultusername"
-                android:layout_marginRight="16dp"
                 android:layout_marginTop="6dp"
                 android:layout_marginBottom="4dp"
                 android:background="@null"
@@ -66,11 +45,24 @@
                 android:paddingVertical="8dp"
                 android:src="@drawable/defaultprofilepicturesmall" />
 
+            <TextView
+                android:id="@+id/defaultusername"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_toRightOf="@id/profilepic"
+                android:fontFamily="@font/nunitobold"
+                android:text="@string/personusernametextviewmaincontainer"
+                android:textColor="@color/abit_grey"
+                android:textSize="16sp" />
+
+
             <ImageButton
                 android:id="@+id/waveorconnectbtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/defaultusername"
+                android:layout_alignParentEnd="true"
                 android:layout_marginTop="5dp"
                 android:layout_marginStart="24dp"
                 android:layout_marginBottom="8dp"
@@ -84,6 +76,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
+                android:layout_marginStart="15dp"
                 android:layout_below="@id/defaultusername"
                 android:layout_toRightOf="@id/profilepic"
                 >
