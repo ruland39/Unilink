@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.example.unilink.Models.UnilinkAccount;
 import com.example.unilink.R;
+import com.google.android.material.textfield.TextInputLayout;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -63,20 +64,10 @@ public class addBioFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add_bio, container, false);
-        EditText bioInput = view.findViewById(R.id.textField);
-        bioInput.setOnEditorActionListener((v, actionId, event) -> {
-            if (actionId == EditorInfo.IME_ACTION_SEARCH ||
-                    actionId == EditorInfo.IME_ACTION_DONE ||
-                    event != null &&
-                            event.getAction() == KeyEvent.ACTION_DOWN &&
-                            event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
-                if (event == null || !event.isShiftPressed()) {
-                    // the user is done typing.
-                    listener.AddedBio(v.getText().toString());
-                    return true; // consume.
-                }
-            }
-            return false; // pass on to other listeners.
+        TextInputLayout bioInput = view.findViewById(R.id.textField);
+        bioInput.setOnFocusChangeListener((view1, b) -> {
+            if (bioInput.hasFocus())
+                listener.AddedBio(bioInput.getEditText().getText().toString());
         });
         return view;
     }
