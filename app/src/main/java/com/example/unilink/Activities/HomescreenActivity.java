@@ -93,6 +93,10 @@ public class HomescreenActivity extends AppCompatActivity
                 OneSignal.setExternalUserId(currentUser.getUid());
             }
         }
+        homeFragment = HomeFragment.newInstance(currentUser);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.frame_layout, homeFragment, "HOME_FRAGMENT")
+                .commitNow();
     }
 
     @SuppressLint("MissingInflatedId")
@@ -135,9 +139,6 @@ public class HomescreenActivity extends AppCompatActivity
             return false;
         });
 
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.frame_layout, homeFragment, "HOME_FRAGMENT")
-                .commitNow();
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(item -> {
             UnilinkUser user = getCurrentUser();

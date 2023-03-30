@@ -14,8 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.unilink.Models.UnilinkUser;
 import com.example.unilink.R;
+import com.example.unilink.UnilinkApplication;
 import com.onesignal.OneSignal;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -30,8 +32,11 @@ import okhttp3.Response;
 import okhttp3.MediaType;
 
 public class ProfileRowAdapter extends RecyclerView.Adapter<ProfileRowAdapter.ViewHolder> {
-    private ArrayList<UnilinkUser> mDataset;
-    public ProfileRowAdapter() {
+    private final ArrayList<UnilinkUser> mDataset;
+    private static final String FriendRequestTemplateId = "9540d0b1-ab93-44c5-9140-7fdf11d9e5e6";
+    private final UnilinkUser currentUAcc;
+    public ProfileRowAdapter(UnilinkUser uAcc){
+        this.currentUAcc = uAcc;
         mDataset = new ArrayList<>();
     }
 
@@ -42,50 +47,71 @@ public class ProfileRowAdapter extends RecyclerView.Adapter<ProfileRowAdapter.Vi
         return new ViewHolder(v);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         if (mDataset.isEmpty())
             holder.getText().setText("A Unilink User");
         else{
-            UnilinkUser uAcc = mDataset.get(position);
-            holder.getText().setText(uAcc.getFullName());
-            holder.getWaveBtn().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    JSONObject notifJSON = new JSONObject();
-
+            UnilinkUser targetuAcc = mDataset.get(position);
+            holder.getText().setText(targetuAcc.getFullName());
+            holder.getWaveBtn().setOnClickListener(v -> {
+                UnilinkApplication.getExecutor().execute(()->{
+                    OkHttpClient client = new OkHttpClient();
                     try {
-                        notifJSON.accumulate("include_external_user_ids", new String[]{uAcc.getUid()});
-                        notifJSON.accumulate("template_id", "9540d0b1-ab93-44c5-9140-7fdf11d9e5e6");
-                        OneSignal.sendTag("username", uAcc.getFullName());
-                        OneSignal.setExternalUserId(uAcc.getUid());
-
-                        new Thread(() -> {
-                            OkHttpClient client = new OkHttpClient();
-
-                            MediaType mediaType = MediaType.parse("application/json");
-                            RequestBody body = RequestBody.create( notifJSON.toString(),mediaType);
-                            Request request = new Request.Builder()
-                                    .url("https://onesignal.com/api/v1/notifications")
-                                    .post(body)
-                                    .addHeader("accept", "application/json")
-                                    .addHeader("Authorization", "Basic NjU2Yzk0NTQtNjI2OC00NzQ5LTk2OTEtMDhlMTk5MmM0ZDNi")
-                                    .addHeader("content-type", "application/json")
-                                    .build();
-
-                            try {
-                                Response response = client.newCall(request).execute();
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
-                            }
-                        }).run();
-
-                    } catch (JSONException e) {
+                        OneSignal.setExternalUserId(currentUAcc.getUid());
+                        setTargetTag(client, targetuAcc);
+                        postNotification(client, targetuAcc);
+                    } catch (JSONException | IOException e) {
                         throw new RuntimeException(e);
                     }
-                }
+                });
+
             });
         }
+    }
+
+    private void setTargetTag(OkHttpClient client, UnilinkUser uAcc) throws JSONException, IOException {
+        JSONObject editTagJSON = new JSONObject();
+        editTagJSON.accumulate("tags", new JSONObject("{'sender_username':'"+currentUAcc.getFullName()+"'}"));
+
+        MediaType mediaType = MediaType.parse("application/json");
+        RequestBody body = RequestBody.create(editTagJSON.toString(),mediaType);
+        Request request = new Request.Builder()
+                .url("https://onesignal.com/api/v1/apps/"+UnilinkApplication.getOnesignalAppId()+"/users/"+uAcc.getUid())
+                .put(body)
+                .addHeader("accept", "text/plain")
+                .addHeader("Content-Type", "application/json")
+                .build();
+
+        System.out.println("EditTagRequest: " + request + "\nJSON:" + editTagJSON.toString());
+        Response response = client.newCall(request).execute();
+        Log.d("RowAdapter", "Got a response! HttpCode: " + response.code());
+    }
+
+    private void postNotification(OkHttpClient client, UnilinkUser uAcc) throws JSONException, IOException {
+        // Create JSON Body
+        JSONObject notifJSON = new JSONObject();
+
+        JSONArray target_uids = new JSONArray();
+        target_uids.put(uAcc.getUid());
+        notifJSON.accumulate("app_id", UnilinkApplication.getOnesignalAppId());
+        notifJSON.accumulate("include_external_user_ids", target_uids);
+        notifJSON.accumulate("template_id", FriendRequestTemplateId);
+        // Create Http Request
+        MediaType mediaType = MediaType.parse("application/json");
+        RequestBody body = RequestBody.create( notifJSON.toString(),mediaType);
+        Request request = new Request.Builder()
+                .url("https://onesignal.com/api/v1/notifications")
+                .post(body)
+                .addHeader("Accept", "application/json")
+                .addHeader("Authorization", "Basic "+UnilinkApplication.getOnesignalApiKey())
+                .addHeader("Content-Type", "application/json; charset=UTF-8")
+                .build();
+
+        // Send request
+        Response response = client.newCall(request).execute();
+        Log.d("RowAdapter", "Got a response! HttpCode: " + response.code());
     }
 
     @Override
@@ -104,11 +130,11 @@ public class ProfileRowAdapter extends RecyclerView.Adapter<ProfileRowAdapter.Vi
         notifyItemRemoved(index);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void clearData(){
         this.mDataset.clear();
         this.notifyDataSetChanged();
     }
-
     public static class ViewHolder extends RecyclerView.ViewHolder{
         private final CardView cardView;
         private final ImageButton waveBtn;
