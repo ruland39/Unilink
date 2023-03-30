@@ -75,7 +75,7 @@ public class HomescreenActivity extends AppCompatActivity
     HomeFragment homeFragment = new HomeFragment();
     ChatFragment chatFragment = new ChatFragment();
     NotificationFragment notificationFragment = new NotificationFragment();
-    ProfileFragment profileFragment = new ProfileFragment();
+    ProfileFragment profileFragment;
 
     @Override
     public void onStart() {
@@ -145,6 +145,7 @@ public class HomescreenActivity extends AppCompatActivity
             if (getSupportFragmentManager().getBackStackEntryCount() > 0){
                 home_frag = getSupportFragmentManager().findFragmentByTag("HOME_FRAGMENT");
             }
+            profileFragment = ProfileFragment.newInstance(user);
 
             switch (item.getItemId()) {
                 case R.id.home:
@@ -166,10 +167,10 @@ public class HomescreenActivity extends AppCompatActivity
                             .commit();
                     return true;
                 case R.id.profile:
-                    profileFragment = ProfileFragment.newInstance(user);
                     trans.replace(R.id.frame_layout, profileFragment, "PROFILE_FRAGMENT")
                             .addToBackStack("HOME_FRAGMENT")
                             .commit();
+                    return true;
             }
             return false;
         });
