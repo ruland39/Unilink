@@ -53,6 +53,7 @@ import android.content.pm.PackageManager;
 
 import com.example.unilink.Models.UnilinkUser;
 import com.example.unilink.Dialogs.BluetoothHomeScreenDialog;
+import com.onesignal.OneSignal;
 
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconManager;
@@ -89,8 +90,13 @@ public class HomescreenActivity extends AppCompatActivity
             if (currentUser == null) {
                 Intent i = getIntent();
                 currentUser = i.getParcelableExtra("AuthenticatedUser");
+                OneSignal.setExternalUserId(currentUser.getUid());
             }
         }
+        homeFragment = HomeFragment.newInstance(currentUser);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.frame_layout, homeFragment, "HOME_FRAGMENT")
+                .commitNow();
     }
 
     @SuppressLint("MissingInflatedId")
@@ -133,9 +139,6 @@ public class HomescreenActivity extends AppCompatActivity
             return false;
         });
 
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.frame_layout, homeFragment, "HOME_FRAGMENT")
-                .commitNow();
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(item -> {
             UnilinkUser user = getCurrentUser();

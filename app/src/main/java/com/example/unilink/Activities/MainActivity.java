@@ -24,6 +24,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.gson.Gson;
+import com.onesignal.OneSignal;
 
 public class MainActivity extends AppCompatActivity {
     private final static String TAG = "MainActivity";
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         new Handler().postDelayed(()->{
+            OneSignal.promptForPushNotifications();
             UserService userService = new UserService();
             // in session
             if (userService.isInSession()) {
