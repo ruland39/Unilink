@@ -23,6 +23,16 @@
         android:textSize="24sp"
         />
 
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="24dp"
+        android:background="@null"
+        android:src="@drawable/friendbutton" />
+
     <RelativeLayout
         android:id="@+id/mainbannerlayout"
         android:layout_width="match_parent"
@@ -50,10 +60,6 @@
             android:layout_alignTop="@+id/mainbanner"
             android:layout_alignEnd="@+id/mainbanner"
             android:layout_alignBottom="@+id/mainbanner"
-            android:layout_marginStart="2dp"
-            android:layout_marginTop="-1dp"
-            android:layout_marginEnd="-2dp"
-            android:layout_marginBottom="1dp"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
             app:pulse_color="@color/purple_main"
