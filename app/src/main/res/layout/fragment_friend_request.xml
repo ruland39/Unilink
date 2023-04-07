@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginHorizontal="64dp"
+    android:padding="8dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".FriendRequestFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardElevation="4dp"
+        app:cardCornerRadius="30dp"
+        >
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/friendrequesttext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/persononewouldliketosendafriendrequest"
+                android:fontFamily="@font/nunitobold"
+                android:textSize="16sp"
+                android:textAlignment="center"
+                android:paddingHorizontal="32dp"
+                android:textColor="@color/almost_black"
+                android:layout_marginTop="16dp"
+                />
+
+            <ImageView
+                android:id="@+id/friendrequestimage"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_below="@id/friendrequesttext"
+                android:layout_marginVertical="16dp"
+                android:src="@drawable/texting_bro"
+                />
+
+            <Button
+                android:id="@+id/acceptbutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/accept"
+                android:layout_below="@id/friendrequestimage"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="@font/nunitosemibold"
+                android:textAllCaps="false"
+                android:textSize="16sp"
+                android:paddingHorizontal="64dp"
+                android:paddingVertical="12dp"
+                />
+
+            <Button
+                android:id="@+id/ignorebutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ignore"
+                android:background="null"
+                android:textColor="@color/abit_grey"
+                android:fontFamily="@font/nunitoregular"
+                android:layout_below="@id/acceptbutton"
+                android:layout_centerHorizontal="true"
+                android:textAllCaps="false"
+                android:layout_marginBottom="16dp"
+                />
+
+        </RelativeLayout>
+
+
+
+
+
+    </androidx.cardview.widget.CardView>
+
+</FrameLayout>
