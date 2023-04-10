@@ -92,6 +92,7 @@ public class addBirthdayFragment extends Fragment {
             dp.addOnPositiveButtonClickListener(selection -> {
                 Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
                 cal.setTimeInMillis((Long) selection);
+                dateText.setText(cal.get(Calendar.DAY_OF_MONTH) + "/" + (cal.get(Calendar.MONTH)+1) + "/" + cal.get(Calendar.YEAR));
                 listener.AddedBirthdate(cal.getTime());
             });
             dp.show(getParentFragmentManager(),"BIRTHDAY_PICKER");

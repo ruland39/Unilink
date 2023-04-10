@@ -6,6 +6,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 
 import com.example.unilink.Models.UnilinkAccount;
 import com.example.unilink.R;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 /**
@@ -65,9 +68,19 @@ public class addBioFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add_bio, container, false);
         TextInputLayout bioInput = view.findViewById(R.id.textField);
-        bioInput.setOnFocusChangeListener((view1, b) -> {
-            if (bioInput.hasFocus())
-                listener.AddedBio(bioInput.getEditText().getText().toString());
+        TextInputEditText bioEt = view.findViewById(R.id.textInputEditText);
+        bioEt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editable.length() > 0) {
+                    listener.AddedBio(editable.toString());
+                }
+            }
         });
         return view;
     }
