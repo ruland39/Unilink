@@ -2,10 +2,8 @@ package com.example.unilink.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.app.AlertDialog;
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -16,7 +14,7 @@ import com.example.unilink.Fragments.Registration.ProfileSetupListener;
 import com.example.unilink.Fragments.Registration.addBioFragment;
 import com.example.unilink.Fragments.Registration.addBirthdayFragment;
 import com.example.unilink.Fragments.Registration.addProfileBannerFragment;
-import com.example.unilink.Fragments.Registration.addProfileInterest;
+import com.example.unilink.Fragments.Registration.addProfileInterestFragment;
 import com.example.unilink.Fragments.Registration.addProfilePictureFragment;
 import com.example.unilink.Models.UnilinkAccount;
 import com.example.unilink.Models.UnilinkUser;
@@ -35,6 +33,7 @@ public class ProfileSetupActivity extends AppCompatActivity implements ProfileSe
     private UnilinkUser uUser;
     private AccountService accountService;
     private Button proceedBtn;
+    private String currentBio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +68,7 @@ public class ProfileSetupActivity extends AppCompatActivity implements ProfileSe
         addProfileBannerFragment profileBannerFragment = addProfileBannerFragment.newInstance(uAcc);
         addBirthdayFragment birthdayFragment = addBirthdayFragment.newInstance(uAcc);
         addBioFragment bioFragment = addBioFragment.newInstance();
-        addProfileInterest interestFragment = new addProfileInterest();
+        addProfileInterestFragment interestFragment = new addProfileInterestFragment();
 
         // Replace the initial fragment with addProfilePictureFragment
         fragmentManager.beginTransaction()
@@ -100,6 +99,8 @@ public class ProfileSetupActivity extends AppCompatActivity implements ProfileSe
                             .commitNow();
                     break;
                 case 4:
+                    uUser.setBio(currentBio);
+                    Toast.makeText(this, "Set Bio!: " + currentBio, Toast.LENGTH_SHORT).show();
                     fragmentManager.beginTransaction()
                             .replace(R.id.frame_layout, interestFragment)
                             .commitNow();
@@ -149,8 +150,7 @@ public class ProfileSetupActivity extends AppCompatActivity implements ProfileSe
 
     @Override
     public void AddedBio(String bio){
-        uUser.setBio(bio);
-        Toast.makeText(this, "Set the bio!", Toast.LENGTH_SHORT).show();
+        currentBio = bio;
         proceedBtn.setEnabled(true);
     }
 

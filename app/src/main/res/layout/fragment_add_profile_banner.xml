@@ -49,11 +49,13 @@
                 android:layout_centerHorizontal="true"
                 app:cardCornerRadius="18dp"
                 app:cardElevation="0dp">
+
+
                 <ImageView
                     android:id="@+id/addprofilebannerimg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:scaleType="centerCrop"
+                    android:scaleType="fitCenter"
                     android:src="@drawable/banneradd"
                     />
             </androidx.cardview.widget.CardView>
@@ -62,12 +64,15 @@
                 android:id="@+id/addprofilebannerbutton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                app:srcCompat="@drawable/banneraddcircle"
                 android:background="@null" />
 
-        </RelativeLayout>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/banneraddcircle"
+                />
 
+        </RelativeLayout>
 
     </RelativeLayout>
 

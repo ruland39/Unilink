@@ -9,14 +9,9 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.example.unilink.Models.Interests.Food;
-import com.example.unilink.Models.Interests.Movie;
-import com.example.unilink.Models.Interests.Music;
 import com.example.unilink.Models.UnilinkAccount;
 import com.example.unilink.R;
-import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
 import java.util.ArrayList;
@@ -24,15 +19,15 @@ import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link addProfileInterest#newInstance} factory method to
+ * Use the {@link addProfileInterestFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class addProfileInterest extends Fragment {
+public class addProfileInterestFragment extends Fragment {
     private UnilinkAccount uAcc;
     private ProfileSetupListener listener;
     private List<Enum> chosenInterests = new ArrayList<>();
 
-    public addProfileInterest() {
+    public addProfileInterestFragment() {
         // Required empty public constructor
     }
 
@@ -42,8 +37,8 @@ public class addProfileInterest extends Fragment {
      *
      * @return A new instance of fragment addProfileInterest.
      */
-    public static addProfileInterest newInstance(UnilinkAccount uAcc) {
-        addProfileInterest fragment = new addProfileInterest();
+    public static addProfileInterestFragment newInstance(UnilinkAccount uAcc) {
+        addProfileInterestFragment fragment = new addProfileInterestFragment();
         Bundle args = new Bundle();
         args.putParcelable("Account",uAcc);
         fragment.setArguments(args);
@@ -104,12 +99,6 @@ public class addProfileInterest extends Fragment {
         gamingChipGroup.setOnCheckedStateChangeListener((((group, checkedIds) -> {
 
         })));
-
-//        checkChipsIdList.addAll(musicChipGroup.getCheckedChipIds());
-//        checkChipsIdList.addAll(moviesChipGroup.getCheckedChipIds());
-//        checkChipsIdList.addAll(foodChipGroup.getCheckedChipIds());
-//        checkChipsIdList.addAll(booksChipGroup.getCheckedChipIds());
-//        checkChipsIdList.addAll(gamingChipGroup.getCheckedChipIds());
 
         List<Enum> musicInterests = parseChosenInterests(musicChipGroup.getCheckedChipIds());
 
