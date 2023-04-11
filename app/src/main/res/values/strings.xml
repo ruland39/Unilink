@@ -84,7 +84,7 @@
     <string name="proceed">Proceed</string>
     <string name="addyourprofilebanner">Add your Profile Banner</string>
     <string name="addyourprofilebannerdetails">Choose a photo for your profile banner. You can change this later. </string>
-    <string name="whensyourbirthday">When\'s your Birthday</string>
+    <string name="whensyourbirthday">When\'s your Birthday?</string>
     <string name="whensyourbirthdaydetails">A</string>
     <string name="writeyourbiosection">Write your Bio Section</string>
     <string name="writeyourbiosectiondetails">Tell everything about yourself here</string>
@@ -150,10 +150,9 @@
     <string name="mobile">Mobile</string>
     <string name="fps">FPS</string>
     <string name="strategy">Strategy</string>
-    <string name="interest1">Interest 1</string>
-    <string name="interest2">Interest 2</string>
-    <string name="interest3">Interest 3</string>
 
+    <string name="ddmmmyyyy">DD/MM/YYYY</string>
+    <string name="letssetupyourprofile">Let\'s Setup your Profile</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
