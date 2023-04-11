@@ -89,6 +89,7 @@ public class HomescreenActivity extends AppCompatActivity
         // Saved Instance state of activity to retrieve data
         if (savedInstanceState != null) {
             currentUAcc = savedInstanceState.getParcelable("CurrentAccount");
+            currentUUser = savedInstanceState.getParcelable("CurrentUser");
         }
 
         // Validate permission
@@ -152,7 +153,7 @@ public class HomescreenActivity extends AppCompatActivity
                             .commit();
                     return true;
                 case R.id.profile:
-                    profileFragment = ProfileFragment.newInstance(user);
+                    profileFragment = ProfileFragment.newInstance(currentUAcc, currentUUser);
                     trans.replace(R.id.frame_layout, profileFragment, "PROFILE_FRAGMENT")
                             .addToBackStack("HOME_FRAGMENT")
                             .commit();
@@ -165,6 +166,7 @@ public class HomescreenActivity extends AppCompatActivity
     public void onSaveInstanceState(Bundle outState) {
         Log.d(TAG, "Activity going to the background! Saving states..");
         outState.putParcelable("CurrentAccount", currentUAcc);
+        outState.putParcelable("CurrentUser", currentUUser);
         super.onSaveInstanceState(outState);
     }
 

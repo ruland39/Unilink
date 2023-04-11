@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.unilink.Models.UnilinkAccount;
+import com.example.unilink.Models.UnilinkUser;
 import com.example.unilink.R;
 import com.example.unilink.Services.UserService;
 
@@ -39,9 +40,9 @@ import java.net.URI;
  */
 public class ProfileFragment extends Fragment {
     private static final String TAG = "ProfileFragment";
-    private UnilinkAccount user;
+    private UnilinkAccount uAcc;
+    private UnilinkUser uUser;
     private UserService userService;
-    private static final String user_key = "user";
     ImageView profilePicture, profileBanner;
 
     public ProfileFragment() {
@@ -56,10 +57,11 @@ public class ProfileFragment extends Fragment {
      * @return A new instance of fragment ProfileFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ProfileFragment newInstance(UnilinkAccount user) {
+    public static ProfileFragment newInstance(UnilinkAccount user, UnilinkUser uUser) {
         ProfileFragment fragment = new ProfileFragment();
         Bundle args = new Bundle();
-        args.putSerializable(user_key, user);
+        args.putSerializable("AuthenticatedUser", user);
+        args.putParcelable("UnilinkUser", uUser);
         fragment.setArguments(args);
         return fragment;
     }
@@ -68,7 +70,8 @@ public class ProfileFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            user = (UnilinkAccount) getArguments().getSerializable(user_key);
+            uAcc = (UnilinkAccount) getArguments().getSerializable("AuthenticatedUser");
+            uUser = getArguments().getParcelable("UnilinkUser");
         }
         userService = new UserService();
     }
@@ -85,22 +88,18 @@ public class ProfileFragment extends Fragment {
         profilePicture = view.findViewById(R.id.defaultprofilepicture);
         profileBanner = view.findViewById(R.id.profilebanner);
 
-        userService.setImage2View(requireContext(),profilePicture, "WhatsApp Image 2023-03-27 at 15.38.50.jpeg", UserService.ImageType.ProfilePicture);
+        userService.setImage2View(requireContext(), profilePicture, uUser.getPfpURL());
+        userService.setImage2View(requireContext(), profileBanner, uUser.getPfbURL());
 
-        threedotsbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showMenu(v, R.menu.profileoptions);
-            }
-        });
+        threedotsbutton.setOnClickListener(v -> showMenu(v, R.menu.profileoptions));
 
         // TextView
-        if (user == null) {
+        if (uAcc == null) {
             Toast.makeText(getActivity(), "Unable to parse User", Toast.LENGTH_SHORT).show();
             return view;
         }
         final TextView fullname = (TextView) view.findViewById(R.id.defaultusername);
-        fullname.setText(user.getFullName());
+        fullname.setText(uAcc.getFullName());
 
         return view;
     }
