@@ -31,6 +31,7 @@
         android:gravity="center"
         android:foregroundGravity="center"
         >
+
         <ImageView
             android:id="@+id/mainbanner"
             android:layout_width="wrap_content"
@@ -40,23 +41,55 @@
             android:src="@drawable/bannercontainer"
             android:contentDescription="@string/home" />
 
+
         <pl.bclogic.pulsator4droid.library.PulsatorLayout
             android:id="@+id/pulsator"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignStart="@+id/mainbanner"
+            android:layout_alignTop="@+id/mainbanner"
             android:layout_alignEnd="@+id/mainbanner"
             android:layout_alignBottom="@+id/mainbanner"
-            android:layout_alignTop="@+id/mainbanner"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="-1dp"
+            android:layout_marginEnd="-2dp"
+            android:layout_marginBottom="1dp"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
-            app:pulse_count="5"
             app:pulse_color="@color/purple_main"
+            app:pulse_count="5"
             app:pulse_duration="4000"
             app:pulse_interpolator="AccelerateDecelerate"
             app:pulse_repeat="0"
-            app:pulse_startFromScratch="true"
+            app:pulse_startFromScratch="true" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/border"
+            android:tint="@color/purple_main"
+            android:layout_alignStart="@+id/mainbanner"
+            android:layout_alignTop="@+id/mainbanner"
+            android:layout_alignEnd="@+id/mainbanner"
+            android:layout_alignBottom="@+id/mainbanner"
+            android:scaleType="fitCenter"
+            android:scaleX="0.3"
+            android:scaleY="0.3"
             />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/mainbanner"
+            android:layout_alignTop="@+id/mainbanner"
+            android:layout_alignEnd="@+id/mainbanner"
+            android:layout_alignBottom="@+id/mainbanner"
+            android:src="@drawable/defaultprofilepicturesmall"
+            android:scaleType="fitCenter"
+            android:scaleX="0.25"
+            android:scaleY="0.25"
+            />
+
 
         <com.example.unilink.Models.BluetoothButton
             android:id="@+id/bluetoothbtn"

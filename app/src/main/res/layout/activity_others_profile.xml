@@ -4,33 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Fragments.ProfileFragment">
+    tools:context=".othersProfileActivity">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/ChatScreenTitleText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:fontFamily="@font/nunitobold"
-        android:text="@string/profile"
-        android:textAlignment="center"
-        android:textColor="@color/purple_main"
-        android:textSize="20sp"
-        />
 
     <ImageButton
-        android:id="@+id/threedotsbutton"
+        android:id="@+id/backbutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="12dp"
+        android:layout_marginStart="16dp"
         android:background="@null"
-        android:src="@drawable/threedotsbutton" />
+        android:src="@drawable/arrow_left" />
 
     <RelativeLayout
         android:id="@+id/relativelayoutbanner"
@@ -72,18 +59,17 @@
         <androidx.cardview.widget.CardView
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:clipToPadding="false"
             app:cardBackgroundColor="@null"
-            app:cardCornerRadius="1000dp"
-            android:layout_margin="4dp"
+            app:cardCornerRadius="700dp"
             app:cardElevation="4dp"
+            android:layout_margin="4dp"
             >
 
             <ImageView
                 android:id="@+id/defaultprofilepicture"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop"
+                android:scaleType="fitXY"
                 android:saveEnabled="true"
                 android:src="@drawable/defaultprofilepicturesmall"/>
 

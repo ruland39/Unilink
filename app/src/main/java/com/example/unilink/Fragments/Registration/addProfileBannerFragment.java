@@ -27,6 +27,7 @@ import com.example.unilink.Services.UserService;
  * create an instance of this fragment.
  */
 public class addProfileBannerFragment extends Fragment {
+
     private static final int GALLERY_REQUEST_CODE = 1000;
     private static final String TAG = "AddProfileBannerFragment";
     private UnilinkAccount uAcc;
@@ -87,7 +88,6 @@ public class addProfileBannerFragment extends Fragment {
 
         return view;
     }
-
     ActivityResultLauncher<String> chooseImageActivity = registerForActivityResult(
             new ActivityResultContracts.GetContent(),
             uri -> {

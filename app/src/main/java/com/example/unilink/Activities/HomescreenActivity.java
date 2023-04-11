@@ -40,6 +40,7 @@ import android.content.pm.PackageManager;
 
 import com.example.unilink.Models.UnilinkAccount;
 import com.example.unilink.Dialogs.BluetoothHomeScreenDialog;
+import com.onesignal.OneSignal;
 
 public class HomescreenActivity extends AppCompatActivity
         implements BluetoothHomeScreenDialog.BtHomeScreenDialogListener {
@@ -72,11 +73,17 @@ public class HomescreenActivity extends AppCompatActivity
             finish();
         } else {
             Intent i = getIntent();
-            if (currentUAcc == null)
+            if (currentUAcc == null){
                 currentUAcc = i.getParcelableExtra("AuthenticatedUser");
+                OneSignal.setExternalUserId(currentUAcc.getUid());
+            }
             if (currentUUser == null)
                 currentUUser = i.getParcelableExtra("CreatedUser");
         }
+        homeFragment = HomeFragment.newInstance(currentUser);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.frame_layout, homeFragment, "HOME_FRAGMENT")
+                .commitNow();
     }
 
     @SuppressLint("MissingInflatedId")
@@ -120,9 +127,6 @@ public class HomescreenActivity extends AppCompatActivity
             return false;
         });
 
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.frame_layout, homeFragment, "HOME_FRAGMENT")
-                .commitNow();
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(item -> {
             UnilinkAccount user = getCurrentAccount();
@@ -138,9 +142,11 @@ public class HomescreenActivity extends AppCompatActivity
                     if (home_frag != null) {
                         getSupportFragmentManager().popBackStack("HOME_FRAGMENT", FragmentManager.POP_BACK_STACK_INCLUSIVE);
                         Log.d("HomescreenActivity", "Backstack popped");
-                    }else
+                    }else {
+                        homeFragment = HomeFragment.newInstance(currentUser);
                         trans.replace(R.id.frame_layout, homeFragment, "HOME_FRAGMENT")
-                            .commitNow();
+                                .commitNow();
+                    }
                     return true;
                 case R.id.chat:
                     trans.replace(R.id.frame_layout, chatFragment, "CHAT_FRAGMENT")
@@ -157,6 +163,7 @@ public class HomescreenActivity extends AppCompatActivity
                     trans.replace(R.id.frame_layout, profileFragment, "PROFILE_FRAGMENT")
                             .addToBackStack("HOME_FRAGMENT")
                             .commit();
+                    return true;
             }
             return false;
         });

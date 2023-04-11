@@ -60,8 +60,9 @@ public class HomeFragment extends Fragment{
     private BeaconManager beaconManager = null;
     private static Map<String, UnilinkAccount> usersInRange = new HashMap<>();
     private static final String TAG = "HomeFragment";
-
     private View _rootView;
+
+    private UnilinkUser uAcc;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -73,9 +74,10 @@ public class HomeFragment extends Fragment{
      *
      * @return A new instance of fragment HomeFragment.
      */
-    public static HomeFragment newInstance() {
+    public static HomeFragment newInstance(UnilinkUser uAcc) {
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
+        args.putParcelable("Account", uAcc);
         fragment.setArguments(args);
         return fragment;
     }
@@ -83,6 +85,7 @@ public class HomeFragment extends Fragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         beaconManager = BeaconManager.getInstanceForApplication(getContext());
         beaconManager.getBeaconParsers().clear();
         beaconManager.getBeaconParsers().add(new BeaconParser().
@@ -154,6 +157,11 @@ public class HomeFragment extends Fragment{
             Toast.makeText(getContext(), "Bluetooth is not supported on this device", Toast.LENGTH_SHORT).show();
             return _rootView;
         }
+        if (getArguments() != null) {
+            uAcc = getArguments().getParcelable("Account");
+        }
+        else
+            Log.d(TAG, "No Arguments sent to Home Fragment!");
 
         if (_rootView == null) {
             _rootView = inflater.inflate(R.layout.fragment_home, container, false);
@@ -198,7 +206,7 @@ public class HomeFragment extends Fragment{
             mRecyclerView.setLayoutManager(mLayoutManager);
             mRecyclerView.scrollToPosition(0);
 
-            mAdapter = new ProfileRowAdapter();
+            mAdapter = new ProfileRowAdapter(uAcc);
             mRecyclerView.setAdapter(mAdapter);
         } else {
 

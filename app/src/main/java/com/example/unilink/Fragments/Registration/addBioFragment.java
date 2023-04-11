@@ -1,5 +1,6 @@
 package com.example.unilink.Fragments.Registration;
 
+
 import android.content.Context;
 import android.os.Bundle;
 
@@ -29,6 +30,7 @@ import com.google.android.material.textfield.TextInputLayout;
 public class addBioFragment extends Fragment {
 
     private ProfileSetupListener listener;
+
     public addBioFragment() {
         // Required empty public constructor
     }
@@ -67,6 +69,7 @@ public class addBioFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add_bio, container, false);
+
         TextInputLayout bioInput = view.findViewById(R.id.textField);
         TextInputEditText bioEt = view.findViewById(R.id.textInputEditText);
         bioEt.addTextChangedListener(new TextWatcher() {
@@ -84,5 +87,4 @@ public class addBioFragment extends Fragment {
         });
         return view;
     }
-
 }

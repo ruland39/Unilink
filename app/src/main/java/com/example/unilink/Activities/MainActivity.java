@@ -17,6 +17,12 @@ import androidx.appcompat.app.AppCompatDelegate;
 import com.example.unilink.Activities.FeaturePage.FeaturePageActivity;
 import com.example.unilink.R;
 import com.example.unilink.Services.AccountService;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.gson.Gson;
+import com.onesignal.OneSignal;
 
 public class MainActivity extends AppCompatActivity {
     private final static String TAG = "MainActivity";
@@ -45,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         new Handler().postDelayed(()->{
+            OneSignal.promptForPushNotifications();
             AccountService accountService = new AccountService();
             // in session
             if (accountService.isInSession()) {

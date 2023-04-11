@@ -1,27 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="HardcodedText">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <group android:checkableBehavior="single">
+    <group
+    android:checkableBehavior="single"
+        >
+
         <item android:id="@+id/settings"
             android:title="@string/settings"
+            android:icon="@drawable/settingsicon"
             />
 
         <item android:id="@+id/support"
             android:title="@string/support"
+            android:icon="@drawable/supporticon"
             />
 
         <item android:id="@+id/termsandpolicies"
             android:title="@string/termsandpolicies"
+            android:icon="@drawable/termsandpoliciesicon"
             />
 
         <item android:id="@+id/about"
             android:title="@string/about"
+            android:icon="@drawable/abouticon"
             />
 
         <item android:id="@+id/logout"
             android:title="@string/logout"
+            android:icon="@drawable/logouticon"
             />
     </group>
 </menu>

@@ -1,5 +1,6 @@
 package com.example.unilink.Fragments.Registration;
 
+
 import static android.os.Build.VERSION_CODES.N;
 
 import android.content.Context;
@@ -55,6 +56,7 @@ public class addBirthdayFragment extends Fragment {
     }
 
     @Override
+
     public void onAttach(@NonNull Context ctx){
         super.onAttach(ctx);
         try {
