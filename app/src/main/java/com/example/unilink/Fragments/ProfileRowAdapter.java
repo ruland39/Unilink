@@ -5,6 +5,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -34,6 +36,7 @@ import okhttp3.MediaType;
 public class ProfileRowAdapter extends RecyclerView.Adapter<ProfileRowAdapter.ViewHolder> {
     private final ArrayList<UnilinkAccount> mDataset;
     private static final String FriendRequestTemplateId = "9540d0b1-ab93-44c5-9140-7fdf11d9e5e6";
+    Animation handWaveAnimation;
     private final UnilinkAccount currentUAcc;
     public ProfileRowAdapter(UnilinkAccount uAcc){
         this.currentUAcc = uAcc;
@@ -44,6 +47,9 @@ public class ProfileRowAdapter extends RecyclerView.Adapter<ProfileRowAdapter.Vi
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.profile_row, parent, false);
+
+        handWaveAnimation = AnimationUtils.loadAnimation(parent.getContext(), R.anim.hand_wave);
+
         return new ViewHolder(v);
     }
 
@@ -56,6 +62,7 @@ public class ProfileRowAdapter extends RecyclerView.Adapter<ProfileRowAdapter.Vi
             UnilinkUser targetuAcc = mDataset.get(position);
             holder.getText().setText(targetuAcc.getFullName());
             holder.getWaveBtn().setOnClickListener(v -> {
+                holder.getWaveBtn().startAnimation(handWaveAnimation);
                 UnilinkApplication.getExecutor().execute(()->{
                     OkHttpClient client = new OkHttpClient();
                     try {
