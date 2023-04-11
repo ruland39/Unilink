@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".othersProfileActivity">
+    tools:context=".Activities.othersProfileActivity">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -98,6 +98,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/defaultusername"
         android:layout_centerHorizontal="true"
+        android:scrollbars="none"
+        android:paddingStart="16dp"
         >
 
         <com.google.android.material.chip.ChipGroup
@@ -110,31 +112,42 @@
             <com.google.android.material.chip.Chip
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/interest1"
+                android:text="@string/soccer"
                 app:chipBackgroundColor="@color/light_purple"
-                app:chipIcon="@drawable/sports"
                 />
 
             <com.google.android.material.chip.Chip
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/interest2"
+                android:text="@string/basketball"
                 app:chipBackgroundColor="@color/light_purple"
-                app:chipIcon="@drawable/sports"
                 />
             <com.google.android.material.chip.Chip
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/interest3"
+                android:text="@string/console"
                 app:chipBackgroundColor="@color/light_purple"
-                app:chipIcon="@drawable/sports"
+                />
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/fiction"
+                app:chipBackgroundColor="@color/light_purple"
+                />
+            <com.google.android.material.chip.Chip
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/pop"
+                android:layout_marginRight="8dp"
+                app:chipBackgroundColor="@color/light_purple"
                 />
 
         </com.google.android.material.chip.ChipGroup>
 
 
     </HorizontalScrollView>
+
 
 
     <TextView
@@ -155,7 +168,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/connectionnumber"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:fontFamily="@font/nunitosemibold"
         android:textSize="20sp"
         android:textAlignment="center"

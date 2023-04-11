@@ -37,7 +37,7 @@
         app:srcCompat="@drawable/collapsemenubutton" />
 
     <ImageButton
-        android:id="@+id/friendbutton"
+        android:id="@+id/connectionbutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -52,7 +52,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/NotificationScreenTitleText"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
         android:layout_centerHorizontal="true"
         />
 

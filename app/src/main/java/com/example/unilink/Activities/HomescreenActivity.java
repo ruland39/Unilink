@@ -61,7 +61,7 @@ public class HomescreenActivity extends AppCompatActivity
     HomeFragment homeFragment = new HomeFragment();
     ChatFragment chatFragment = new ChatFragment();
     NotificationFragment notificationFragment = new NotificationFragment();
-    ProfileFragment profileFragment = new ProfileFragment();
+    ProfileFragment profileFragment;
 
     @Override
     public void onStart() {

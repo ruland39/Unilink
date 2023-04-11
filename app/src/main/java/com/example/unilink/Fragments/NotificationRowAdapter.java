@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.unilink.R;
 
 public class NotificationRowAdapter extends RecyclerView.Adapter<NotificationRowAdapter.ViewHolder> {
-    private String[] mDataset;
+    private final String[] mDataset;
     public NotificationRowAdapter(String[] dataset) {
         mDataset = dataset;
     }

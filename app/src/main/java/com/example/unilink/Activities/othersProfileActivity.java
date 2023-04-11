@@ -1,4 +1,4 @@
-package com.example.unilink;
+package com.example.unilink.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.example.unilink.Activities.HomescreenActivity;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.example.unilink.R;
 
 public class othersProfileActivity extends AppCompatActivity {
 
@@ -46,7 +47,7 @@ public class othersProfileActivity extends AppCompatActivity {
         LinearLayout ignore = bottomSheetDialog.findViewById(R.id.ignorebutton);
 
         bottomSheetDialog.show();
-        
+
         accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,7 +55,7 @@ public class othersProfileActivity extends AppCompatActivity {
                 bottomSheetDialog.dismiss();
             }
         });
-        
+
         ignore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,4 +66,3 @@ public class othersProfileActivity extends AppCompatActivity {
 
     }
 }
-
