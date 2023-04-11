@@ -82,6 +82,11 @@ public class ProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
+        if (uAcc == null || uUser == null) {
+            Toast.makeText(requireActivity(), "Unable to parse User", Toast.LENGTH_SHORT).show();
+            return view;
+        }
+
         ImageButton threedotsbutton = view.findViewById(R.id.threedotsbutton);
 
         // Images
@@ -94,12 +99,13 @@ public class ProfileFragment extends Fragment {
         threedotsbutton.setOnClickListener(v -> showMenu(v, R.menu.profileoptions));
 
         // TextView
-        if (uAcc == null) {
-            Toast.makeText(getActivity(), "Unable to parse User", Toast.LENGTH_SHORT).show();
-            return view;
-        }
         final TextView fullname = (TextView) view.findViewById(R.id.defaultusername);
         fullname.setText(uAcc.getFullName());
+        final TextView aboutSection = view.findViewById(R.id.aboutsection);
+        aboutSection.setText(uUser.getBio());
+        final TextView connectionNumTV = view.findViewById(R.id.connectionnumber);
+        String text = uUser.getConnectedUIDs().size() + " Connections";
+        connectionNumTV.setText(text);
 
         return view;
     }

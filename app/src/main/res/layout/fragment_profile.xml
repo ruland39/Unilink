@@ -53,7 +53,7 @@
                 android:visibility="visible"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="fitXY"
+                android:scaleType="centerCrop"
                 android:src="@drawable/profilebannercontainer" />
 
         </androidx.cardview.widget.CardView>

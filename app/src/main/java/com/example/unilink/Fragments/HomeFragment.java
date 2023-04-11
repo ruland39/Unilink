@@ -17,12 +17,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.unilink.Models.BluetoothButton;
 import com.example.unilink.Models.UnilinkAccount;
+import com.example.unilink.Models.UnilinkUser;
 import com.example.unilink.R;
 import com.example.unilink.Services.AccountService;
+import com.example.unilink.Services.UserService;
 import com.facebook.shimmer.Shimmer;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
@@ -31,6 +34,7 @@ import org.altbeacon.beacon.BeaconManager;
 import org.altbeacon.beacon.BeaconParser;
 import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
+import org.checkerframework.checker.units.qual.A;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -49,6 +53,7 @@ import pl.bclogic.pulsator4droid.library.PulsatorLayout;
  */
 public class HomeFragment extends Fragment{
     private AccountService accountService;
+    private UserService userService;
     private ProfileRowAdapter mAdapter;
     private BluetoothButton mBtBtn;
     private ShimmerFrameLayout shimmerFrameLayout;
@@ -63,6 +68,7 @@ public class HomeFragment extends Fragment{
     private View _rootView;
 
     private UnilinkAccount uAcc;
+    private UnilinkUser uUser;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -74,10 +80,11 @@ public class HomeFragment extends Fragment{
      *
      * @return A new instance of fragment HomeFragment.
      */
-    public static HomeFragment newInstance(UnilinkAccount uAcc) {
+    public static HomeFragment newInstance(UnilinkAccount uAcc, UnilinkUser uUser) {
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
         args.putParcelable("Account", uAcc);
+        args.putParcelable("User", uUser);
         fragment.setArguments(args);
         return fragment;
     }
@@ -85,6 +92,9 @@ public class HomeFragment extends Fragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        accountService = new AccountService();
+        userService = new UserService();
 
         beaconManager = BeaconManager.getInstanceForApplication(requireContext());
         beaconManager.getBeaconParsers().clear();
@@ -159,6 +169,7 @@ public class HomeFragment extends Fragment{
         }
         if (getArguments() != null) {
             uAcc = getArguments().getParcelable("Account");
+            uUser = getArguments().getParcelable("User");
         }
         else
             Log.d(TAG, "No Arguments sent to Home Fragment!");
@@ -199,6 +210,10 @@ public class HomeFragment extends Fragment{
                     stopRange();
                 }
             });
+
+            // Setting the profile picture in home fragment
+            ImageView profilePic = _rootView.findViewById(R.id.pfpholder);
+            userService.setImage2View(requireContext(), profilePic, uUser.getPfpURL());
 
             // Calling the RecyclerView
             mRecyclerView = _rootView.findViewById(R.id.home_recyclerview);
