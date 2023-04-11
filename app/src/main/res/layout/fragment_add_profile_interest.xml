@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingTop="32dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Fragments.Registration.addProfileInterest">
-
+    tools:context=".Fragments.Registration.addProfileInterestFragment">
     <!-- TODO: Update blank fragment layout -->
 
     <RelativeLayout
@@ -46,12 +46,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/container1"
-        android:layout_marginBottom="150dp"
         >
 
         <ScrollView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="480dp"
+            android:scrollbars="none"
             >
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -94,7 +94,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/pop"
-                            android:checkable="false"
+                            android:checkable="true"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -102,7 +102,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/hiphop"
-                            android:checkable="false"
+                            android:checkable="true"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -110,7 +110,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/rock"
-                            android:checkable="false"
+                            android:checkable="true"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -118,7 +118,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/jazz"
-                            android:checkable="false"
+                            android:checkable="true"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -126,7 +126,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/classical"
-                            android:checkable="false"
+                            android:checkable="true"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -134,7 +134,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/country"
-                            android:checkable="false"
+                            android:checkable="true"
                             />
 
                     </com.google.android.material.chip.ChipGroup>
@@ -171,7 +171,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/action"
-                            android:checkable="false"
+                            android:checkable="true"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -179,7 +179,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/romance"
-                            android:checkable="false"
+                            android:checkable="true"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -187,7 +187,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/comedy"
-                            android:checkable="false"
+                            android:checkable="true"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -195,7 +195,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/horror"
-                            android:checkable="false"
+                            android:checkable="true"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -203,7 +203,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/thriller"
-                            android:checkable="false"
+                            android:checkable="true"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -211,14 +211,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/drama"
-                            android:checkable="false"
+                            android:checkable="true"
                             />
                         <com.google.android.material.chip.Chip
                             android:id="@+id/moviessciencefiction"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/sciencefiction"
-                            android:checkable="false"
+                            android:checkable="true"
                             />
 
                     </com.google.android.material.chip.ChipGroup>
@@ -257,7 +257,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/soccer"
-                            android:checkable="false"
+                            android:checkable="true"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -265,7 +265,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/basketball"
-                            android:checkable="false"
+                            android:checkable="true"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -273,7 +273,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/badminton"
-                            android:checkable="false"
+                            android:checkable="true"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -281,7 +281,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/tennis"
-                            android:checkable="false"
+                            android:checkable="true"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -289,7 +289,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/volleyball"
-                            android:checkable="false"
+                            android:checkable="true"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -297,7 +297,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/swimming"
-                            android:checkable="false"
+                            android:checkable="true"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -305,7 +305,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/running"
-                            android:checkable="false"
+                            android:checkable="true"
                             />
 
                     </com.google.android.material.chip.ChipGroup>
@@ -347,7 +347,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/italian"
-                            android:checkable="false"
+                            android:checkable="true"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -355,7 +355,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/chinese"
-                            android:checkable="false"
+                            android:checkable="true"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -363,7 +363,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/mexican"
-                            android:checkable="false"
+                            android:checkable="true"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -371,7 +371,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/japanese"
-                            android:checkable="false"
+                            android:checkable="true"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -379,7 +379,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/vegan"
-                            android:checkable="false"
+                            android:checkable="true"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -387,7 +387,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/fastfood"
-                            android:checkable="false"
+                            android:checkable="true"
                             />
 
                     </com.google.android.material.chip.ChipGroup>
@@ -429,7 +429,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/fiction"
-                            android:checkable="false"
+                            android:checkable="true"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -437,7 +437,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/nonfiction"
-                            android:checkable="false"
+                            android:checkable="true"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -445,7 +445,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/romance"
-                            android:checkable="false"
+                            android:checkable="true"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -453,7 +453,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/mystery"
-                            android:checkable="false"
+                            android:checkable="true"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -461,7 +461,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/thriller"
-                            android:checkable="false"
+                            android:checkable="true"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -469,7 +469,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/sciencefiction"
-                            android:checkable="false"
+                            android:checkable="true"
                             />
 
                     </com.google.android.material.chip.ChipGroup>
@@ -511,7 +511,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/console"
-                            android:checkable="false"
+                            android:checkable="true"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -519,7 +519,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/pc"
-                            android:checkable="false"
+                            android:checkable="true"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -527,7 +527,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/mobile"
-                            android:checkable="false"
+                            android:checkable="true"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -535,7 +535,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/fps"
-                            android:checkable="false"
+                            android:checkable="true"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -543,7 +543,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/strategy"
-                            android:checkable="false"
+                            android:checkable="true"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -551,7 +551,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/sports"
-                            android:checkable="false"
+                            android:checkable="true"
                             />
 
                     </com.google.android.material.chip.ChipGroup>
@@ -565,20 +565,5 @@
         </ScrollView>
 
     </RelativeLayout>
-
-    <Button
-        android:id="@+id/proceedbutton"
-        android:layout_width="match_parent"
-        android:layout_height="72dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginHorizontal="32dp"
-        android:fontFamily="@font/nunitosemibold"
-        android:text="@string/proceed"
-        android:textAllCaps="false"
-        android:textSize="20sp"
-        app:cornerRadius="16dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="48dp"
-        />
 
 </RelativeLayout>

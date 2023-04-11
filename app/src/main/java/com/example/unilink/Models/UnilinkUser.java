@@ -1,167 +1,154 @@
 package com.example.unilink.Models;
 
-import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.firebase.Timestamp;
+import androidx.annotation.NonNull;
 
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-import java.util.UUID;
+import com.example.unilink.Models.Interests.Category;
+import com.example.unilink.Models.Interests.Interest;
 
-public class UnilinkUser implements Parcelable, Serializable {
-    private String Uid;
-    private String auth_uid;
-    private HashMap<String, String> user_fullName; // first name and last name
-    private String user_phoneNum;
-    private String user_email;
-    private Timestamp user_lastUpdated;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.PriorityQueue;
 
-    // private String user_bio; // not applied just yet
-    // private String user_profilepic; // not applied just yet
+public class UnilinkUser implements Parcelable {
+    private final String userID;
+    private LocalDateTime timeCreated;
+    public List<String> connectedUIDs;
+    private PriorityQueue<Category> categories;
+    private String bio;
+    private String pfpURL;
+    private String pfbURL;
+    private Date birthdate;
 
-    public UnilinkUser() {
-        this.user_email = null;
-        this.user_fullName = new HashMap<String, String>();
-        this.user_phoneNum = null;
+    public static DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+    public static DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.ROOT);
+    public UnilinkUser(String userID) {
+        this.userID = userID;
+        this.bio = null;
+        this.pfpURL = null;
+        this.pfbURL = null;
+        this.categories = new PriorityQueue<>(Comparator.comparingInt(Category::getPriorityLevel).reversed());
+        this.connectedUIDs = new ArrayList<>();
+        this.timeCreated = LocalDateTime.now();
+        this.birthdate = null;
     }
 
-    public UnilinkUser(String auth_id, String firstName, String lastName, String user_phoneNum, String user_email, String uid) {
-        // add user Id from Firebase
-        this.auth_uid = auth_id;
-        // creating first name and full name
-        this.user_fullName = new HashMap<String, String>();
-        user_fullName.put("firstName", firstName.substring(0,1).toUpperCase() + firstName.substring(1));
-        user_fullName.put("lastName", lastName.substring(0,1).toUpperCase() + lastName.substring(1));
-
-        // adding in phonenumber and email
-        this.user_phoneNum = user_phoneNum;
-        this.user_email = user_email;
-        this.user_lastUpdated = Timestamp.now();
-        this.Uid = (uid != null ? uid : UUID.randomUUID().toString());
+    public PriorityQueue<Category> getCategories() {
+        return categories;
     }
 
-    public UnilinkUser getDataFrom(UnilinkUser usr) {
-        this.auth_uid = usr.auth_uid;
-        this.user_fullName = usr.user_fullName;
-        this.user_email = usr.user_email;
-        this.user_phoneNum = usr.user_phoneNum;
-        this.user_lastUpdated = usr.user_lastUpdated;
-        this.Uid = usr.getUid();
-        return this;
+    public String getBio() {
+        return bio;
+    }
+    public String getUserID() {return userID;}
+    public String getPfpURL() {return pfpURL;}
+    public String getPfbURL() {return pfbURL;}
+    public LocalDateTime getTimeCreated() {return timeCreated;}
+    public Date getBirthdate() {return birthdate;}
+    public List<String> getConnectedUIDs() {
+        return connectedUIDs;
     }
 
-    @Override
-    public String toString() {
-        return "[UID: " + Uid + "; Email: " + this.user_email + "; FullName: " + this.user_fullName + " ; Phone: " + this.user_phoneNum + "]";
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+    public void setProfilePicture(String url) {this.pfpURL = url;}
+    public void setProfileBanner(String url) {this.pfbURL = url;}
+    public void setBirthdate(Date date) {this.birthdate = date;}
+    public void setTimeCreated(LocalDateTime timeCreated) {this.timeCreated = timeCreated;}
+    public void setConnectedUIDs(List<String> uids) {this.connectedUIDs = uids;}
+
+
+    public void addChosenInterest(Interest interest) {
+        for (Category category : categories) {
+            if (category.getName() == interest.getCategory().getName()) {
+                category.addInterest(interest);
+                return;
+            }
+        }
+        Category newCategory = new Category(4, interest.getCategory().getName());
+        newCategory.addInterest(interest);
+        categories.add(newCategory);
     }
 
-    /* #region getName */
-    // get the full name in one string
-    public String getFullName() {
-        if (this.user_fullName.isEmpty())
-            return null;
-
-        String fN = this.user_fullName.get("firstName");
-        String lN = this.user_fullName.get("lastName");
-
-        if (fN != null && lN != null)
-            return fN + " " + lN;
-        else
-            return null;
+    public List<Interest> getChosenInterests() {
+        List<Interest> chosenInterest = new ArrayList<>();
+        for (Category category : categories) {
+            chosenInterest.addAll(category.getInterests().values());
+        }
+        return chosenInterest;
     }
 
-    // Getting firstName information
-    public String getFirstName() {
-        if (this.user_fullName.isEmpty())
-            return null;
-        String fN = this.user_fullName.get("firstName");
-        if (fN != null)
-            return fN.substring(0,1).toUpperCase() + fN.substring(1);
-        else
-            return null;
+    public List<Interest> getTop3HighestInterest(){
+        List<Interest> interests = new ArrayList<>();
+        for (Category category : categories) {
+            interests.addAll(category.getInterests().values());
+        }
+        return interests.subList(0, Math.min(3, interests.size()));
     }
 
-    public String getLastName() {
-        if (this.user_fullName.isEmpty())
-            return null;
-        String lN = this.user_fullName.get("lastName");    
-        if (lN != null)
-            return lN.substring(0,1).toUpperCase() + lN.substring(1);
-        else
-            return null;
-    }
-    /* #endregion */
-
-    /* #region getOtherInfo */
-    public String getPhoneNum() {
-        return this.user_phoneNum;
+    public Category getHighestPriorityCategory() {
+        return this.categories.peek();
     }
 
-    public String getEmail() {
-        return this.user_email;
+    public void addConnectedUser(String userID) {
+        connectedUIDs.add(userID);
     }
 
-    public String getAuthId() {
-        return this.auth_uid;
-    }
-
-    public String getUid() {return this.Uid;}
-    /* #endregion */
-
-    /* #region setters */
-    public void setFirstName(String fN) {
-        this.user_fullName.put("firstName", fN);
-    }
-
-    public void setLastName(String lN) {
-        this.user_fullName.put("lastName", lN);
-    }
-
-    public void setEmail(String email) {
-        this.user_email = email;
-    }
-
-    public void setPhoneNum(String pN) {
-        this.user_phoneNum = pN;
-    }
-
-    public void setAuthId(String uid) {
-        this.auth_uid = uid;
-    }
-
-    public void setFullName(String ffN) {
-        return;
-    }
-
-    public void setUid(String uid) {this.Uid = uid;}
-    /* #endregion */
-
-    /* #region Parcel Code */
     @Override
     public int describeContents() {
         return 0;
     }
 
-    // The implementation created by the Parcelabler site.
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.auth_uid);
-        dest.writeString(this.user_phoneNum);
-        dest.writeString(this.user_email);
-        dest.writeSerializable(this.user_fullName);
-        dest.writeString(this.Uid);
+    public void writeToParcel(@NonNull Parcel dest, int i) {
+        dest.writeString(this.userID);
+        dest.writeString(this.bio);
+        dest.writeString(this.pfpURL);
+        dest.writeString(this.pfbURL);
+//        dest.writeList(Arrays.asList(this.categories.toArray()));
+        // To send the interest list to the parcel; we send out as a list of interests
+//        List<Interest> parcel_interests = new ArrayList<>();
+//        for (Category c : this.categories){
+//            parcel_interests.addAll(c.getInterests().values());
+//        }
+        dest.writeList(getChosenInterests());
+        dest.writeStringList(this.connectedUIDs);
+        dest.writeString(format.format(this.timeCreated));
+        dest.writeString(df.format(this.birthdate));
     }
 
-    private UnilinkUser(Parcel in) {
-        this.auth_uid = in.readString();
-        this.user_phoneNum = in.readString();
-        this.user_email = in.readString();
-        this.user_fullName = (HashMap<String, String>) in.readSerializable();
-        this.Uid = in.readString();
+    public UnilinkUser(Parcel in){
+        this.userID = in.readString();
+        this.bio = in.readString();
+        this.pfpURL = in.readString();
+        this.pfbURL = in.readString();
+        // Retrieve the interest (categories) by adding chosen interests once more
+        List<Interest> parcel_interests = new ArrayList<>();
+        in.readList(parcel_interests, Interest.class.getClassLoader());
+        this.categories = new PriorityQueue<>(Comparator.comparingInt(Category::getPriorityLevel).reversed());
+        for (Interest i : parcel_interests) {
+            this.addChosenInterest(i);
+        }
+        this.connectedUIDs = new ArrayList<>();
+        in.readStringList(this.connectedUIDs);
+        this.timeCreated = LocalDateTime.parse(in.readString(), format);
+        try {
+            this.birthdate = df.parse(in.readString());
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static final Parcelable.Creator<UnilinkUser> CREATOR = new Parcelable.Creator<UnilinkUser>() {
@@ -175,5 +162,4 @@ public class UnilinkUser implements Parcelable, Serializable {
             return new UnilinkUser[size];
         }
     };
-    /* #endregion */
 }

@@ -3,13 +3,12 @@ package com.example.unilink.Fragments;
 import static android.app.Activity.RESULT_OK;
 
 import android.content.Intent;
-import android.media.Image;
-import android.nfc.Tag;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.MenuRes;
 import androidx.annotation.NonNull;
@@ -21,17 +20,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.unilink.Models.UnilinkAccount;
 import com.example.unilink.Models.UnilinkUser;
 import com.example.unilink.R;
+import com.example.unilink.Services.UserService;
 
-import java.sql.SQLOutput;
+import java.net.URI;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -39,25 +39,11 @@ import java.sql.SQLOutput;
  * create an instance of this fragment.
  */
 public class ProfileFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    private static final String TAG = "hello world";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    private UnilinkUser user;
-    private static final String user_key = "user";
-    private static final int GALLERY_REQUEST_CODE = 1000;
-
-    ImageView profilePicture, profileBanner, temp;
-
-
+    private static final String TAG = "ProfileFragment";
+    private UnilinkAccount uAcc;
+    private UnilinkUser uUser;
+    private UserService userService;
+    ImageView profilePicture, profileBanner;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -67,16 +53,15 @@ public class ProfileFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param user Passed in Unilinkuser from the Activity
+     * @param user Passed in UnilinkUser from the Activity
      * @return A new instance of fragment ProfileFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ProfileFragment newInstance(UnilinkUser user) {
+    public static ProfileFragment newInstance(UnilinkAccount user, UnilinkUser uUser) {
         ProfileFragment fragment = new ProfileFragment();
         Bundle args = new Bundle();
-        args.putSerializable(user_key, user);
-        // args.putString(ARG_PARAM1, param1);
-        // args.putString(ARG_PARAM2, param2);
+        args.putSerializable("AuthenticatedUser", user);
+        args.putParcelable("UnilinkUser", uUser);
         fragment.setArguments(args);
         return fragment;
     }
@@ -85,20 +70,10 @@ public class ProfileFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-
-
-
-
+            uAcc = (UnilinkAccount) getArguments().getSerializable("AuthenticatedUser");
+            uUser = getArguments().getParcelable("UnilinkUser");
         }
-
-        // Bundle bundle = getArguments();
-        // if(bundle != null) {
-        //     user =  bundle.getParcelable("user");
-        //     Log.d()
-        // } else
-        //     Toast.makeText(getActivity(), "Unable to parce User", Toast.LENGTH_SHORT).show();
+        userService = new UserService();
     }
 
     @Override
@@ -113,23 +88,18 @@ public class ProfileFragment extends Fragment {
         profilePicture = view.findViewById(R.id.defaultprofilepicture);
         profileBanner = view.findViewById(R.id.profilebanner);
 
+        userService.setImage2View(requireContext(), profilePicture, uUser.getPfpURL());
+        userService.setImage2View(requireContext(), profileBanner, uUser.getPfbURL());
+
+        threedotsbutton.setOnClickListener(v -> showMenu(v, R.menu.profileoptions));
+
         // TextView
-
-        threedotsbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showMenu(v,R.menu.profileoptions);
-            }
-        });
-
-
-        user = (UnilinkUser) getArguments().getSerializable(user_key);
-        if (user == null) {
+        if (uAcc == null) {
             Toast.makeText(getActivity(), "Unable to parse User", Toast.LENGTH_SHORT).show();
             return view;
         }
         final TextView fullname = (TextView) view.findViewById(R.id.defaultusername);
-        fullname.setText(user.getFullName());
+        fullname.setText(uAcc.getFullName());
 
         return view;
     }
@@ -140,17 +110,14 @@ public class ProfileFragment extends Fragment {
 
         popup.setOnMenuItemClickListener(menuItem -> {
 
-            switch (menuItem.getItemId()){
+            switch (menuItem.getItemId()) {
 
                 case R.id.editprofilepicture:
                     Toast.makeText(getActivity(), "Choose Profile Picture", Toast.LENGTH_SHORT).show();
-                    pickImage(profilePicture);
-
                     return true;
 
                 case R.id.editprofilebanner:
                     Toast.makeText(getActivity(), "Choose Profile Banner (preferably wide image)", Toast.LENGTH_SHORT).show();
-                    pickImage(profileBanner);
                     return true;
 
                 case R.id.editprofiledetails:
@@ -166,36 +133,25 @@ public class ProfileFragment extends Fragment {
             public void onDismiss(PopupMenu popupMenu) {
                 // Respond to popup being dismissed.
             }
-
-
         });
 
         popup.show();
     }
 
-    public ImageView pickImage(ImageView i){
-        temp = i;
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent, GALLERY_REQUEST_CODE);
-        return temp;
-    }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    ActivityResultLauncher<String> chooseImageActivity = registerForActivityResult(
+            new ActivityResultContracts.GetContent(),
+            new ActivityResultCallback<Uri>() {
+                @Override
+                public void onActivityResult(Uri uri) {
 
-        if(resultCode == RESULT_OK){
-            if(requestCode == GALLERY_REQUEST_CODE){
-                temp.setImageURI(data.getData());
+                }
             }
-        }
-    }
+    );
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-
 
     }
 

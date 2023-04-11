@@ -17,14 +17,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.example.unilink.Activities.BLE.BeaconWorker;
 import com.example.unilink.Models.BluetoothButton;
-import com.example.unilink.Models.UnilinkUser;
+import com.example.unilink.Models.UnilinkAccount;
 import com.example.unilink.R;
-import com.example.unilink.Services.UserService;
+import com.example.unilink.Services.AccountService;
 import com.facebook.shimmer.Shimmer;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
@@ -33,16 +31,13 @@ import org.altbeacon.beacon.BeaconManager;
 import org.altbeacon.beacon.BeaconParser;
 import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
-import org.checkerframework.checker.units.qual.A;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 
 import pl.bclogic.pulsator4droid.library.PulsatorLayout;
@@ -53,7 +48,7 @@ import pl.bclogic.pulsator4droid.library.PulsatorLayout;
  * create an instance of this fragment.
  */
 public class HomeFragment extends Fragment{
-    private UserService userService;
+    private AccountService accountService;
     private ProfileRowAdapter mAdapter;
     private BluetoothButton mBtBtn;
     private ShimmerFrameLayout shimmerFrameLayout;
@@ -63,10 +58,11 @@ public class HomeFragment extends Fragment{
     private final Region wildcardRegion = new Region("wildcardRegion",
             null,null,null);
     private BeaconManager beaconManager = null;
-    private static Map<String, UnilinkUser> usersInRange = new HashMap<>();
+    private static Map<String, UnilinkAccount> usersInRange = new HashMap<>();
     private static final String TAG = "HomeFragment";
-
     private View _rootView;
+
+    private UnilinkUser uAcc;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -78,9 +74,10 @@ public class HomeFragment extends Fragment{
      *
      * @return A new instance of fragment HomeFragment.
      */
-    public static HomeFragment newInstance() {
+    public static HomeFragment newInstance(UnilinkUser uAcc) {
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
+        args.putParcelable("Account", uAcc);
         fragment.setArguments(args);
         return fragment;
     }
@@ -88,6 +85,7 @@ public class HomeFragment extends Fragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         beaconManager = BeaconManager.getInstanceForApplication(getContext());
         beaconManager.getBeaconParsers().clear();
         beaconManager.getBeaconParsers().add(new BeaconParser().
@@ -106,7 +104,7 @@ public class HomeFragment extends Fragment{
                     if (!usersInRange.containsKey(uid.toString())){
                         // User is not in the known list (new)
                         Log.d(TAG, "New unilink user found: " + uid);
-                        userService.getUserInfoByUId(uid.toString(), foundUser -> {
+                        accountService.getAccountByUId(uid.toString(), foundUser -> {
                             if (foundUser == null)
                                 return;
                             usersInRange.put(uid.toString(), foundUser);
@@ -147,7 +145,7 @@ public class HomeFragment extends Fragment{
                 Log.d(TAG,"End of ranging cycle");
             }
         });
-        userService = new UserService();
+        accountService = new AccountService();
     }
 
     @Override
@@ -159,6 +157,11 @@ public class HomeFragment extends Fragment{
             Toast.makeText(getContext(), "Bluetooth is not supported on this device", Toast.LENGTH_SHORT).show();
             return _rootView;
         }
+        if (getArguments() != null) {
+            uAcc = getArguments().getParcelable("Account");
+        }
+        else
+            Log.d(TAG, "No Arguments sent to Home Fragment!");
 
         if (_rootView == null) {
             _rootView = inflater.inflate(R.layout.fragment_home, container, false);
@@ -203,7 +206,7 @@ public class HomeFragment extends Fragment{
             mRecyclerView.setLayoutManager(mLayoutManager);
             mRecyclerView.scrollToPosition(0);
 
-            mAdapter = new ProfileRowAdapter();
+            mAdapter = new ProfileRowAdapter(uAcc);
             mRecyclerView.setAdapter(mAdapter);
         } else {
 

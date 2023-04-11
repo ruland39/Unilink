@@ -1,19 +1,25 @@
 package com.example.unilink.Fragments.Registration;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
+import com.example.unilink.Activities.FeaturePage.LoadingDialogBar;
+import com.example.unilink.Models.UnilinkAccount;
 import com.example.unilink.R;
+import com.example.unilink.Services.UserService;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -22,15 +28,13 @@ import com.example.unilink.R;
  */
 public class addProfileBannerFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
     private static final int GALLERY_REQUEST_CODE = 1000;
+    private static final String TAG = "AddProfileBannerFragment";
+    private UnilinkAccount uAcc;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    ImageView banner;
+    private UserService userService;
+    ProfileSetupListener listener;
 
     public addProfileBannerFragment() {
         // Required empty public constructor
@@ -40,26 +44,34 @@ public class addProfileBannerFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment addProfileBannerFragment.
      */
-    // TODO: Rename and change types and number of parameters
-    public static addProfileBannerFragment newInstance(String param1, String param2) {
+
+    public static addProfileBannerFragment newInstance(UnilinkAccount uAcc) {
         addProfileBannerFragment fragment = new addProfileBannerFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putParcelable("Account", uAcc);
         fragment.setArguments(args);
         return fragment;
     }
 
     @Override
+    public void onAttach(@NonNull Context ctx){
+        super.onAttach(ctx);
+        try {
+            listener = (ProfileSetupListener) ctx;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(ctx.toString() + " must implement ProfileSetupListener");
+        }
+    }
+
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            uAcc = (UnilinkAccount) getArguments().getParcelable("Account");
+            userService = new UserService();
         }
     }
 
@@ -68,40 +80,28 @@ public class addProfileBannerFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add_profile_banner, container, false);
-
-        ImageButton addProfileBanner = view.findViewById(R.id.addprofilepicturebutton);
-
-        addProfileBanner.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addProfileBanner();
-            }
+        ImageButton addBtn = view.findViewById(R.id.addprofilebannerbutton);
+        banner = view.findViewById(R.id.addprofilebannerimg);
+        addBtn.setOnClickListener(v -> {
+            chooseImageActivity.launch("image/*");
         });
 
         return view;
     }
-
-    // Add Profile Banner
-    public void addProfileBanner(){
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent, GALLERY_REQUEST_CODE);
-
-    }
-
-
-    // Set Profile Banner
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//        if(resultCode == RESULT_OK){
-//            if(requestCode == GALLERY_REQUEST_CODE){
-//                temp.setImageURI(data.getData());
-//            }
-//        }
-//    }
-
-    // Set Profile Banner to Database
-
+    ActivityResultLauncher<String> chooseImageActivity = registerForActivityResult(
+            new ActivityResultContracts.GetContent(),
+            uri -> {
+                if (uri == null) return;
+                LoadingDialogBar loadingDialogBar = new LoadingDialogBar(requireContext());
+                loadingDialogBar.showDialog("Uploading");
+                userService.uploadImage(uri,
+                        uAcc.getUid() + uri.getLastPathSegment(),
+                        UserService.ImageType.ProfileBanner,
+                        uploadedUrl -> {
+                            loadingDialogBar.hideDialog();
+                            userService.setImage2View(requireContext(), banner, uploadedUrl);
+                            listener.AddedProfileBanner(uploadedUrl);
+                        });
+            }
+    );
 }
