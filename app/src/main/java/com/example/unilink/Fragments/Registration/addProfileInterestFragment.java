@@ -32,6 +32,7 @@ public class addProfileInterestFragment extends Fragment {
     private ProfileSetupListener listener;
     private ChipSet allChips;
     private ChipSet checkedIdsSet;
+    public static Set<Interest> chosenInterest = new HashSet<>();
     public addProfileInterestFragment() {
         // Required empty public constructor
     }
@@ -94,10 +95,11 @@ public class addProfileInterestFragment extends Fragment {
             public void onChipAdded(Chip c) {
                 if(checkedIdsSet.size() >= 5){
                     disableNonCheckedChips();
-                    if (checkedIdsSet.size() == 7) {
-                        listener.AddedInterest(parseChosenInterests(checkedIdsSet));
-                    }
                 }
+                if (checkedIdsSet.size() >= 3) {
+                    listener.AddedInterest();
+                }
+                chosenInterest = new HashSet<>(parseChosenInterests(checkedIdsSet));
             }
             @Override
             public void onChipRemoved() {

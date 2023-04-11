@@ -10,5 +10,5 @@ public interface ProfileSetupListener {
     void AddedProfileBanner(String newBannerImageURL);
     void AddedBirthdate(Date newBirthdate);
     void AddedBio(String bio);
-    void AddedInterest(List<Interest> interests);
+    void AddedInterest();
 }

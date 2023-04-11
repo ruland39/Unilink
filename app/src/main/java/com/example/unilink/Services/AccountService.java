@@ -8,10 +8,12 @@ import androidx.annotation.NonNull;
 import com.example.unilink.Activities.FeaturePage.LoadingDialogBar;
 import com.example.unilink.Models.UnilinkAccount;
 import com.example.unilink.UnilinkApplication;
+import com.firebase.ui.auth.data.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -52,7 +54,7 @@ public class AccountService {
                          String email,
                          String password,
                          String firstName, String lastName, String pNumber,
-                         UserCallback callback) {
+                         AccountCallback callback) throws UserException {
         UnilinkAccount uUser = new UnilinkAccount(null, firstName,
                 lastName, pNumber, email,null);
         // Authenticate a new user
@@ -64,18 +66,18 @@ public class AccountService {
                         db.collection("user_information")
                                 .add(uUser)
                                 .addOnSuccessListener(tasked->{
-                                    Log.d(TAG, "Successfully added User Information for {"+email+"} to the database");
+                                    Log.d(TAG, "Successfully added Account Information for {"+email+"} to the database");
                                     callback.onCallback(uUser);
                                 })
                                 .addOnFailureListener(tasked->{
-                                    Log.w(TAG, "Error adding User Information for {"+email+"} to the database");
+                                    Log.w(TAG, "Error adding Account Information for {"+email+"} to the database");
                                     throw new UserException("Account Creation Failed - User Creation Failed", new Throwable(UserExceptionType.AccountCreationFailed.name()));
                                 });
 
                         Log.d(TAG, "Successful User and Account Creation for " + email);
                     } else {
                         Log.w(TAG, "Account Registration Failed.");
-                        Toast.makeText(UnilinkApplication.getContext(), "Registration failed. Check network connection",
+                        Toast.makeText(UnilinkApplication.getContext(), "Registration failed." + (task.getException() instanceof FirebaseAuthWeakPasswordException ? "Weak Password." : ""),
                                 Toast.LENGTH_SHORT).show();
                         bar.hideDialog();
                     }
@@ -88,7 +90,8 @@ public class AccountService {
      * @param password Password used as input for authentication
      * @param callback Callback used for completion
      */
-    public void Login(LoadingDialogBar bar, String email, String password, UserCallback callback) {
+    public void Login(LoadingDialogBar bar, String email, String password, AccountCallback callback)
+    throws UserException {
         Log.d(TAG, "Logged in called for user " + email);
         // Authenticate User
         UnilinkAccount uUser = new UnilinkAccount();
@@ -139,7 +142,7 @@ public class AccountService {
      * @param AuthId used as parameter of User Information to be found
      * @param callback Callback used to return information; Returns null if NOT FOUND
      */
-    public void getAccountByAuthID(String AuthId, UserCallback callback) {
+    public void getAccountByAuthID(String AuthId, AccountCallback callback) {
         Log.d(TAG, "Get User Information by Auth ID has been called");
         db.collection("user_information")
                 .whereEqualTo("authId", AuthId)
@@ -162,7 +165,7 @@ public class AccountService {
      * @param Uid used as parameter of User Information to be found
      * @param callback Callback used to return information; Returns null if NOT FOUND
      */
-    public void getAccountByUId(String Uid, UserCallback callback) {
+    public void getAccountByUId(String Uid, AccountCallback callback) {
         Log.d(TAG, "Get User Information by UID has been called for UID: " + Uid);
         db.collection("user_information")
                 .whereEqualTo("uid", Uid)
@@ -198,11 +201,11 @@ public class AccountService {
        mAuth.signOut();
     }
 
-    public interface UserCallback {
-        void onCallback(UnilinkAccount uUser);
+    public interface AccountCallback {
+        void onCallback(UnilinkAccount uAcc);
     }
 
-    private static class UserException extends RuntimeException {
+    public static class UserException extends RuntimeException {
         public UserException(String message, Throwable cause)
         {
             super(message, cause);

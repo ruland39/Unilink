@@ -20,6 +20,7 @@ import com.example.unilink.Fragments.ChatFragment;
 import com.example.unilink.Fragments.HomeFragment;
 import com.example.unilink.Fragments.NotificationFragment;
 import com.example.unilink.Fragments.ProfileFragment;
+import com.example.unilink.Models.UnilinkUser;
 import com.example.unilink.R;
 import com.example.unilink.Services.AccountService;
 import com.example.unilink.databinding.ActivityMainBinding;
@@ -45,6 +46,7 @@ public class HomescreenActivity extends AppCompatActivity
 
     private static final String TAG = "HomescreenActivity";
     private UnilinkAccount currentUAcc;
+    private UnilinkUser currentUUser;
     private AccountService accountService;
 
     ActivityMainBinding binding;
@@ -52,7 +54,7 @@ public class HomescreenActivity extends AppCompatActivity
 
     DrawerLayout drawerLayout;
     DrawerLayout drawNavView;
-    ImageButton navdrawerBtn;
+    ImageButton navDrawerBtn;
     NavigationView navigationView;
 
     HomeFragment homeFragment = new HomeFragment();
@@ -69,10 +71,11 @@ public class HomescreenActivity extends AppCompatActivity
             startActivity(i);
             finish();
         } else {
-            if (currentUAcc == null) {
-                Intent i = getIntent();
+            Intent i = getIntent();
+            if (currentUAcc == null)
                 currentUAcc = i.getParcelableExtra("AuthenticatedUser");
-            }
+            if (currentUUser == null)
+                currentUUser = i.getParcelableExtra("CreatedUser");
         }
     }
 
@@ -100,8 +103,8 @@ public class HomescreenActivity extends AppCompatActivity
         binding = ActivityMainBinding.inflate(getLayoutInflater());
 
         drawNavView=findViewById(R.id.nav_drawer_layout);
-        navdrawerBtn=findViewById(R.id.navDrawerBtn);
-        navdrawerBtn.setOnClickListener(v -> {
+        navDrawerBtn =findViewById(R.id.navDrawerBtn);
+        navDrawerBtn.setOnClickListener(v -> {
             if(!drawNavView.isDrawerOpen(GravityCompat.START)) drawNavView.openDrawer(GravityCompat.START);
             else drawNavView.closeDrawer(GravityCompat.END);
         });

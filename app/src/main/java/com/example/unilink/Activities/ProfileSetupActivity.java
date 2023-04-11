@@ -7,10 +7,12 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.example.unilink.Activities.FeaturePage.LoadingDialogBar;
 import com.example.unilink.Fragments.Registration.ProfileSetupListener;
 import com.example.unilink.Fragments.Registration.addBioFragment;
 import com.example.unilink.Fragments.Registration.addBirthdayFragment;
@@ -22,18 +24,22 @@ import com.example.unilink.Models.UnilinkAccount;
 import com.example.unilink.Models.UnilinkUser;
 import com.example.unilink.R;
 import com.example.unilink.Services.AccountService;
+import com.example.unilink.Services.UserService;
+import com.google.firebase.firestore.auth.User;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 public class ProfileSetupActivity extends AppCompatActivity implements ProfileSetupListener {
-
+    private static final String TAG = "ProfileSetupActivity";
     private FragmentManager fragmentManager;
     private int currentFragmentIndex = 0;
 
     private UnilinkAccount uAcc = null;
     private UnilinkUser uUser;
     private AccountService accountService;
+    private UserService userService;
     private Button proceedBtn;
     private String currentBio;
 
@@ -42,6 +48,7 @@ public class ProfileSetupActivity extends AppCompatActivity implements ProfileSe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_setup);
         accountService = new AccountService();
+        userService = new UserService();
         Intent callerIntent = getIntent();
         uAcc = callerIntent.getParcelableExtra("AuthenticatedUser");
         uUser = new UnilinkUser(uAcc.getUid());
@@ -120,7 +127,7 @@ public class ProfileSetupActivity extends AppCompatActivity implements ProfileSe
         Intent i = new Intent(this, HomescreenActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         i.putExtra("AuthenticatedUser", (Parcelable) uAcc);
-        i.putExtra("CreatedUser", uUser);
+        i.putExtra("CreatedUser", (Parcelable) uUser);
         startActivity(i);
         finish();
     }
@@ -155,15 +162,27 @@ public class ProfileSetupActivity extends AppCompatActivity implements ProfileSe
     }
 
     @Override
-    public void AddedInterest(List<Interest> interests) {
-        for(Interest i : interests){
-            uUser.addChosenInterest(i);
-        }
+    public void AddedInterest() {
+        Toast.makeText(this, "test", Toast.LENGTH_SHORT).show();
         proceedBtn.setEnabled(true);
         proceedBtn.setOnClickListener(v -> {
-            // Send user information to the cloud with loading bar
-            // Send user information as extra into homescreen
-            openHomeScreen();
+            for (Interest i : addProfileInterestFragment.chosenInterest){
+                uUser.addChosenInterest(i);
+            }
+            LoadingDialogBar uploadDialog = new LoadingDialogBar(this);
+            uploadDialog.showDialog("Creating account");
+            try {
+                userService.UploadUser(uUser, finalUser ->{
+                    uploadDialog.hideDialog();
+                    if (finalUser!=null){
+                        Log.d(TAG, "[UserService] Successful User Profile Setup for " + finalUser.getUserID());
+                        uUser = finalUser;
+                        openHomeScreen();
+                    }
+                });
+            } catch (UserService.UserException e) {
+                uploadDialog.hideDialog();
+            }
         });
     }
 }

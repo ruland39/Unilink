@@ -19,6 +19,7 @@ import android.widget.EditText;
 
 import android.text.*;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -180,23 +181,28 @@ public class RegisterpageActivity extends AppCompatActivity {
     }
 
     private void RegisterUser() {
-        accountService.RegisterAccount(
-                loadingDialogBar,
-                email.getText().toString(),
-                password.getText().toString(),
-                firstName.getText().toString(),
-                lastName.getText().toString(),
-                phoneNumber.getText().toString(),
-                authenticatedUser -> {
-                    Log.d(TAG, "[UserService] Successful User Register for " + authenticatedUser);
-                    if (authenticatedUser != null){
+        try {
+            accountService.RegisterAccount(
+                    loadingDialogBar,
+                    email.getText().toString(),
+                    password.getText().toString(),
+                    firstName.getText().toString(),
+                    lastName.getText().toString(),
+                    phoneNumber.getText().toString(),
+                    authenticatedUser -> {
                         loadingDialogBar.hideDialog();
-                        Intent i = new Intent(this, ProfileSetupActivity.class);
-                        i.putExtra("AuthenticatedUser", (Parcelable) authenticatedUser);
-                        this.startActivity(i);
-                        this.finish();
-                    }
-                });
+                        if (authenticatedUser != null){
+                            Log.d(TAG, "[AccountService] Successful User Register for " + authenticatedUser);
+                            Intent i = new Intent(this, ProfileSetupActivity.class);
+                            i.putExtra("AuthenticatedUser", (Parcelable) authenticatedUser);
+                            this.startActivity(i);
+                            this.finish();
+                        }
+                    });
+        } catch (AccountService.UserException e) {
+            Log.e(TAG, "Account Registration Error: " + e.getMessage());
+            Toast.makeText(this, "Registration Failed: " + e.getCause() + "\n Please try again.", Toast.LENGTH_SHORT).show();
+        }
 
     }
 }
