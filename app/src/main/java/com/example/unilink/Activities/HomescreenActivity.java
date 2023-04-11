@@ -80,7 +80,7 @@ public class HomescreenActivity extends AppCompatActivity
             if (currentUUser == null)
                 currentUUser = i.getParcelableExtra("CreatedUser");
         }
-        homeFragment = HomeFragment.newInstance(currentUser);
+        homeFragment = HomeFragment.newInstance(currentUAcc);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frame_layout, homeFragment, "HOME_FRAGMENT")
                 .commitNow();
@@ -143,7 +143,7 @@ public class HomescreenActivity extends AppCompatActivity
                         getSupportFragmentManager().popBackStack("HOME_FRAGMENT", FragmentManager.POP_BACK_STACK_INCLUSIVE);
                         Log.d("HomescreenActivity", "Backstack popped");
                     }else {
-                        homeFragment = HomeFragment.newInstance(currentUser);
+                        homeFragment = HomeFragment.newInstance(currentUAcc);
                         trans.replace(R.id.frame_layout, homeFragment, "HOME_FRAGMENT")
                                 .commitNow();
                     }

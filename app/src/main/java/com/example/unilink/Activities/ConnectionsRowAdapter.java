@@ -9,13 +9,13 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.unilink.Models.UnilinkUser;
+import com.example.unilink.Models.UnilinkAccount;
 import com.example.unilink.R;
 
 import java.util.ArrayList;
 
 public class ConnectionsRowAdapter extends RecyclerView.Adapter<ConnectionsRowAdapter.ViewHolder> {
-    private ArrayList<UnilinkUser> mDataset;
+    private ArrayList<UnilinkAccount> mDataset;
 
     public ConnectionsRowAdapter(String[] dataset) {
         mDataset = new ArrayList<>();
@@ -46,7 +46,7 @@ public class ConnectionsRowAdapter extends RecyclerView.Adapter<ConnectionsRowAd
         return mDataset.size();
     }
 
-    public void addUser(UnilinkUser userToBeAdded,int position) {
+    public void addAccount(UnilinkAccount userToBeAdded,int position) {
         this.mDataset.add(position,userToBeAdded);
         this.notifyItemInserted(position);
     }

@@ -59,7 +59,7 @@ public class ProfileRowAdapter extends RecyclerView.Adapter<ProfileRowAdapter.Vi
         if (mDataset.isEmpty())
             holder.getText().setText("A Unilink User");
         else{
-            UnilinkUser targetuAcc = mDataset.get(position);
+            UnilinkAccount targetuAcc = mDataset.get(position);
             holder.getText().setText(targetuAcc.getFullName());
             holder.getWaveBtn().setOnClickListener(v -> {
                 holder.getWaveBtn().startAnimation(handWaveAnimation);
@@ -78,7 +78,7 @@ public class ProfileRowAdapter extends RecyclerView.Adapter<ProfileRowAdapter.Vi
         }
     }
 
-    private void setTargetTag(OkHttpClient client, UnilinkUser uAcc) throws JSONException, IOException {
+    private void setTargetTag(OkHttpClient client, UnilinkAccount uAcc) throws JSONException, IOException {
         JSONObject editTagJSON = new JSONObject();
         editTagJSON.accumulate("tags", new JSONObject("{'sender_username':'"+currentUAcc.getFullName()+"'}"));
 
@@ -96,7 +96,7 @@ public class ProfileRowAdapter extends RecyclerView.Adapter<ProfileRowAdapter.Vi
         Log.d("RowAdapter", "Got a response! HttpCode: " + response.code());
     }
 
-    private void postNotification(OkHttpClient client, UnilinkUser uAcc) throws JSONException, IOException {
+    private void postNotification(OkHttpClient client, UnilinkAccount uAcc) throws JSONException, IOException {
         // Create JSON Body
         JSONObject notifJSON = new JSONObject();
 

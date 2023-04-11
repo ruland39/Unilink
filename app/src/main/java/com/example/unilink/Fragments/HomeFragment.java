@@ -62,7 +62,7 @@ public class HomeFragment extends Fragment{
     private static final String TAG = "HomeFragment";
     private View _rootView;
 
-    private UnilinkUser uAcc;
+    private UnilinkAccount uAcc;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -74,7 +74,7 @@ public class HomeFragment extends Fragment{
      *
      * @return A new instance of fragment HomeFragment.
      */
-    public static HomeFragment newInstance(UnilinkUser uAcc) {
+    public static HomeFragment newInstance(UnilinkAccount uAcc) {
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
         args.putParcelable("Account", uAcc);
@@ -86,7 +86,7 @@ public class HomeFragment extends Fragment{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        beaconManager = BeaconManager.getInstanceForApplication(getContext());
+        beaconManager = BeaconManager.getInstanceForApplication(requireContext());
         beaconManager.getBeaconParsers().clear();
         beaconManager.getBeaconParsers().add(new BeaconParser().
                 setBeaconLayout(getString(R.string.beaconlayout)));

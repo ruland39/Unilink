@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/ignore"
                 android:textSize="12sp"
-                android:background="null"
+                android:background="@null"
                 android:textColor="@color/abit_grey"
                 android:fontFamily="@font/nunitoregular"
                 android:layout_below="@id/acceptbutton"
