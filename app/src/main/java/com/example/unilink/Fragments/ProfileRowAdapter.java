@@ -14,7 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.unilink.Models.UnilinkUser;
+import com.example.unilink.Models.UnilinkAccount;
 import com.example.unilink.R;
 import com.example.unilink.UnilinkApplication;
 import com.onesignal.OneSignal;
@@ -34,11 +34,11 @@ import okhttp3.Response;
 import okhttp3.MediaType;
 
 public class ProfileRowAdapter extends RecyclerView.Adapter<ProfileRowAdapter.ViewHolder> {
-    private final ArrayList<UnilinkUser> mDataset;
+    private final ArrayList<UnilinkAccount> mDataset;
     private static final String FriendRequestTemplateId = "9540d0b1-ab93-44c5-9140-7fdf11d9e5e6";
-    private final UnilinkUser currentUAcc;
     Animation handWaveAnimation;
-    public ProfileRowAdapter(UnilinkUser uAcc){
+    private final UnilinkAccount currentUAcc;
+    public ProfileRowAdapter(UnilinkAccount uAcc){
         this.currentUAcc = uAcc;
         mDataset = new ArrayList<>();
     }
@@ -126,12 +126,12 @@ public class ProfileRowAdapter extends RecyclerView.Adapter<ProfileRowAdapter.Vi
         return mDataset.size();
     }
 
-    public void addUser(UnilinkUser userToBeAdded,int position) {
+    public void addUser(UnilinkAccount userToBeAdded, int position) {
         this.mDataset.add(position,userToBeAdded);
         this.notifyItemInserted(position);
     }
 
-    public void removeUser(UnilinkUser userToBeRemoved) {
+    public void removeUser(UnilinkAccount userToBeRemoved) {
         int index = mDataset.indexOf(userToBeRemoved);
         mDataset.remove(userToBeRemoved);
         notifyItemRemoved(index);

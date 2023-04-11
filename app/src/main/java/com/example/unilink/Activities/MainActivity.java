@@ -1,6 +1,5 @@
 package com.example.unilink.Activities;
 
-import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -16,9 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import com.example.unilink.Activities.FeaturePage.FeaturePageActivity;
-import com.example.unilink.Models.UnilinkUser;
 import com.example.unilink.R;
-import com.example.unilink.Services.UserService;
+import com.example.unilink.Services.AccountService;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -54,11 +52,11 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         new Handler().postDelayed(()->{
             OneSignal.promptForPushNotifications();
-            UserService userService = new UserService();
+            AccountService accountService = new AccountService();
             // in session
-            if (userService.isInSession()) {
+            if (accountService.isInSession()) {
                 Log.d(TAG, "User session found!");
-                userService.getUserInfoByAuthId(userService.getCurrentUserSessionID(), user -> {
+                accountService.getAccountByAuthID(accountService.getCurrentUserSessionID(), user -> {
                     Log.d(TAG, "Retrieved current inSession User: " + user);
                     if (user != null) {
                         Intent i = new Intent(MainActivity.this, HomescreenActivity.class);

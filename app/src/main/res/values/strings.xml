@@ -84,7 +84,7 @@
     <string name="proceed">Proceed</string>
     <string name="addyourprofilebanner">Add your Profile Banner</string>
     <string name="addyourprofilebannerdetails">Choose a photo for your profile banner. You can change this later. </string>
-    <string name="whensyourbirthday">When\'s your Birthday</string>
+    <string name="whensyourbirthday">When\'s your Birthday?</string>
     <string name="whensyourbirthdaydetails">A</string>
     <string name="writeyourbiosection">Write your Bio Section</string>
     <string name="writeyourbiosectiondetails">Tell everything about yourself here</string>
@@ -156,6 +156,9 @@
     <string name="persononewouldliketosendafriendrequest">Person 1 would like to send a friend request</string>
     <string name="accept">Accept</string>
     <string name="ignore">Ignore</string>
+
+    <string name="ddmmmyyyy">DD/MM/YYYY</string>
+    <string name="letssetupyourprofile">Let\'s Setup your Profile</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
