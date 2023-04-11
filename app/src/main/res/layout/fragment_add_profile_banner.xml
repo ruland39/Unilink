@@ -50,27 +50,25 @@
                 app:cardCornerRadius="18dp"
                 app:cardElevation="0dp">
 
-
                 <ImageView
                     android:id="@+id/addprofilebannerimg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:scaleType="fitCenter"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/banneradd"
                     />
+
             </androidx.cardview.widget.CardView>
-
-            <ImageButton
-                android:id="@+id/addprofilebannerbutton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@null" />
-
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/banneraddcircle"
                 />
+            <ImageButton
+                android:id="@+id/addprofilebannerbutton"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:background="@null" />
 
         </RelativeLayout>
 

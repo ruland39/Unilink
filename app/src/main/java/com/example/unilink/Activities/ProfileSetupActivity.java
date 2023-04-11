@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentManager;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -16,6 +17,7 @@ import com.example.unilink.Fragments.Registration.addBirthdayFragment;
 import com.example.unilink.Fragments.Registration.addProfileBannerFragment;
 import com.example.unilink.Fragments.Registration.addProfileInterestFragment;
 import com.example.unilink.Fragments.Registration.addProfilePictureFragment;
+import com.example.unilink.Models.Interests.Interest;
 import com.example.unilink.Models.UnilinkAccount;
 import com.example.unilink.Models.UnilinkUser;
 import com.example.unilink.R;
@@ -105,10 +107,6 @@ public class ProfileSetupActivity extends AppCompatActivity implements ProfileSe
                             .replace(R.id.frame_layout, interestFragment)
                             .commitNow();
                     break;
-                case 5:
-                    // Do something when the user reaches the last fragment
-                    openHomeScreen();
-                    break;
             }
             proceedBtn.setEnabled(false);
         });
@@ -121,6 +119,8 @@ public class ProfileSetupActivity extends AppCompatActivity implements ProfileSe
     public void openHomeScreen() {
         Intent i = new Intent(this, HomescreenActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        i.putExtra("AuthenticatedUser", (Parcelable) uAcc);
+        i.putExtra("CreatedUser", uUser);
         startActivity(i);
         finish();
     }
@@ -155,7 +155,15 @@ public class ProfileSetupActivity extends AppCompatActivity implements ProfileSe
     }
 
     @Override
-    public void AddedInterest(List<Enum> interests) {
-
+    public void AddedInterest(List<Interest> interests) {
+        for(Interest i : interests){
+            uUser.addChosenInterest(i);
+        }
+        proceedBtn.setEnabled(true);
+        proceedBtn.setOnClickListener(v -> {
+            // Send user information to the cloud with loading bar
+            // Send user information as extra into homescreen
+            openHomeScreen();
+        });
     }
 }
