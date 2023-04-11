@@ -1,11 +1,11 @@
 package com.example.unilink;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.unilink.Activities.HomescreenActivity;
 
@@ -30,7 +30,8 @@ public class othersProfileActivity extends AppCompatActivity {
 
     private void backToHomeScreenActivity() {
         Intent i = new Intent(this, HomescreenActivity.class);
-        startActivity(i);
+        i.addFlags(i.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        this.startActivity(i);
         finish();
     }
 }

@@ -89,9 +89,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".othersProfileActivity"
+            android:exported="true">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <meta-data
             android:name="com.example.unilink.ONESIGNAL_API_KEY"
             android:value="${ONESIGNAL_API_KEY}" />
+        <meta-data
+            android:name="com.onesignal.NotificationOpened.DEFAULT"
+            android:value="DISABLE"/>
     </application>
 
 </manifest>

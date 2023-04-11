@@ -23,13 +23,12 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Handler;
 
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import okhttp3.MediaType;
 
 public class ProfileRowAdapter extends RecyclerView.Adapter<ProfileRowAdapter.ViewHolder> {
     private final ArrayList<UnilinkUser> mDataset;
@@ -98,6 +97,11 @@ public class ProfileRowAdapter extends RecyclerView.Adapter<ProfileRowAdapter.Vi
         notifJSON.accumulate("app_id", UnilinkApplication.getOnesignalAppId());
         notifJSON.accumulate("include_external_user_ids", target_uids);
         notifJSON.accumulate("template_id", FriendRequestTemplateId);
+        JSONObject dataJSON = new JSONObject();
+        dataJSON.put("cuid", currentUAcc.getUid());
+        dataJSON.put("tuid", uAcc.getUid());
+        notifJSON.accumulate("data", dataJSON);
+        Log.d("RowAdapter", notifJSON.toString());
         // Create Http Request
         MediaType mediaType = MediaType.parse("application/json");
         RequestBody body = RequestBody.create( notifJSON.toString(),mediaType);
