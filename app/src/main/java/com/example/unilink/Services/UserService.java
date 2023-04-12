@@ -19,6 +19,8 @@ import com.bumptech.glide.annotation.GlideModule;
 import com.bumptech.glide.module.AppGlideModule;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.example.unilink.Models.Interests.Category;
+import com.example.unilink.Models.Interests.Interest;
 import com.example.unilink.Models.UnilinkUser;
 import com.example.unilink.R;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
@@ -29,9 +31,14 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.InputStream;
+import java.text.ParseException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @GlideModule
 public class UserService extends AppGlideModule {
@@ -132,7 +139,17 @@ public class UserService extends AppGlideModule {
         user_info.put("user_pfbUrl", uUser.getPfbURL());
         user_info.put("user_birthdate", UnilinkUser.df.format(uUser.getBirthdate()));
         user_info.put("user_connectedUids", uUser.getConnectedUIDs());
-        user_info.put("user_interestCategories", Arrays.asList(uUser.getCategories().toArray()));
+//        user_info.put("user_interestCategories", Arrays.asList(uUser.getCategories().toArray()));
+        Map<String, Integer> categoryMap = new HashMap<>();
+        for (Category category : uUser.getCategories()){
+            categoryMap.put(category.getName().toString(), category.getPriorityLevel());
+        }
+        user_info.put("user_categories", categoryMap);
+        Map<String, String> interestMap = new HashMap<>();
+        for (Interest interest : uUser.getChosenInterests()) {
+            interestMap.put(interest.getCategory().getName().toString(), interest.getName());
+        }
+        user_info.put("user_interests", interestMap);
         user_info.put("user_timeCreated", UnilinkUser.format.format(uUser.getTimeCreated()));
 
         db.collection("unilink_users")
@@ -144,6 +161,49 @@ public class UserService extends AppGlideModule {
                 })
                 .addOnFailureListener(task->{
                     Log.w(TAG, "Error adding Account Information for {"+uUser.getUserID()+"} to the database");
+                    throw new UserService.UserException("User Setup Failed - User Creation Failed", new Throwable(AccountService.UserExceptionType.ConnectionError.name()));
+                });
+    }
+
+    public void getUserByUid(String uid, UserCallback callback) throws UserService.UserException {
+        Log.d(TAG, "Getting user information called. for User " + uid);
+        db.collection("unilink_users")
+                .document(uid)
+                .get()
+                .addOnSuccessListener(task->{
+                    UnilinkUser uUser = new UnilinkUser(uid);
+                    uUser.setBio(task.getString("user_bio"));
+                    uUser.setProfilePicture(task.getString("user_pfpUrl"));
+                    uUser.setProfileBanner(task.getString("user_pfbUrl"));
+                    try {
+                        uUser.setBirthdate(UnilinkUser.df.parse(Objects.requireNonNull(task.getString("user_birthdate"))));
+                    } catch (ParseException e) {
+                        throw new RuntimeException(e);
+                    }
+                    uUser.setConnectedUIDs((List<String>) task.get("user_connectedUids"));
+                    uUser.setTimeCreated(LocalDateTime.parse(task.getString("user_timeCreated"), UnilinkUser.format));
+
+                    // Set up user categories
+                    Map<String, Long> categoryList = (Map<String, Long>) task.get("user_categories");
+                    Map<String, String> interestList = (Map<String, String>) task.get("user_interests");
+                    assert interestList != null;
+                    for (Map.Entry<String, String> iL : interestList.entrySet()){
+                        uUser.addChosenInterest(new Interest(iL.getValue(), new Category(0, Category.CategoryName.valueOf(iL.getKey()))));
+                    }
+                    for (Category c : uUser.getCategories()){
+                        assert categoryList != null;
+                        for (Map.Entry<String, Long> cL : categoryList.entrySet()){
+                            if (cL.getKey().equals(c.getName().toString())) {
+                                System.out.println(c.getName().getClass() + " " + cL.getValue().getClass());
+                                uUser.setCategoryLevel(c.getName(), cL.getValue());
+                            }
+                        }
+                    }
+                    Log.d(TAG, "Successfully retrieved User Information for {"+uid+"} from database");
+                    callback.onCallback(uUser);
+                })
+                .addOnFailureListener(task->{
+                    Log.w(TAG, "Error retrieving Account Information for {"+uid+"} from the database");
                     throw new UserService.UserException("User Setup Failed - User Creation Failed", new Throwable(AccountService.UserExceptionType.ConnectionError.name()));
                 });
     }

@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class Category implements Parcelable {
     private CategoryName name;
-    private int priorityLevel;
+    private Integer priorityLevel;
     private Map<String, Interest> interests;
 
     public Category(int pLevel, CategoryName cName) {
