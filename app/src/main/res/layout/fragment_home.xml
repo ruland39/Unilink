@@ -96,7 +96,9 @@
             android:layout_alignTop="@id/mainbanner"
             android:layout_alignEnd="@id/mainbanner"
             android:layout_alignBottom="@id/mainbanner"
-            app:cardBackgroundColor="@null"
+            android:layout_marginVertical="75dp"
+            android:layout_marginHorizontal="148dp"
+            app:cardBackgroundColor="@color/purple_main"
             app:cardElevation="0dp"
             app:cardCornerRadius="100000dp"
             >
