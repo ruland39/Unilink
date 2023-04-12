@@ -93,7 +93,7 @@
         android:text="@string/personusernametextviewmaincontainer" />
 
     <HorizontalScrollView
-        android:id="@+id/linearlayout1"
+        android:id="@+id/profilechipsrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/defaultusername"
@@ -154,7 +154,7 @@
         android:id="@+id/connectionnumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/linearlayout1"
+        android:layout_below="@+id/profilechipsrow"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/nunitobold"

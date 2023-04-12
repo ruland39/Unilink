@@ -100,17 +100,18 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/relativelayoutbanner"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="32dp"
         android:fontFamily="@font/nunitobold"
         android:textSize="24sp"
         android:textAlignment="center"
         android:text="@string/personusernametextviewmaincontainer" />
 
     <HorizontalScrollView
-        android:id="@+id/linearlayout1"
+        android:id="@+id/profilechipsrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/defaultusername"
+        android:layout_marginTop="8dp"
         android:layout_centerHorizontal="true"
         android:scrollbars="none"
         android:paddingStart="16dp"
@@ -164,10 +165,23 @@
 
 
     <TextView
+        android:id="@+id/birthdaytextview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ddmmmyyyy"
+        android:fontFamily="@font/nunitobold"
+        android:textColor="@color/abit_grey"
+        android:textSize="20sp"
+        android:layout_below="@id/profilechipsrow"
+        android:layout_marginTop="16dp"
+        android:layout_centerHorizontal="true"
+        />
+
+    <TextView
         android:id="@+id/connectionnumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/linearlayout1"
+        android:layout_below="@+id/birthdaytextview"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/nunitobold"
@@ -181,7 +195,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/connectionnumber"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:fontFamily="@font/nunitosemibold"
         android:textSize="20sp"
         android:textAlignment="center"
