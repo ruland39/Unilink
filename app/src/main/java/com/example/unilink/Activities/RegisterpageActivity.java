@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.unilink.Activities.FeaturePage.LoadingDialogBar;
 import com.example.unilink.R;
-import com.example.unilink.Services.UserService;
+import com.example.unilink.Services.AccountService;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +19,7 @@ import android.widget.EditText;
 
 import android.text.*;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -37,7 +38,7 @@ public class RegisterpageActivity extends AppCompatActivity {
     private CheckBox showHidePW;
     LoadingDialogBar loadingDialogBar;
 
-    private UserService userService;
+    private AccountService accountService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +53,7 @@ public class RegisterpageActivity extends AppCompatActivity {
         });
 
         loadingDialogBar = new LoadingDialogBar(this);
-        userService = new UserService();
+        accountService = new AccountService();
     }
 
     @Override
@@ -180,24 +181,28 @@ public class RegisterpageActivity extends AppCompatActivity {
     }
 
     private void RegisterUser() {
-        userService.Register(
-                loadingDialogBar,
-                email.getText().toString(),
-                password.getText().toString(),
-                firstName.getText().toString(),
-                lastName.getText().toString(),
-                phoneNumber.getText().toString(),
-                authenticatedUser -> {
-                    Log.d(TAG, "[UserService] Successful User Register for " + authenticatedUser);
-                    if (authenticatedUser != null){
+        try {
+            accountService.RegisterAccount(
+                    loadingDialogBar,
+                    email.getText().toString(),
+                    password.getText().toString(),
+                    firstName.getText().toString(),
+                    lastName.getText().toString(),
+                    phoneNumber.getText().toString(),
+                    authenticatedUser -> {
                         loadingDialogBar.hideDialog();
-                        Intent i = new Intent(this, HomescreenActivity.class);
-                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        i.putExtra("AuthenticatedUser", (Parcelable) authenticatedUser);
-                        this.startActivity(i);
-                        this.finish();
-                    }
-                });
+                        if (authenticatedUser != null){
+                            Log.d(TAG, "[AccountService] Successful User Register for " + authenticatedUser);
+                            Intent i = new Intent(this, ProfileSetupActivity.class);
+                            i.putExtra("AuthenticatedUser", (Parcelable) authenticatedUser);
+                            this.startActivity(i);
+                            this.finish();
+                        }
+                    });
+        } catch (AccountService.UserException e) {
+            Log.e(TAG, "Account Registration Error: " + e.getMessage());
+            Toast.makeText(this, "Registration Failed: " + e.getCause() + "\n Please try again.", Toast.LENGTH_SHORT).show();
+        }
 
     }
 }

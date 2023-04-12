@@ -2,98 +2,92 @@ package com.example.unilink.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
 import androidx.fragment.app.DialogFragment;
 import androidx.work.Data;
 import androidx.work.ExistingWorkPolicy;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
-import androidx.work.WorkRequest;
-import androidx.core.view.GravityCompat;
 
 import com.example.unilink.Activities.BLE.BeaconWorker;
 import com.example.unilink.Fragments.ChatFragment;
 import com.example.unilink.Fragments.HomeFragment;
 import com.example.unilink.Fragments.NotificationFragment;
 import com.example.unilink.Fragments.ProfileFragment;
+import com.example.unilink.Models.UnilinkUser;
 import com.example.unilink.R;
-import com.example.unilink.Services.UserService;
-import com.example.unilink.UnilinkApplication;
+import com.example.unilink.Services.AccountService;
 import com.example.unilink.databinding.ActivityMainBinding;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
-import com.google.gson.Gson;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.view.MenuItem;
-import android.view.View;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.widget.ImageButton;
 import android.util.Log;
 import android.Manifest;
 import android.content.pm.PackageManager;
 
-import com.example.unilink.Models.UnilinkUser;
+import com.example.unilink.Models.UnilinkAccount;
 import com.example.unilink.Dialogs.BluetoothHomeScreenDialog;
 import com.onesignal.OneSignal;
 
-import org.altbeacon.beacon.Beacon;
-import org.altbeacon.beacon.BeaconManager;
-
 public class HomescreenActivity extends AppCompatActivity
-        implements BluetoothHomeScreenDialog.BtHomeScreenDialogListener {
+        implements BluetoothHomeScreenDialog.BtHomeScreenDialogListener, GestureDetector.OnGestureListener {
 
     private static final String TAG = "HomescreenActivity";
-    private UnilinkUser currentUser;
-    private UserService userService;
+    private UnilinkAccount currentUAcc;
+    private UnilinkUser currentUUser;
+    private AccountService accountService;
 
     ActivityMainBinding binding;
     BottomNavigationView bottomNavigationView;
 
     DrawerLayout drawerLayout;
     DrawerLayout drawNavView;
-    ImageButton navdrawerBtn;
+    ImageButton navDrawerBtn;
     NavigationView navigationView;
+
+    private GestureDetector mDetector;
+    private static final int MIN_DISTANCE = 150;
+    private float x1=0;
+    private float x2=0;
 
     HomeFragment homeFragment = new HomeFragment();
     ChatFragment chatFragment = new ChatFragment();
     NotificationFragment notificationFragment = new NotificationFragment();
-    ProfileFragment profileFragment = new ProfileFragment();
+    ProfileFragment profileFragment;
 
     @Override
     public void onStart() {
         super.onStart();
-        this.currentUser = null;
-        if (!userService.isInSession()) {
+        this.currentUAcc = null;
+        if (!accountService.isInSession()) {
             Intent i = new Intent(this, LoginorregisterActivity.class);
             startActivity(i);
             finish();
         } else {
-            if (currentUser == null) {
-                Intent i = getIntent();
-                currentUser = i.getParcelableExtra("AuthenticatedUser");
-                OneSignal.setExternalUserId(currentUser.getUid());
+            Intent i = getIntent();
+            if (currentUAcc == null){
+                currentUAcc = i.getParcelableExtra("AuthenticatedUser");
+                OneSignal.setExternalUserId(currentUAcc.getUid());
             }
+            if (currentUUser == null)
+                currentUUser = i.getParcelableExtra("CreatedUser");
         }
-        homeFragment = HomeFragment.newInstance(currentUser);
+        homeFragment = HomeFragment.newInstance(currentUAcc, currentUUser);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frame_layout, homeFragment, "HOME_FRAGMENT")
                 .commitNow();
@@ -104,11 +98,13 @@ public class HomescreenActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        userService = new UserService();
+        this.mDetector = new GestureDetector(this, this);
+        accountService = new AccountService();
 
         // Saved Instance state of activity to retrieve data
         if (savedInstanceState != null) {
-            currentUser = savedInstanceState.getParcelable("CurrentUser");
+            currentUAcc = savedInstanceState.getParcelable("CurrentAccount");
+            currentUUser = savedInstanceState.getParcelable("CurrentUser");
         }
 
         // Validate permission
@@ -123,8 +119,8 @@ public class HomescreenActivity extends AppCompatActivity
         binding = ActivityMainBinding.inflate(getLayoutInflater());
 
         drawNavView=findViewById(R.id.nav_drawer_layout);
-        navdrawerBtn=findViewById(R.id.navDrawerBtn);
-        navdrawerBtn.setOnClickListener(v -> {
+        navDrawerBtn =findViewById(R.id.navDrawerBtn);
+        navDrawerBtn.setOnClickListener(v -> {
             if(!drawNavView.isDrawerOpen(GravityCompat.START)) drawNavView.openDrawer(GravityCompat.START);
             else drawNavView.closeDrawer(GravityCompat.END);
         });
@@ -141,7 +137,7 @@ public class HomescreenActivity extends AppCompatActivity
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(item -> {
-            UnilinkUser user = getCurrentUser();
+            UnilinkAccount user = getCurrentAccount();
             FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
             // Get the fragment in the backstack
             Fragment home_frag = null;
@@ -155,7 +151,7 @@ public class HomescreenActivity extends AppCompatActivity
                         getSupportFragmentManager().popBackStack("HOME_FRAGMENT", FragmentManager.POP_BACK_STACK_INCLUSIVE);
                         Log.d("HomescreenActivity", "Backstack popped");
                     }else {
-                        homeFragment = HomeFragment.newInstance(currentUser);
+                        homeFragment = HomeFragment.newInstance(currentUAcc, currentUUser );
                         trans.replace(R.id.frame_layout, homeFragment, "HOME_FRAGMENT")
                                 .commitNow();
                     }
@@ -171,7 +167,7 @@ public class HomescreenActivity extends AppCompatActivity
                             .commit();
                     return true;
                 case R.id.profile:
-                    profileFragment = ProfileFragment.newInstance(user);
+                    profileFragment = ProfileFragment.newInstance(currentUAcc, currentUUser);
                     trans.replace(R.id.frame_layout, profileFragment, "PROFILE_FRAGMENT")
                             .addToBackStack("HOME_FRAGMENT")
                             .commit();
@@ -184,7 +180,8 @@ public class HomescreenActivity extends AppCompatActivity
     @Override
     public void onSaveInstanceState(Bundle outState) {
         Log.d(TAG, "Activity going to the background! Saving states..");
-        outState.putParcelable("CurrentUser", currentUser);
+        outState.putParcelable("CurrentAccount", currentUAcc);
+        outState.putParcelable("CurrentUser", currentUUser);
         super.onSaveInstanceState(outState);
     }
 
@@ -208,12 +205,12 @@ public class HomescreenActivity extends AppCompatActivity
     }
 
     private void startBeaconTransmission() {
-        if(currentUser == null)
+        if(currentUAcc == null)
             throw new RuntimeException("CURRENT USER IS NULL");
         OneTimeWorkRequest beaconWorkRequest =
                 new OneTimeWorkRequest.Builder(BeaconWorker.class)
                         .setInputData(new Data.Builder()
-                                .putString("CurrentUid", currentUser.getUid())
+                                .putString("CurrentUid", currentUAcc.getUid())
                                 .build())
                         .build();
         WorkManager.getInstance(this).beginUniqueWork(
@@ -222,15 +219,15 @@ public class HomescreenActivity extends AppCompatActivity
                 beaconWorkRequest).enqueue();
     }
 
-    private UnilinkUser getCurrentUser() {
-        return this.currentUser;
+    private UnilinkAccount getCurrentAccount() {
+        return this.currentUAcc;
     }
 
     // logout method
     public void logout() {
         Intent ix = getIntent();
         ix.removeExtra("AuthenticatedUser");
-        userService.signOut();
+        accountService.signOut();
         Log.d(TAG, "User Logout Successful");
         BeaconWorker.stopAdvertisement();
         ix = new Intent(this, LoginorregisterActivity.class);
@@ -314,6 +311,58 @@ public class HomescreenActivity extends AppCompatActivity
     @Override
     public void onDialogNegativeClick(DialogFragment dialog) {
         finishAndRemoveTask();
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        mDetector.onTouchEvent(event);
+        switch (event.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                Log.d(TAG, "Action Down");
+                x1 = event.getX();
+                break;
+            case MotionEvent.ACTION_UP:
+                x2 = event.getX();
+                float valueX = x2 - x1;
+                if (Math.abs(valueX) > MIN_DISTANCE) {
+                    Log.d(TAG, "Action Up");
+                    if (x2 > x1)
+                        if (!drawNavView.isDrawerOpen(GravityCompat.START))
+                            drawNavView.openDrawer(GravityCompat.START);
+                }
+                break;
+        }
+        return super.dispatchTouchEvent(event);
+    }
+
+    @Override
+    public boolean onDown(@NonNull MotionEvent motionEvent) {
+        return false;
+    }
+
+    @Override
+    public void onShowPress(@NonNull MotionEvent motionEvent) {
+
+    }
+
+    @Override
+    public boolean onSingleTapUp(@NonNull MotionEvent motionEvent) {
+        return false;
+    }
+
+    @Override
+    public boolean onScroll(@NonNull MotionEvent motionEvent, @NonNull MotionEvent motionEvent1, float v, float v1) {
+        return false;
+    }
+
+    @Override
+    public void onLongPress(@NonNull MotionEvent motionEvent) {
+
+    }
+
+    @Override
+    public boolean onFling(@NonNull MotionEvent motionEvent, @NonNull MotionEvent motionEvent1, float v, float v1) {
+        return false;
     }
 
 }

@@ -5,6 +5,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -12,7 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.unilink.Models.UnilinkUser;
+import com.example.unilink.Models.UnilinkAccount;
 import com.example.unilink.R;
 import com.example.unilink.UnilinkApplication;
 import com.onesignal.OneSignal;
@@ -31,10 +33,11 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class ProfileRowAdapter extends RecyclerView.Adapter<ProfileRowAdapter.ViewHolder> {
-    private final ArrayList<UnilinkUser> mDataset;
+    private final ArrayList<UnilinkAccount> mDataset;
     private static final String FriendRequestTemplateId = "9540d0b1-ab93-44c5-9140-7fdf11d9e5e6";
-    private final UnilinkUser currentUAcc;
-    public ProfileRowAdapter(UnilinkUser uAcc){
+    Animation handWaveAnimation;
+    private final UnilinkAccount currentUAcc;
+    public ProfileRowAdapter(UnilinkAccount uAcc){
         this.currentUAcc = uAcc;
         mDataset = new ArrayList<>();
     }
@@ -43,18 +46,19 @@ public class ProfileRowAdapter extends RecyclerView.Adapter<ProfileRowAdapter.Vi
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.profile_row, parent, false);
+        handWaveAnimation = AnimationUtils.loadAnimation(parent.getContext(), R.anim.hand_wave);
         return new ViewHolder(v);
     }
 
-    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         if (mDataset.isEmpty())
             holder.getText().setText("A Unilink User");
         else{
-            UnilinkUser targetuAcc = mDataset.get(position);
+            UnilinkAccount targetuAcc = mDataset.get(position);
             holder.getText().setText(targetuAcc.getFullName());
             holder.getWaveBtn().setOnClickListener(v -> {
+                holder.getWaveBtn().startAnimation(handWaveAnimation);
                 UnilinkApplication.getExecutor().execute(()->{
                     OkHttpClient client = new OkHttpClient();
                     try {
@@ -70,7 +74,7 @@ public class ProfileRowAdapter extends RecyclerView.Adapter<ProfileRowAdapter.Vi
         }
     }
 
-    private void setTargetTag(OkHttpClient client, UnilinkUser uAcc) throws JSONException, IOException {
+    private void setTargetTag(OkHttpClient client, UnilinkAccount uAcc) throws JSONException, IOException {
         JSONObject editTagJSON = new JSONObject();
         editTagJSON.accumulate("tags", new JSONObject("{'sender_username':'"+currentUAcc.getFullName()+"'}"));
 
@@ -88,7 +92,7 @@ public class ProfileRowAdapter extends RecyclerView.Adapter<ProfileRowAdapter.Vi
         Log.d("RowAdapter", "Got a response! HttpCode: " + response.code());
     }
 
-    private void postNotification(OkHttpClient client, UnilinkUser uAcc) throws JSONException, IOException {
+    private void postNotification(OkHttpClient client, UnilinkAccount uAcc) throws JSONException, IOException {
         // Create JSON Body
         JSONObject notifJSON = new JSONObject();
 
@@ -123,12 +127,12 @@ public class ProfileRowAdapter extends RecyclerView.Adapter<ProfileRowAdapter.Vi
         return mDataset.size();
     }
 
-    public void addUser(UnilinkUser userToBeAdded,int position) {
+    public void addUser(UnilinkAccount userToBeAdded, int position) {
         this.mDataset.add(position,userToBeAdded);
         this.notifyItemInserted(position);
     }
 
-    public void removeUser(UnilinkUser userToBeRemoved) {
+    public void removeUser(UnilinkAccount userToBeRemoved) {
         int index = mDataset.indexOf(userToBeRemoved);
         mDataset.remove(userToBeRemoved);
         notifyItemRemoved(index);

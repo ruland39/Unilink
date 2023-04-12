@@ -23,6 +23,22 @@
         android:textSize="24sp"
         />
 
+    <ImageButton
+        android:id="@+id/connectionbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:background="@null"
+        android:scaleType="center"
+        android:scaleX="1.1"
+        android:scaleY="1.1"
+        android:src="@drawable/friendbutton"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <RelativeLayout
         android:id="@+id/mainbannerlayout"
         android:layout_width="match_parent"
@@ -50,10 +66,6 @@
             android:layout_alignTop="@+id/mainbanner"
             android:layout_alignEnd="@+id/mainbanner"
             android:layout_alignBottom="@+id/mainbanner"
-            android:layout_marginStart="2dp"
-            android:layout_marginTop="-1dp"
-            android:layout_marginEnd="-2dp"
-            android:layout_marginBottom="1dp"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
             app:pulse_color="@color/purple_main"
@@ -63,32 +75,32 @@
             app:pulse_repeat="0"
             app:pulse_startFromScratch="true" />
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/border"
-            android:tint="@color/purple_main"
-            android:layout_alignStart="@+id/mainbanner"
-            android:layout_alignTop="@+id/mainbanner"
-            android:layout_alignEnd="@+id/mainbanner"
-            android:layout_alignBottom="@+id/mainbanner"
-            android:scaleType="fitCenter"
-            android:scaleX="0.3"
-            android:scaleY="0.3"
-            />
+            android:layout_alignStart="@id/mainbanner"
+            android:layout_alignTop="@id/mainbanner"
+            android:layout_alignEnd="@id/mainbanner"
+            android:layout_alignBottom="@id/mainbanner"
+            android:layout_marginVertical="70dp"
+            android:layout_marginHorizontal="142dp"
+            android:foregroundGravity="center"
+            app:cardBackgroundColor="@color/purple_main"
+            app:cardElevation="0dp"
+            app:cardCornerRadius="100000dp"
+            >
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/mainbanner"
-            android:layout_alignTop="@+id/mainbanner"
-            android:layout_alignEnd="@+id/mainbanner"
-            android:layout_alignBottom="@+id/mainbanner"
-            android:src="@drawable/defaultprofilepicturesmall"
-            android:scaleType="fitCenter"
-            android:scaleX="0.25"
-            android:scaleY="0.25"
-            />
+            <ImageView
+                android:id="@+id/pfpholder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:foregroundGravity="center"
+                android:src="@drawable/defaultprofilepicturesmall"
+                android:scaleType="centerCrop"
+                />
+
+        </androidx.cardview.widget.CardView>
 
 
         <com.example.unilink.Models.BluetoothButton

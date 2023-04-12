@@ -18,7 +18,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.unilink.Activities.FeaturePage.LoadingDialogBar;
 import com.example.unilink.R;
+import com.example.unilink.Services.AccountService;
 import com.example.unilink.Services.UserService;
+import com.google.firebase.firestore.auth.User;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -33,7 +35,7 @@ public class LoginpageActivity extends AppCompatActivity {
     private CheckBox showHidePW;
     private boolean[] validatedInput;
     LoadingDialogBar loadingDialogBar;
-    private UserService userService;
+    private AccountService accountService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +44,7 @@ public class LoginpageActivity extends AppCompatActivity {
 
         ImageButton backbutton = findViewById(R.id.backbutton);
         loadingDialogBar = new LoadingDialogBar(this);
-        userService = new UserService();
+        accountService = new AccountService();
 
         backbutton.setOnClickListener(v -> {
             finish();
@@ -112,7 +114,7 @@ public class LoginpageActivity extends AppCompatActivity {
         if (validated)
             loginBtn.setOnClickListener(v -> {
                 loadingDialogBar.showDialog("Loading");
-               LoginUser();
+                LoginUser();
             });
 
         showHidePW.setOnCheckedChangeListener((compoundButton, value) -> {
@@ -127,20 +129,32 @@ public class LoginpageActivity extends AppCompatActivity {
     }
 
     private void LoginUser() {
-            userService.Login(loadingDialogBar,
+        try {
+            accountService.Login(loadingDialogBar,
                     email.getText().toString(),
                     password.getText().toString(),
                     authenticatedUser -> {
-                        Log.d(TAG, "[UserService] Successful User Login for " + authenticatedUser);
+                        loadingDialogBar.hideDialog();
                         if (authenticatedUser != null) {
-                            loadingDialogBar.hideDialog();
-                            Intent i = new Intent(this, HomescreenActivity.class);
-                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            i.putExtra("AuthenticatedUser", (Parcelable) authenticatedUser);
-                            this.startActivity(i);
-                            this.finish();
+                            Log.d(TAG, "[AccountService] Successful User Login for " + authenticatedUser);
+                            UserService userService = new UserService();
+                            userService.getUserByUid(authenticatedUser.getUid(), finalUser->{
+                                if (finalUser != null){
+                                    Log.d(TAG, "[UserService] Successful User Information Retrieval for " + finalUser.getUserID());
+                                    Intent i = new Intent(this, HomescreenActivity.class);
+                                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    i.putExtra("AuthenticatedUser", (Parcelable) authenticatedUser);
+                                    i.putExtra("CreatedUser", finalUser);
+                                    this.startActivity(i);
+                                    this.finish();
+                                }
+                            });
                         }
                     });
+        } catch (AccountService.UserException e) {
+            Log.e(TAG, "Account Login Error: " + e.getMessage());
+            Toast.makeText(this, "Login Failed: " + e.getCause() + "\n Please try again.", Toast.LENGTH_SHORT).show();
+        }
 
     }
 

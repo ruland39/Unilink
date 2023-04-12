@@ -1,15 +1,31 @@
 package com.example.unilink.Fragments.Registration;
 
+
+import static android.os.Build.VERSION_CODES.N;
+
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
+import android.widget.EditText;
 
+import com.example.unilink.Models.UnilinkAccount;
 import com.example.unilink.R;
+import com.google.android.material.datepicker.CalendarConstraints;
+import com.google.android.material.datepicker.DateValidatorPointBackward;
 import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
+
+import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
+
+import java.util.Calendar;
+import java.util.TimeZone;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -18,15 +34,9 @@ import com.google.android.material.datepicker.MaterialDatePicker;
  */
 public class addBirthdayFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
+    private static final String TAG = "AddBirthdayFragment";
+    private UnilinkAccount uAcc;
+    ProfileSetupListener listener;
     public addBirthdayFragment() {
         // Required empty public constructor
     }
@@ -35,26 +45,32 @@ public class addBirthdayFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment addBirthdayFragment.
      */
-    // TODO: Rename and change types and number of parameters
-    public static addBirthdayFragment newInstance(String param1, String param2) {
+    public static addBirthdayFragment newInstance(UnilinkAccount uAcc) {
         addBirthdayFragment fragment = new addBirthdayFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putParcelable("Account", uAcc);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+
+    public void onAttach(@NonNull Context ctx){
+        super.onAttach(ctx);
+        try {
+            listener = (ProfileSetupListener) ctx;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(ctx.toString() + " must implement ProfileSetupListener");
+        }
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            uAcc = getArguments().getParcelable("Account");
         }
     }
 
@@ -63,21 +79,26 @@ public class addBirthdayFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add_birthday, container, false);
+        EditText dateText = view.findViewById(R.id.birthdayedittext);
+        dateText.setOnClickListener(v->{
+            CalendarConstraints.Builder calConst = new CalendarConstraints.Builder()
+                    .setValidator(DateValidatorPointBackward.now());
 
-        pickDate();
+            MaterialDatePicker dp = MaterialDatePicker.Builder.datePicker()
+                    .setTitleText("Choose your birthday!")
+                    .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+                    .setCalendarConstraints(calConst.build())
+                    .build();
 
+            dp.addOnPositiveButtonClickListener(selection -> {
+                Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+                cal.setTimeInMillis((Long) selection);
+                dateText.setText(cal.get(Calendar.DAY_OF_MONTH) + "/" + (cal.get(Calendar.MONTH)+1) + "/" + cal.get(Calendar.YEAR));
+                listener.AddedBirthdate(cal.getTime());
+            });
+            dp.show(getParentFragmentManager(),"BIRTHDAY_PICKER");
 
-
-
-
-
+        });
         return view;
     }
-
-    public void pickDate(){
-        MaterialDatePicker.Builder.datePicker().setTitleText("Select date of birth").build().show(getActivity().getSupportFragmentManager(), "DATE_PICKER");
-    }
-
-    // Set Birthday to Database
-
 }

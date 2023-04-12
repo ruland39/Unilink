@@ -1,6 +1,5 @@
 package com.example.unilink.Activities;
 
-import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -9,6 +8,7 @@ import android.os.Handler;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
@@ -16,8 +16,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import com.example.unilink.Activities.FeaturePage.FeaturePageActivity;
-import com.example.unilink.Models.UnilinkUser;
 import com.example.unilink.R;
+import com.example.unilink.Services.AccountService;
 import com.example.unilink.Services.UserService;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -54,17 +54,23 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         new Handler().postDelayed(()->{
             OneSignal.promptForPushNotifications();
+            AccountService accountService = new AccountService();
             UserService userService = new UserService();
             // in session
-            if (userService.isInSession()) {
+            if (accountService.isInSession()) {
                 Log.d(TAG, "User session found!");
-                userService.getUserInfoByAuthId(userService.getCurrentUserSessionID(), user -> {
-                    Log.d(TAG, "Retrieved current inSession User: " + user);
-                    if (user != null) {
-                        Intent i = new Intent(MainActivity.this, HomescreenActivity.class);
-                        i.putExtra("AuthenticatedUser", (Parcelable) user);
-                        startActivity(i);
-                        finish();
+                accountService.getAccountByAuthID(accountService.getCurrentUserSessionID(), uAcc -> {
+                    Log.d(TAG, "Retrieved current inSession User: " + uAcc);
+                    if (uAcc != null) {
+                        userService.getUserByUid(uAcc.getUid(), uUser -> {
+                            if (uUser != null) {
+                                Intent i = new Intent(MainActivity.this, HomescreenActivity.class);
+                                i.putExtra("AuthenticatedUser", (Parcelable) uAcc);
+                                i.putExtra("CreatedUser", uUser);
+                                startActivity(i);
+                                finish();
+                            }
+                        });
                     } else {
                         Toast.makeText(this,
                                 "No User Information Found but is in session! Contact Developer!",
@@ -72,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
                         finish();
                     }
                 });
+
             } else {
                 Log.d(TAG, "User session not found!");
                 // Get Boolean on first start
