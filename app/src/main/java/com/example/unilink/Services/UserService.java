@@ -147,7 +147,7 @@ public class UserService extends AppGlideModule {
         user_info.put("user_categories", categoryMap);
         Map<String, String> interestMap = new HashMap<>();
         for (Interest interest : uUser.getChosenInterests()) {
-            interestMap.put(interest.getCategory().getName().toString(), interest.getName());
+            interestMap.put(interest.getName(),interest.getCategory().getName().toString());
         }
         user_info.put("user_interests", interestMap);
         user_info.put("user_timeCreated", UnilinkUser.format.format(uUser.getTimeCreated()));
@@ -188,7 +188,7 @@ public class UserService extends AppGlideModule {
                     Map<String, String> interestList = (Map<String, String>) task.get("user_interests");
                     assert interestList != null;
                     for (Map.Entry<String, String> iL : interestList.entrySet()){
-                        uUser.addChosenInterest(new Interest(iL.getValue(), new Category(0, Category.CategoryName.valueOf(iL.getKey()))));
+                        uUser.addChosenInterest(new Interest(iL.getKey(), new Category(0, Category.CategoryName.valueOf(iL.getValue()))));
                     }
                     for (Category c : uUser.getCategories()){
                         assert categoryList != null;
