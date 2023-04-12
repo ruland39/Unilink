@@ -95,6 +95,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/pop"
                             android:checkable="true"
+                            app:chipStrokeColor="@color/purple_main"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -111,6 +112,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/rock"
                             android:checkable="true"
+                            app:chipStrokeColor="@color/purple_main"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -119,6 +121,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/jazz"
                             android:checkable="true"
+                            app:chipStrokeColor="@color/purple_main"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -127,6 +130,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/classical"
                             android:checkable="true"
+                            app:chipStrokeColor="@color/purple_main"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -135,6 +139,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/country"
                             android:checkable="true"
+                            app:chipStrokeColor="@color/purple_main"
                             />
 
                     </com.google.android.material.chip.ChipGroup>
@@ -172,6 +177,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/action"
                             android:checkable="true"
+                            app:chipStrokeColor="@color/purple_main"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -180,6 +186,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/romance"
                             android:checkable="true"
+                            app:chipStrokeColor="@color/purple_main"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -188,6 +195,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/comedy"
                             android:checkable="true"
+                            app:chipStrokeColor="@color/purple_main"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -196,6 +204,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/horror"
                             android:checkable="true"
+                            app:chipStrokeColor="@color/purple_main"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -204,6 +213,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/thriller"
                             android:checkable="true"
+                            app:chipStrokeColor="@color/purple_main"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -212,6 +222,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/drama"
                             android:checkable="true"
+                            app:chipStrokeColor="@color/purple_main"
                             />
                         <com.google.android.material.chip.Chip
                             android:id="@+id/moviessciencefiction"
@@ -219,6 +230,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/sciencefiction"
                             android:checkable="true"
+                            app:chipStrokeColor="@color/purple_main"
                             />
 
                     </com.google.android.material.chip.ChipGroup>
@@ -258,6 +270,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/soccer"
                             android:checkable="true"
+                            app:chipStrokeColor="@color/purple_main"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -266,6 +279,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/basketball"
                             android:checkable="true"
+                            app:chipStrokeColor="@color/purple_main"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -274,6 +288,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/badminton"
                             android:checkable="true"
+                            app:chipStrokeColor="@color/purple_main"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -282,6 +297,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/tennis"
                             android:checkable="true"
+                            app:chipStrokeColor="@color/purple_main"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -290,6 +306,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/volleyball"
                             android:checkable="true"
+                            app:chipStrokeColor="@color/purple_main"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -298,6 +315,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/swimming"
                             android:checkable="true"
+                            app:chipStrokeColor="@color/purple_main"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -306,6 +324,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/running"
                             android:checkable="true"
+                            app:chipStrokeColor="@color/purple_main"
                             />
 
                     </com.google.android.material.chip.ChipGroup>
@@ -348,6 +367,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/italian"
                             android:checkable="true"
+                            app:chipStrokeColor="@color/purple_main"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -356,6 +376,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/chinese"
                             android:checkable="true"
+                            app:chipStrokeColor="@color/purple_main"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -364,6 +385,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/mexican"
                             android:checkable="true"
+                            app:chipStrokeColor="@color/purple_main"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -372,6 +394,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/japanese"
                             android:checkable="true"
+                            app:chipStrokeColor="@color/purple_main"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -380,6 +403,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/vegan"
                             android:checkable="true"
+                            app:chipStrokeColor="@color/purple_main"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -388,6 +412,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/fastfood"
                             android:checkable="true"
+                            app:chipStrokeColor="@color/purple_main"
                             />
 
                     </com.google.android.material.chip.ChipGroup>
@@ -446,6 +471,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/romance"
                             android:checkable="true"
+                            app:chipStrokeColor="@color/purple_main"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -454,6 +480,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/mystery"
                             android:checkable="true"
+                            app:chipStrokeColor="@color/purple_main"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -462,6 +489,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/thriller"
                             android:checkable="true"
+                            app:chipStrokeColor="@color/purple_main"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -470,6 +498,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/sciencefiction"
                             android:checkable="true"
+                            app:chipStrokeColor="@color/purple_main"
                             />
 
                     </com.google.android.material.chip.ChipGroup>
@@ -512,6 +541,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/console"
                             android:checkable="true"
+                            app:chipStrokeColor="@color/purple_main"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -520,6 +550,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/pc"
                             android:checkable="true"
+                            app:chipStrokeColor="@color/purple_main"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -528,6 +559,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/mobile"
                             android:checkable="true"
+                            app:chipStrokeColor="@color/purple_main"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -536,6 +568,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/fps"
                             android:checkable="true"
+                            app:chipStrokeColor="@color/purple_main"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -544,6 +577,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/strategy"
                             android:checkable="true"
+                            app:chipStrokeColor="@color/purple_main"
                             />
 
                         <com.google.android.material.chip.Chip
@@ -552,6 +586,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/sports"
                             android:checkable="true"
+                            app:chipStrokeColor="@color/purple_main"
                             />
 
                     </com.google.android.material.chip.ChipGroup>
