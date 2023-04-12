@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,7 +52,7 @@ import pl.bclogic.pulsator4droid.library.PulsatorLayout;
  * Use the {@link HomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeFragment extends Fragment{
+public class HomeFragment extends Fragment {
     private AccountService accountService;
     private UserService userService;
     private ProfileRowAdapter mAdapter;
@@ -299,4 +300,6 @@ public class HomeFragment extends Fragment{
         }
     }
     //endregion
+
+
 }

@@ -33,6 +33,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.widget.ImageButton;
 import android.util.Log;
 import android.Manifest;
@@ -43,7 +45,7 @@ import com.example.unilink.Dialogs.BluetoothHomeScreenDialog;
 import com.onesignal.OneSignal;
 
 public class HomescreenActivity extends AppCompatActivity
-        implements BluetoothHomeScreenDialog.BtHomeScreenDialogListener {
+        implements BluetoothHomeScreenDialog.BtHomeScreenDialogListener, GestureDetector.OnGestureListener {
 
     private static final String TAG = "HomescreenActivity";
     private UnilinkAccount currentUAcc;
@@ -57,6 +59,11 @@ public class HomescreenActivity extends AppCompatActivity
     DrawerLayout drawNavView;
     ImageButton navDrawerBtn;
     NavigationView navigationView;
+
+    private GestureDetector mDetector;
+    private static final int MIN_DISTANCE = 150;
+    private float x1=0;
+    private float x2=0;
 
     HomeFragment homeFragment = new HomeFragment();
     ChatFragment chatFragment = new ChatFragment();
@@ -91,6 +98,7 @@ public class HomescreenActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.mDetector = new GestureDetector(this, this);
         accountService = new AccountService();
 
         // Saved Instance state of activity to retrieve data
@@ -303,6 +311,58 @@ public class HomescreenActivity extends AppCompatActivity
     @Override
     public void onDialogNegativeClick(DialogFragment dialog) {
         finishAndRemoveTask();
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        mDetector.onTouchEvent(event);
+        switch (event.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                Log.d(TAG, "Action Down");
+                x1 = event.getX();
+                break;
+            case MotionEvent.ACTION_UP:
+                x2 = event.getX();
+                float valueX = x2 - x1;
+                if (Math.abs(valueX) > MIN_DISTANCE) {
+                    Log.d(TAG, "Action Up");
+                    if (x2 > x1)
+                        if (!drawNavView.isDrawerOpen(GravityCompat.START))
+                            drawNavView.openDrawer(GravityCompat.START);
+                }
+                break;
+        }
+        return super.dispatchTouchEvent(event);
+    }
+
+    @Override
+    public boolean onDown(@NonNull MotionEvent motionEvent) {
+        return false;
+    }
+
+    @Override
+    public void onShowPress(@NonNull MotionEvent motionEvent) {
+
+    }
+
+    @Override
+    public boolean onSingleTapUp(@NonNull MotionEvent motionEvent) {
+        return false;
+    }
+
+    @Override
+    public boolean onScroll(@NonNull MotionEvent motionEvent, @NonNull MotionEvent motionEvent1, float v, float v1) {
+        return false;
+    }
+
+    @Override
+    public void onLongPress(@NonNull MotionEvent motionEvent) {
+
+    }
+
+    @Override
+    public boolean onFling(@NonNull MotionEvent motionEvent, @NonNull MotionEvent motionEvent1, float v, float v1) {
+        return false;
     }
 
 }
