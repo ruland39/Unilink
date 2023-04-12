@@ -69,6 +69,14 @@ public class UnilinkUser implements Parcelable {
     public void setTimeCreated(LocalDateTime timeCreated) {this.timeCreated = timeCreated;}
     public void setConnectedUIDs(List<String> uids) {this.connectedUIDs = uids;}
 
+    public void setCategoryLevel(Category.CategoryName catName, Long newLevel){
+        for (Category c:categories){
+            if (c.getName() == catName) {
+                c.setPriorityLevel(newLevel.intValue());
+                return;
+            }
+        }
+    }
 
     public void addChosenInterest(Interest interest) {
         for (Category category : categories) {

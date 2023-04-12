@@ -123,6 +123,25 @@ public class ProfileSetupActivity extends AppCompatActivity implements ProfileSe
     public void onStart() {
         super.onStart();
     }
+
+    @Override
+    public void onBackPressed(){
+        // Create a dialog to let user know registration cancellation
+        new AlertDialog.Builder(this)
+                .setMessage("Would you like to cancel account registration?")
+                .setCancelable(true)
+                .setPositiveButton("Yes", (dialogInterface, i) -> {
+                    accountService.deleteAccount(uAcc.getAuthId());
+                    dialogInterface.cancel();
+                    finish();
+                })
+                .setNegativeButton("No", (dialog, i) -> {
+                    dialog.cancel();
+                })
+                .create()
+                .show();
+    }
+
     public void openHomeScreen() {
         Intent i = new Intent(this, HomescreenActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

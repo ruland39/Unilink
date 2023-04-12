@@ -47,13 +47,10 @@ public class ProfileRowAdapter extends RecyclerView.Adapter<ProfileRowAdapter.Vi
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.profile_row, parent, false);
-
         handWaveAnimation = AnimationUtils.loadAnimation(parent.getContext(), R.anim.hand_wave);
-
         return new ViewHolder(v);
     }
 
-    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         if (mDataset.isEmpty())

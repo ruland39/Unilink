@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import com.example.unilink.Activities.FeaturePage.FeaturePageActivity;
 import com.example.unilink.R;
 import com.example.unilink.Services.AccountService;
+import com.example.unilink.Services.UserService;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -53,16 +54,22 @@ public class MainActivity extends AppCompatActivity {
         new Handler().postDelayed(()->{
             OneSignal.promptForPushNotifications();
             AccountService accountService = new AccountService();
+            UserService userService = new UserService();
             // in session
             if (accountService.isInSession()) {
                 Log.d(TAG, "User session found!");
-                accountService.getAccountByAuthID(accountService.getCurrentUserSessionID(), user -> {
-                    Log.d(TAG, "Retrieved current inSession User: " + user);
-                    if (user != null) {
-                        Intent i = new Intent(MainActivity.this, HomescreenActivity.class);
-                        i.putExtra("AuthenticatedUser", (Parcelable) user);
-                        startActivity(i);
-                        finish();
+                accountService.getAccountByAuthID(accountService.getCurrentUserSessionID(), uAcc -> {
+                    Log.d(TAG, "Retrieved current inSession User: " + uAcc);
+                    if (uAcc != null) {
+                        userService.getUserByUid(uAcc.getUid(), uUser -> {
+                            if (uUser != null) {
+                                Intent i = new Intent(MainActivity.this, HomescreenActivity.class);
+                                i.putExtra("AuthenticatedUser", (Parcelable) uAcc);
+                                i.putExtra("CreatedUser", uUser);
+                                startActivity(i);
+                                finish();
+                            }
+                        });
                     } else {
                         Toast.makeText(this,
                                 "No User Information Found but is in session! Contact Developer!",
@@ -70,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
                         finish();
                     }
                 });
+
             } else {
                 Log.d(TAG, "User session not found!");
                 // Get Boolean on first start

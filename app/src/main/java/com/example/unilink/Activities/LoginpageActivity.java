@@ -19,6 +19,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.unilink.Activities.FeaturePage.LoadingDialogBar;
 import com.example.unilink.R;
 import com.example.unilink.Services.AccountService;
+import com.example.unilink.Services.UserService;
+import com.google.firebase.firestore.auth.User;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -135,11 +137,18 @@ public class LoginpageActivity extends AppCompatActivity {
                         loadingDialogBar.hideDialog();
                         if (authenticatedUser != null) {
                             Log.d(TAG, "[AccountService] Successful User Login for " + authenticatedUser);
-                            Intent i = new Intent(this, HomescreenActivity.class);
-                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            i.putExtra("AuthenticatedUser", (Parcelable) authenticatedUser);
-                            this.startActivity(i);
-                            this.finish();
+                            UserService userService = new UserService();
+                            userService.getUserByUid(authenticatedUser.getUid(), finalUser->{
+                                if (finalUser != null){
+                                    Log.d(TAG, "[UserService] Successful User Information Retrieval for " + finalUser.getUserID());
+                                    Intent i = new Intent(this, HomescreenActivity.class);
+                                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    i.putExtra("AuthenticatedUser", (Parcelable) authenticatedUser);
+                                    i.putExtra("CreatedUser", finalUser);
+                                    this.startActivity(i);
+                                    this.finish();
+                                }
+                            });
                         }
                     });
         } catch (AccountService.UserException e) {
