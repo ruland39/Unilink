@@ -35,6 +35,9 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
 import java.net.URI;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -118,6 +121,11 @@ public class ProfileFragment extends Fragment {
             iChip.setChipBackgroundColorResource(R.color.light_purple);
             interestChips.addView(iChip);
         }
+
+        // Set birthdate
+        final TextView dateView = view.findViewById(R.id.birthdaytextview);
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        dateView.setText(df.format(uUser.getBirthdate()));
         return view;
     }
 
