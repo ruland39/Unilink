@@ -117,45 +117,47 @@
         >
 
         <com.google.android.material.chip.ChipGroup
+            android:id="@+id/profileinterests"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:chipSpacingHorizontal="8dp"
             app:selectionRequired="false"
+            app:singleLine="true"
             >
 
-            <com.google.android.material.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/soccer"
-                app:chipBackgroundColor="@color/light_purple"
-                />
+<!--            <com.google.android.material.chip.Chip-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@string/soccer"-->
+<!--                app:chipBackgroundColor="@color/light_purple"-->
+<!--                />-->
 
-            <com.google.android.material.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/basketball"
-                app:chipBackgroundColor="@color/light_purple"
-                />
-            <com.google.android.material.chip.Chip
+<!--            <com.google.android.material.chip.Chip-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@string/basketball"-->
+<!--                app:chipBackgroundColor="@color/light_purple"-->
+<!--                />-->
+<!--            <com.google.android.material.chip.Chip-->
 
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/console"
-                app:chipBackgroundColor="@color/light_purple"
-                />
-            <com.google.android.material.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/fiction"
-                app:chipBackgroundColor="@color/light_purple"
-                />
-            <com.google.android.material.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/pop"
-                android:layout_marginRight="8dp"
-                app:chipBackgroundColor="@color/light_purple"
-                />
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@string/console"-->
+<!--                app:chipBackgroundColor="@color/light_purple"-->
+<!--                />-->
+<!--            <com.google.android.material.chip.Chip-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@string/fiction"-->
+<!--                app:chipBackgroundColor="@color/light_purple"-->
+<!--                />-->
+<!--            <com.google.android.material.chip.Chip-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@string/pop"-->
+<!--                android:layout_marginRight="8dp"-->
+<!--                app:chipBackgroundColor="@color/light_purple"-->
+<!--                />-->
 
         </com.google.android.material.chip.ChipGroup>
 

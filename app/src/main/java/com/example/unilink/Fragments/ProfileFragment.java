@@ -26,10 +26,13 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.unilink.Models.Interests.Interest;
 import com.example.unilink.Models.UnilinkAccount;
 import com.example.unilink.Models.UnilinkUser;
 import com.example.unilink.R;
 import com.example.unilink.Services.UserService;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 
 import java.net.URI;
 
@@ -107,6 +110,14 @@ public class ProfileFragment extends Fragment {
         String text = uUser.getConnectedUIDs().size() + " Connections";
         connectionNumTV.setText(text);
 
+        // Update interest list within the information
+        final ChipGroup interestChips = view.findViewById(R.id.profileinterests);
+        for (Interest i : uUser.getChosenInterests()){
+            Chip iChip = new Chip(requireContext());
+            iChip.setText(i.getName());
+            iChip.setChipBackgroundColorResource(R.color.light_purple);
+            interestChips.addView(iChip);
+        }
         return view;
     }
 
