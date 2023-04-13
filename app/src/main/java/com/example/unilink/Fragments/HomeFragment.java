@@ -7,19 +7,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-
-import androidx.annotation.RequiresPermission;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.annotation.RequiresPermission;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.unilink.Models.BluetoothButton;
 import com.example.unilink.Models.UnilinkAccount;
@@ -35,7 +33,6 @@ import org.altbeacon.beacon.BeaconManager;
 import org.altbeacon.beacon.BeaconParser;
 import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
-import org.checkerframework.checker.units.qual.A;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -119,12 +116,15 @@ public class HomeFragment extends Fragment {
                             if (foundUser == null)
                                 return;
                             usersInRange.put(uid.toString(), foundUser);
-                            requireActivity().runOnUiThread(()->{
-                                disableShimmer();
-                                mAdapter.addUser(foundUser, 0);
-                            });
+                            if (isAdded()) { // check if fragment is added to an activity
+                                requireActivity().runOnUiThread(()->{
+                                    disableShimmer();
+                                    mAdapter.addUser(foundUser, 0);
+                                });
+                            }
                         });
-                    } else {
+                    }
+                    else {
                         Log.d(TAG, "Existing unilink user found: " + uid);
                     }
                 }
