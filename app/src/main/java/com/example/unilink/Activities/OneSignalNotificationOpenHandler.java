@@ -38,15 +38,11 @@ public class OneSignalNotificationOpenHandler extends Application implements One
             OneSignal.removeNotification(notificationId);
 
         if (result.getAction().getActionId().equals("waveBackBtn")) {
-            Intent intent = new Intent(context, othersProfileActivity.class);
+            Intent intent = new Intent(context, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(intent);
-            Toast.makeText(context, senderUID, Toast.LENGTH_SHORT).show();
-            Toast.makeText(context, currentUID, Toast.LENGTH_SHORT).show();
-
-        } else if(result.getAction().getActionId().equals("ignoreBtn")) {
-            Intent intent = new Intent(context, HomescreenActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setAction("OPEN_WAVER_PROFILE_APPLICATION");
+            intent.putExtra("SENDER_USERID", senderUID);
+            intent.putExtra("RECEIVER_USERID", currentUID);
             context.startActivity(intent);
         }
     }

@@ -67,6 +67,11 @@ public class MainActivity extends AppCompatActivity {
                                 Intent i = new Intent(MainActivity.this, HomescreenActivity.class);
                                 i.putExtra("AuthenticatedUser", (Parcelable) uAcc);
                                 i.putExtra("CreatedUser", uUser);
+                                if (getIntent().getAction() != null)
+                                    if (getIntent().getAction().equals("OPEN_WAVER_PROFILE_APPLICATION")){
+                                        i.setAction("OPEN_WAVER_PROFILE");
+                                        i.putExtra("SENDER_USERID", getIntent().getStringExtra("SENDER_USERID"));
+                                    }
                                 startActivity(i);
                                 finish();
                             }

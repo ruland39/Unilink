@@ -23,6 +23,7 @@ import com.example.unilink.Fragments.ProfileFragment;
 import com.example.unilink.Models.UnilinkUser;
 import com.example.unilink.R;
 import com.example.unilink.Services.AccountService;
+import com.example.unilink.Services.UserService;
 import com.example.unilink.databinding.ActivityMainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -32,6 +33,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.provider.Settings;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -51,6 +53,7 @@ public class HomescreenActivity extends AppCompatActivity
     private UnilinkAccount currentUAcc;
     private UnilinkUser currentUUser;
     private AccountService accountService;
+    private UserService userService;
 
     ActivityMainBinding binding;
     BottomNavigationView bottomNavigationView;
@@ -91,6 +94,21 @@ public class HomescreenActivity extends AppCompatActivity
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frame_layout, homeFragment, "HOME_FRAGMENT")
                 .commitNow();
+
+        if (getIntent().getAction() != null)
+            if (getIntent().getAction().equals("OPEN_WAVER_PROFILE")){
+                String sender_uid = getIntent().getStringExtra("SENDER_USERID");
+                accountService.getAccountByUId(sender_uid, retrievedAcc -> {
+                    userService.getUserByUid(sender_uid, retrievedUser -> {
+                        Intent i = new Intent(this, OthersProfileActivity.class);
+                        i.putExtra("Account", (Parcelable) retrievedAcc);
+                        i.putExtra("User", retrievedUser);
+                        startActivity(i);
+                    });
+                });
+                // Starting the Others Profile Activity
+
+            }
     }
 
     @SuppressLint("MissingInflatedId")
@@ -100,6 +118,7 @@ public class HomescreenActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         this.mDetector = new GestureDetector(this, this);
         accountService = new AccountService();
+        userService = new UserService();
 
         // Saved Instance state of activity to retrieve data
         if (savedInstanceState != null) {
