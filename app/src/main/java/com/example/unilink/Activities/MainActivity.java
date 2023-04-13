@@ -1,8 +1,11 @@
 package com.example.unilink.Activities;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
@@ -28,6 +31,7 @@ import com.onesignal.OneSignal;
 
 public class MainActivity extends AppCompatActivity {
     private final static String TAG = "MainActivity";
+    private final static String WAVE_NOTIFCHANNEL_ID = "69420";
     // onCreate refers to a method that fires when the app is *created*
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +102,16 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
                 finish();
             }
+
+            // Creating the notification channel for friend requests
+            CharSequence name = getString(R.string.wave_notification_channel);
+            String description = getString(R.string.wave_notification_channel_desc);
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel channel = new NotificationChannel(WAVE_NOTIFCHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+
         }, 1500);
     }
 

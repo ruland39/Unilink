@@ -159,6 +159,8 @@
     <string name="ignore">Ignore</string>
     <string name="ddmmmyyyy">DD/MM/YYYY</string>
     <string name="letssetupyourprofile">Let\'s Setup your Profile</string>
+    <string name="wave_notification_channel">WaveNotificationChannel</string>
+    <string name="wave_notification_channel_desc">General Notification Channel for Wave Requests</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
