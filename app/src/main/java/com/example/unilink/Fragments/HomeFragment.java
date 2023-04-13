@@ -7,19 +7,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-
-import androidx.annotation.RequiresPermission;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.annotation.RequiresPermission;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.unilink.Models.BluetoothButton;
 import com.example.unilink.Models.UnilinkAccount;
@@ -35,9 +33,9 @@ import org.altbeacon.beacon.BeaconManager;
 import org.altbeacon.beacon.BeaconParser;
 import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
-import org.checkerframework.checker.units.qual.A;
 
 import java.nio.ByteBuffer;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -64,7 +62,7 @@ public class HomeFragment extends Fragment {
     private final Region wildcardRegion = new Region("wildcardRegion",
             null,null,null);
     private BeaconManager beaconManager = null;
-    private static Map<String, UnilinkAccount> usersInRange = new HashMap<>();
+    private static Map<String, Map.Entry<UnilinkAccount, UnilinkUser>> usersInRange = new HashMap<>();
     private static final String TAG = "HomeFragment";
     private View _rootView;
 
@@ -115,16 +113,23 @@ public class HomeFragment extends Fragment {
                     if (!usersInRange.containsKey(uid.toString())){
                         // User is not in the known list (new)
                         Log.d(TAG, "New unilink user found: " + uid);
-                        accountService.getAccountByUId(uid.toString(), foundUser -> {
-                            if (foundUser == null)
+                        accountService.getAccountByUId(uid.toString(), foundAcc -> {
+                            if (foundAcc == null)
                                 return;
-                            usersInRange.put(uid.toString(), foundUser);
-                            requireActivity().runOnUiThread(()->{
-                                disableShimmer();
-                                mAdapter.addUser(foundUser, 0);
+                            userService.getUserByUid(uid.toString(), foundUser -> {
+                                if (foundUser == null)
+                                    return;
+                                usersInRange.put(uid.toString(), new AbstractMap.SimpleEntry<>(foundAcc, foundUser));
+                                if (isAdded()) { // check if fragment is added to an activity
+                                    requireActivity().runOnUiThread(()->{
+                                        disableShimmer();
+                                        mAdapter.addUser(foundAcc,foundUser, 0);
+                                    });
+                                }
                             });
                         });
-                    } else {
+                    }
+                    else {
                         Log.d(TAG, "Existing unilink user found: " + uid);
                     }
                 }
@@ -149,7 +154,10 @@ public class HomeFragment extends Fragment {
                 }
 
                 for (String userId : usersToRemove) {
-                    requireActivity().runOnUiThread(()->mAdapter.removeUser(usersInRange.get(userId)));
+                    requireActivity().runOnUiThread(()->{
+                        Map.Entry<UnilinkAccount, UnilinkUser> user = usersInRange.get(userId);
+                        mAdapter.removeUser(user.getKey(),user.getValue());
+                    });
                     usersInRange.remove(userId);
                     Log.d(TAG, "Unilink User no longer in range! Removed Address: " + userId);
                 }

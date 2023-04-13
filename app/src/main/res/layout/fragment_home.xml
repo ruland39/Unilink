@@ -57,7 +57,6 @@
             android:src="@drawable/bannercontainer"
             android:contentDescription="@string/home" />
 
-
         <pl.bclogic.pulsator4droid.library.PulsatorLayout
             android:id="@+id/pulsator"
             android:layout_width="match_parent"
@@ -86,14 +85,15 @@
             android:layout_marginHorizontal="142dp"
             android:foregroundGravity="center"
             app:cardBackgroundColor="@color/purple_main"
-            app:cardElevation="0dp"
-            app:cardCornerRadius="100000dp"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="50dp"
+            app:contentPadding="5dp"
             >
 
             <ImageView
                 android:id="@+id/pfpholder"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:foregroundGravity="center"
                 android:src="@drawable/defaultprofilepicturesmall"

@@ -36,16 +36,29 @@
                 android:layout_marginLeft="4dp"
             />
 
-            <ImageButton
+            <androidx.cardview.widget.CardView
                 android:id="@+id/profilepic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:background="@null"
-                android:contentDescription="@string/profile"
+                app:cardBackgroundColor="@color/light_grey"
+                app:cardCornerRadius="1000dp"
+                android:layout_marginTop="6dp"
                 android:paddingHorizontal="8dp"
                 android:paddingVertical="8dp"
-                android:src="@drawable/defaultprofilepicturesmall" />
+                app:cardElevation="0dp">
+        <ImageButton
+            android:id="@+id/profilepicbutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:contentDescription="@string/profile"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="8dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/defaultprofilepicturesmall" />
+
+        ></androidx.cardview.widget.CardView>
 
             <TextView
                 android:id="@+id/defaultusername"
@@ -143,7 +156,7 @@
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
-                        android:id="@+id/interest4card"
+                        android:id="@+id/interest3card"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:cardCornerRadius="16dp"
@@ -154,7 +167,7 @@
                         >
 
                         <TextView
-                            android:id="@+id/interest4"
+                            android:id="@+id/interest3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/interest3"
@@ -167,32 +180,6 @@
                             />
 
                     </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/interest3card"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="0dp"
-                    app:cardBackgroundColor="@color/light_purple"
-                    android:layout_marginEnd="4dp"
-                    android:layout_marginBottom="4dp"
-                    >
-
-                    <TextView
-                        android:id="@+id/interest3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/interest3"
-                        android:fontFamily="@font/nunitosemibold"
-                        android:textSize="10sp"
-                        android:textColor="@color/purple_main"
-                        android:layout_marginVertical="4dp"
-                        android:layout_marginHorizontal="8dp"
-
-                        />
-
-                </androidx.cardview.widget.CardView>
 
 
 

@@ -93,23 +93,23 @@ public class addProfileInterestFragment extends Fragment {
         checkedIdsSet.setChipSetListener(new ChipSetListener() {
             @Override
             public void onChipAdded(Chip c) {
-                if(checkedIdsSet.size() >= 5){
+                if(checkedIdsSet.size() >= 4){
                     disableNonCheckedChips();
                 }
-                if (checkedIdsSet.size() >= 3) {
+                if (checkedIdsSet.size() >= 2) {
                     listener.AddedInterest();
                 }
                 chosenInterest = new HashSet<>(parseChosenInterests(checkedIdsSet));
             }
             @Override
             public void onChipRemoved() {
-                if(checkedIdsSet.size() <= 6){
+                if(checkedIdsSet.size() <= 5){
                     enableChips();
                 }
             }
             @Override
             public void onChipsAdded(Set<Chip> c) {
-                if (checkedIdsSet.size() >= 5) {
+                if (checkedIdsSet.size() >= 4) {
                     disableNonCheckedChips();
                 }
             }
