@@ -1,6 +1,7 @@
 package com.example.unilink.Fragments;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,7 +9,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,12 +17,14 @@ import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.unilink.Activities.OthersProfileActivity;
 import com.example.unilink.Models.Interests.Interest;
 import com.example.unilink.Models.UnilinkAccount;
 import com.example.unilink.Models.UnilinkUser;
 import com.example.unilink.R;
 import com.example.unilink.Services.UserService;
 import com.example.unilink.UnilinkApplication;
+import com.example.unilink.othersProfileActivity;
 import com.onesignal.OneSignal;
 
 import org.json.JSONArray;
@@ -32,7 +35,6 @@ import java.io.IOException;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.logging.Handler;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -80,7 +82,14 @@ public class ProfileRowAdapter extends RecyclerView.Adapter<ProfileRowAdapter.Vi
                         throw new RuntimeException(e);
                     }
                 });
-
+            holder.getImageBtn().setOnClickListener(view->{
+                Log.d("RowAdapter", "Clicked on " + targetuUser.getUserID());   
+                Intent intent = new Intent(view.getContext(), OthersProfileActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("SENDER_USERID", targetuUser.getUserID());
+                intent.putExtra("RECEIVER_USERID", currentUAcc.getUid());
+                view.getContext().startActivity(intent);
+            });
             });
         }
     }
@@ -160,7 +169,7 @@ public class ProfileRowAdapter extends RecyclerView.Adapter<ProfileRowAdapter.Vi
         private final ImageButton waveBtn;
         private final TextView username;
         private final ImageButton profilePictureButton;
-
+        private final ImageView profilePicture;
         private final LinearLayoutCompat interestRow;
         private UserService userService;
 
@@ -170,6 +179,7 @@ public class ProfileRowAdapter extends RecyclerView.Adapter<ProfileRowAdapter.Vi
             waveBtn = (ImageButton) itemView.findViewById(R.id.waveorconnectbtn);
             username = (TextView) itemView.findViewById(R.id.defaultusername);
             profilePictureButton = (ImageButton) itemView.findViewById(R.id.profilepicbutton);
+            profilePicture = (ImageView) itemView.findViewById(R.id.profilepicimg);
             interestRow = (LinearLayoutCompat) itemView.findViewById(R.id.interestlinearlayout);
 
             userService = new UserService();
@@ -179,9 +189,10 @@ public class ProfileRowAdapter extends RecyclerView.Adapter<ProfileRowAdapter.Vi
             return (TextView) username;
         }
         public ImageButton getWaveBtn(){return (ImageButton) waveBtn;}
+        public ImageButton getImageBtn(){return (ImageButton) profilePictureButton;}
 
         public void setUserInfo(UnilinkUser targetuUser) {
-            userService.setImage2View(itemView.getContext(), profilePictureButton, targetuUser.getPfpURL());
+            userService.setImage2View(itemView.getContext(), profilePicture, targetuUser.getPfpURL());
 
             Interest[] interests = new Interest[targetuUser.getTop3HighestInterest().size()];
             targetuUser.getTop3HighestInterest().toArray(interests);

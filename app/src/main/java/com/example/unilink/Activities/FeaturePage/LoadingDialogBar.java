@@ -23,6 +23,7 @@ public class LoadingDialogBar {
 
         TextView loadingTextView = dialog.findViewById(R.id.loading_textview);
         loadingTextView.setText(title);
+        dialog.setCancelable(false);
         dialog.create();
         dialog.show();
 
