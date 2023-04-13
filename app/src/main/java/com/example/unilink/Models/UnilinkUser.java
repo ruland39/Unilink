@@ -125,12 +125,6 @@ public class UnilinkUser implements Parcelable {
         dest.writeString(this.bio);
         dest.writeString(this.pfpURL);
         dest.writeString(this.pfbURL);
-//        dest.writeList(Arrays.asList(this.categories.toArray()));
-        // To send the interest list to the parcel; we send out as a list of interests
-//        List<Interest> parcel_interests = new ArrayList<>();
-//        for (Category c : this.categories){
-//            parcel_interests.addAll(c.getInterests().values());
-//        }
         dest.writeList(getChosenInterests());
         dest.writeStringList(this.connectedUIDs);
         dest.writeString(format.format(this.timeCreated));

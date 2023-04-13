@@ -194,13 +194,20 @@ public class HomescreenActivity extends AppCompatActivity
     @Override
     public void onResume() {
         super.onResume();
+        Fragment home_frag = getSupportFragmentManager().findFragmentByTag("HOME_FRAGMENT");
+        if (home_frag != null) {
+            Log.d(TAG, "Home Fragment detached, attaching it once more");
+            getSupportFragmentManager().beginTransaction()
+                    .attach(home_frag)
+                    .commit();
+        }
+
         if (checkSelfPermission(Manifest.permission.BLUETOOTH_ADVERTISE) == PackageManager.PERMISSION_GRANTED){
             System.out.println("Transmission started");
             startBeaconTransmission();
         } else {
             startBeaconTransmission();
             System.out.println("Transmission Failed; Bluetooth Ad not allowed");
-//            requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, 2);
         }
     }
 
@@ -267,6 +274,9 @@ public class HomescreenActivity extends AppCompatActivity
             System.out.println("Requesting permissions");
             // Request permissions
             requestPermissions(perms, 1);
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU){
+                requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, 2);
+            }
         }
         return granted;
     }
