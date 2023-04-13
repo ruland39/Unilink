@@ -61,7 +61,7 @@ public class HomescreenActivity extends AppCompatActivity
     NavigationView navigationView;
 
     private GestureDetector mDetector;
-    private static final int MIN_DISTANCE = 150;
+    private static final int MIN_DISTANCE = 200;
     private float x1=0;
     private float x2=0;
 
