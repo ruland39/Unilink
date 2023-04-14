@@ -74,6 +74,21 @@
             app:pulse_repeat="0"
             app:pulse_startFromScratch="true" />
 
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignStart="@+id/mainbanner"
+            android:layout_alignTop="@+id/mainbanner"
+            android:layout_alignEnd="@+id/mainbanner"
+            android:layout_alignBottom="@+id/mainbanner"
+            android:src="@drawable/border"
+            android:tint="@color/purple_main"
+            android:scaleType="fitCenter"
+            android:scaleX="0.32"
+            android:scaleY="0.32"
+            android:visibility="visible"
+            />
+
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -84,10 +99,9 @@
             android:layout_marginVertical="70dp"
             android:layout_marginHorizontal="142dp"
             android:foregroundGravity="center"
-            app:cardBackgroundColor="@color/purple_main"
-            app:cardElevation="4dp"
-            app:cardCornerRadius="50dp"
-            app:contentPadding="5dp"
+            app:cardBackgroundColor="@null"
+            app:cardElevation="0dp"
+            app:cardCornerRadius="1000dp"
             >
 
             <ImageView

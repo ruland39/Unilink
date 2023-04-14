@@ -32,44 +32,49 @@
                 android:src="@drawable/border"
                 android:tint="@color/light_grey"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="20dp"
-                android:layout_marginLeft="4dp"
+                android:visibility="visible"
             />
-
-            <ImageButton
-                android:id="@+id/profilepicbutton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_alignTop="@id/profilepic"
-                android:layout_alignBottom="@id/profilepic"
-                android:layout_alignRight="@id/profilepic"
-                android:layout_alignLeft="@id/profilepic"
-                android:background="@null"/>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/profilepic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="@color/light_grey"
+                app:cardBackgroundColor="@color/purple_main"
                 app:cardCornerRadius="1000dp"
-                android:layout_marginTop="6dp"
-                android:paddingHorizontal="8dp"
-                android:paddingVertical="8dp"
-                app:cardElevation="0dp">
+                android:layout_centerVertical="true"
+                android:layout_marginHorizontal="4dp"
+                app:cardElevation="0dp"
+                android:visibility="visible"
+
+                >
+
                 <ImageButton
                     android:id="@+id/profilepicimg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_centerVertical="true"
                     android:background="@null"
                     android:contentDescription="@string/profile"
-                    android:paddingHorizontal="8dp"
-                    android:paddingVertical="8dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/defaultprofilepicturesmall" />
+                    android:src="@drawable/defaultprofilepicturesmall"
+                    android:visibility="visible"
+                    />
 
             </androidx.cardview.widget.CardView>
+
+            <ImageButton
+                android:id="@+id/profilepicbutton"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerVertical="true"
+                android:layout_alignTop="@id/profilepic"
+                android:layout_alignBottom="@id/profilepic"
+                android:layout_alignRight="@id/profilepic"
+                android:layout_alignLeft="@id/profilepic"
+                android:src="@null"
+                android:background="@null"
+                android:visibility="visible"
+                />
 
             <TextView
                 android:id="@+id/defaultusername"
@@ -101,6 +106,7 @@
                 android:scrollbars="none"
                 android:layout_below="@id/defaultusername"
                 android:layout_toEndOf="@id/profilepic"
+                android:layout_marginStart="2dp"
                 android:paddingEnd="64dp"
                 >
 
