@@ -72,8 +72,6 @@ public class OthersProfileActivity extends AppCompatActivity {
                         connectionsNumTV.setText(connectionText);
                         bioTV.setText(uUser.getBio());
 
-                        showBottomSheetDialog();
-
                         ImageButton backbutton = findViewById(R.id.backbutton);
                         backbutton.setOnClickListener(v -> finish());
                     });

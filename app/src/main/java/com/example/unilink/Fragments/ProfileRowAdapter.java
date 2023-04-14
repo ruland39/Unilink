@@ -11,6 +11,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.LinearLayoutCompat;
@@ -82,14 +83,16 @@ public class ProfileRowAdapter extends RecyclerView.Adapter<ProfileRowAdapter.Vi
                         throw new RuntimeException(e);
                     }
                 });
-            holder.getImageBtn().setOnClickListener(view->{
-                Log.d("RowAdapter", "Clicked on " + targetuUser.getUserID());   
+            });
+            holder.getImgBtn().setOnClickListener(view->{
+                Toast.makeText(view.getContext(), "Profile Clicked!", Toast.LENGTH_SHORT).show();
+                Log.d("RowAdapter", "Clicked on " + targetuUser.getUserID());
                 Intent intent = new Intent(view.getContext(), OthersProfileActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setAction("RETRIEVE_WAVER_PROFILE");
                 intent.putExtra("SENDER_USERID", targetuUser.getUserID());
                 intent.putExtra("RECEIVER_USERID", currentUAcc.getUid());
                 view.getContext().startActivity(intent);
-            });
             });
         }
     }
@@ -172,6 +175,8 @@ public class ProfileRowAdapter extends RecyclerView.Adapter<ProfileRowAdapter.Vi
         private final ImageView profilePicture;
         private final LinearLayoutCompat interestRow;
         private UserService userService;
+        private UnilinkUser userInfo;
+        private UnilinkAccount userAccount;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -179,6 +184,17 @@ public class ProfileRowAdapter extends RecyclerView.Adapter<ProfileRowAdapter.Vi
             waveBtn = (ImageButton) itemView.findViewById(R.id.waveorconnectbtn);
             username = (TextView) itemView.findViewById(R.id.defaultusername);
             profilePictureButton = (ImageButton) itemView.findViewById(R.id.profilepicbutton);
+
+//            profilePictureButton.setOnClickListener(v->{
+//                Toast.makeText(v.getContext(), "Profile Clicked!", Toast.LENGTH_SHORT).show();
+//                Log.d("RowAdapter", "Clicked on " + userInfo.getUserID());
+//                Intent intent = new Intent(v.getContext(), OthersProfileActivity.class);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK);
+//                intent.putExtra("SENDER_USERID", userInfo.getUserID());
+//                intent.putExtra("RECEIVER_USERID", userAccount.getUid());
+//                v.getContext().startActivity(intent);
+//            });
+
             profilePicture = (ImageView) itemView.findViewById(R.id.profilepicimg);
             interestRow = (LinearLayoutCompat) itemView.findViewById(R.id.interestlinearlayout);
 
@@ -189,7 +205,11 @@ public class ProfileRowAdapter extends RecyclerView.Adapter<ProfileRowAdapter.Vi
             return (TextView) username;
         }
         public ImageButton getWaveBtn(){return (ImageButton) waveBtn;}
-        public ImageButton getImageBtn(){return (ImageButton) profilePictureButton;}
+        public ImageButton getImgBtn() {return (ImageButton) profilePictureButton;}
+        public void setAccountUser (UnilinkAccount targetuAcc, UnilinkUser targetuUser){
+            userAccount = targetuAcc;
+            userInfo = targetuUser;
+        }
 
         public void setUserInfo(UnilinkUser targetuUser) {
             userService.setImage2View(itemView.getContext(), profilePicture, targetuUser.getPfpURL());
