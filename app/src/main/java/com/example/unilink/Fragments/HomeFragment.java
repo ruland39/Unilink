@@ -154,12 +154,14 @@ public class HomeFragment extends Fragment {
                 }
 
                 for (String userId : usersToRemove) {
-                    requireActivity().runOnUiThread(()->{
-                        Map.Entry<UnilinkAccount, UnilinkUser> user = usersInRange.get(userId);
-                        mAdapter.removeUser(user.getKey(),user.getValue());
-                    });
-                    usersInRange.remove(userId);
-                    Log.d(TAG, "Unilink User no longer in range! Removed Address: " + userId);
+                    if(isAdded()){
+                        requireActivity().runOnUiThread(()->{
+                            Map.Entry<UnilinkAccount, UnilinkUser> user = usersInRange.get(userId);
+                            mAdapter.removeUser(user.getKey(),user.getValue());
+                        });
+                        usersInRange.remove(userId);
+                        Log.d(TAG, "Unilink User no longer in range! Removed Address: " + userId);
+                    }
                 }
                 Log.d(TAG,"End of ranging cycle");
             }

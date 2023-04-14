@@ -5,10 +5,8 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.example.unilink.Models.UnilinkUser;
-import com.example.unilink.othersProfileActivity;
 import com.onesignal.OSNotificationAction;
 import com.onesignal.OSNotificationOpenedResult;
 import com.onesignal.OneSignal;
@@ -33,14 +31,16 @@ public class OneSignalNotificationOpenHandler extends Application implements One
         int notificationId = result.getNotification().getAndroidNotificationId();
         String currentUID = null, senderUID = null;
 
-        currentUID = data.optString("tuid");
-        senderUID = data.optString("cuid");
+        if(data!=null){
+            currentUID = data.optString("tuid");
+            senderUID = data.optString("cuid");
+        }
         Log.d("WaveRequestHandler", "notificationOpened: " + currentUID + " " + senderUID);
 
         if (actionType == OSNotificationAction.ActionType.ActionTaken)
             OneSignal.removeNotification(notificationId);
 
-        if (result.getAction().getActionId() != null)
+        //if (result.getAction().getActionId() != null)
             if (result.getAction().getActionId().equals("waveBackBtn")) {
 //            if (isAppRunning(context, "com.example.unilink")){
                 Intent intent = new Intent(context, OthersProfileActivity.class);
